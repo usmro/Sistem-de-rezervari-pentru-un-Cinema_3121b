@@ -6,4 +6,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 include_directories(include)
 
-add_executable(CinemaApp src/main.cpp)
+add_executable(CinemaApp src/main.cpp src/Film.cpp)
