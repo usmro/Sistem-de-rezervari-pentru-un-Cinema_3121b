@@ -1,8 +1,0 @@
-[
-{
-  "directory": "E:/ProiectCinema/Sistem-de-rezervari-pentru-un-Cinema_3121b/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/CinemaApp.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\CinemaApp.dir\\src\\main.cpp.obj -c E:\\ProiectCinema\\Sistem-de-rezervari-pentru-un-Cinema_3121b\\src\\main.cpp",
-  "file": "E:/ProiectCinema/Sistem-de-rezervari-pentru-un-Cinema_3121b/src/main.cpp",
-  "output": "CMakeFiles/CinemaApp.dir/src/main.cpp.obj"
-}
-]
