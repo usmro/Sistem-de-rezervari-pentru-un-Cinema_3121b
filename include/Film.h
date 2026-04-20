@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 #include <iostream>
 
@@ -16,7 +17,7 @@ private:
 public:
     Film(string titlu, int durataminute, TipFilm tip);
 
-    std::string getTitlu() const;
+    string getTitlu() const;
     int getDurataMinute() const;
     TipFilm getTip() const;
 
