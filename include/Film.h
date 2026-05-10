@@ -1,25 +1,25 @@
 #pragma once
 #include <string>
-#include <iostream>
-
-using std::string;
-
-enum class TipFilm{
-    Film2D, 
+enum class TipFilm {
+    Film2D,
     Film3D
 };
-
 class Film {
 private:
-    string titlu;
+    std::string titlu;
     int durataminute;
     TipFilm tip;
+    std::string gen;
+    double pretBaza;
 public:
-    Film(string titlu, int durataminute, TipFilm tip);
-
-    string getTitlu() const;
+    Film(const std::string& titlu, int durataminute, TipFilm tip,
+         const std::string& gen, double pretBaza);
+    const std::string& getTitlu() const;
     int getDurataMinute() const;
     TipFilm getTip() const;
-
-    void afisare() const;
+    const std::string& getGen() const;
+    double getPretBaza() const;
+    std::string tipToString() const;
+    std::string toCSV() const;
+    static Film fromCSV(const std::string& linie);
 };

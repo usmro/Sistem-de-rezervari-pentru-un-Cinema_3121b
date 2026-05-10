@@ -1,17 +1,32 @@
 #pragma once
-#include "Film.h"
-#include "Sala.h"
-#include <iostream>
-
-class Rezervare{
-    private:
-        const Film* film;
-        Sala* sala;
-        int rand, loc;
-
-    public:
-        Rezervare(const Film* film, Sala* sala, int rand, int loc);
-
-        void afisareDetalii() const;
+#include <string>
+#include <memory>
+#include "Proiectie.h"
+class Rezervare {
+private:
+    std::string idRezervare;
+    std::shared_ptr<Proiectie> proiectie;
+    int rand;
+    int loc;
+    std::string tipBilet;
+    double pretFinal;
+    std::string usernameClient;
+    bool anulata;
+public:
+    Rezervare(const std::string& idRezervare,
+              std::shared_ptr<Proiectie> proiectie,
+              int rand, int loc,
+              const std::string& tipBilet, double pretFinal,
+              const std::string& usernameClient);
+    const std::string& getId() const;
+    std::shared_ptr<Proiectie> getProiectie() const;
+    int getRand() const;
+    int getLoc() const;
+    const std::string& getTipBilet() const;
+    double getPretFinal() const;
+    const std::string& getUsernameClient() const;
+    bool esteAnulata() const;
+    void anuleaza();
+    void genereazaBiletTxt() const;
+    std::string toCSV() const;
 };
-

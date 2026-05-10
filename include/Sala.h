@@ -1,35 +1,38 @@
 #pragma once
 #include <string>
 #include <vector>
-#include <iostream>
-#include <stdexcept>
-
-using std::string;
-using std::vector;
-
-class LocOcupatExceptie: public std::runtime_error{
-    public:
-    LocOcupatExceptie() : std::runtime_error("Locul selectat este deja ocupat!"){}
-
+#include "Exceptii.h"
+enum class TipSala {
+    Standard,   
+    IMAX,       
+    VIP         
 };
-
-class IndexInvalidExceptie: public std::out_of_range{
-    public:
-    IndexInvalidExceptie(): std::out_of_range("Randul sau locul introdus nu exista in sala! "){}
-};
-
-class Sala{
-    private:
-        string numeSala;
-        int numarRanduri; 
-        int locuriPeRand;
-
-        vector<vector<bool>> matriceLocuri;
-
-    public:
-        Sala(string numeSala, int numarRanduri, int locuriPeRand);
-        string GetNume() const; 
-        int getCapacitateTotala() const; 
-        void afisareLocuri() const; 
-        void rezervaLoc(int rand, int loc);
+class Sala {
+private:
+    std::string numeSala;
+    TipSala tipSala;
+    int numarRanduri;
+    int locuriPeRand;
+    double multiplicatorPret;
+    std::vector<std::vector<bool>> matriceLocuri;
+    void aplicaConfiguratieTip();
+public:
+    Sala(const std::string& numeSala, TipSala tipSala);
+    Sala(const std::string& numeSala, TipSala tipSala,
+         int numarRanduri, int locuriPeRand);
+    const std::string& getNume() const;
+    TipSala getTipSala() const;
+    int getNumarRanduri() const;
+    int getLocuriPeRand() const;
+    int getCapacitateTotala() const;
+    double getMultiplicatorPret() const;
+    bool esteLocDisponibil(int rand, int loc) const;
+    const std::vector<std::vector<bool>>& getMatriceLocuri() const;
+    std::string tipToString() const;
+    static TipSala tipFromString(const std::string& s);
+    void rezervaLoc(int rand, int loc);
+    void elibereazaLoc(int rand, int loc);
+    void reseteazaLocuri();
+    std::string toCSV() const;
+    static Sala fromCSV(const std::string& linie);
 };

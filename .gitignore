@@ -42,3 +42,6 @@
 
 .vscode/
 build/
+tests/
+CLAUDE.md
+DOCUMENTATIE.md
