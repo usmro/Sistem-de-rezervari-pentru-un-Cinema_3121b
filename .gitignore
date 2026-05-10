@@ -41,7 +41,27 @@
 *.dwo
 
 .vscode/
-build/
+.idea/
+*.user
+
 tests/
 CLAUDE.md
 DOCUMENTATIE.md
+
+# Build & CMake
+build/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+
+# vcpkg
+vcpkg/
+vcpkg_installed/
+vcpkg-manifest-install.log
+
+.cache/
+
+.DS_Store
