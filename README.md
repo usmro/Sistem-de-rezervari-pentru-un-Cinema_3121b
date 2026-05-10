@@ -64,8 +64,6 @@ Proiect realizat de Mandrescu Matei, sgr. 3121b.
 ├── tests/                 # Teste unitare (41 teste)
 │   └── test_all.cpp
 ├── CMakeLists.txt
-├── CLAUDE.md              # Context AI pentru asistență
-├── DOCUMENTATIE.md        # Documentație tehnică detaliată
 └── README.md
 ```
 
