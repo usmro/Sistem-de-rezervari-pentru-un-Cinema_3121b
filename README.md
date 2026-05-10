@@ -71,7 +71,7 @@ Proiect realizat de Mandrescu Matei, sgr. 3121b.
 
 ## Cum se compilează și rulează
 
-### Linux (recomandat de profesor)
+### Linux
 ```bash
 # Compilare cu CMake
 mkdir -p build && cd build
@@ -99,18 +99,6 @@ g++ -std=c++17 -Iinclude -o CinemaApp \
 g++ -std=c++17 -Iinclude -o build/CinemaApp.exe src/main.cpp src/Film.cpp src/Sala.cpp src/Rezervare.cpp src/Cinematograf.cpp src/Proiectie.cpp src/Bilet.cpp src/User.cpp src/Angajat.cpp src/StorageService.cpp src/ConsoleUI.cpp src/Voucher.cpp src/ProdusConsumabil.cpp
 
 .\build\CinemaApp.exe
-```
-
-### Rulare Teste Unitare
-```bash
-# Compilare teste
-g++ -std=c++17 -Iinclude -o tests/test_all.exe tests/test_all.cpp \
-    src/Film.cpp src/Sala.cpp src/Proiectie.cpp src/Rezervare.cpp \
-    src/Bilet.cpp src/User.cpp src/Angajat.cpp src/Voucher.cpp \
-    src/ProdusConsumabil.cpp src/Cinematograf.cpp src/StorageService.cpp
-
-# Rulare (41 teste unitare)
-./tests/test_all.exe
 ```
 
 ## Credențiale implicite
