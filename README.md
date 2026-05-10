@@ -61,8 +61,6 @@ Proiect realizat de Mandrescu Matei, sgr. 3121b.
 │   ├── preturi.csv        # Configurația prețurilor pe tip bilet
 │   ├── vouchere.csv       # Voucherele de reducere
 │   └── snacks.csv         # Inventar produse consumabile
-├── tests/                 # Teste unitare (41 teste)
-│   └── test_all.cpp
 ├── CMakeLists.txt
 └── README.md
 ```
