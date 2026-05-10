@@ -34,7 +34,7 @@ std::vector<std::shared_ptr<Film>> StorageService::incarcaFilme() {
   std::vector<std::shared_ptr<Film>> filme;
   std::ifstream fin(FISIER_FILME);
   if (!fin.is_open())
-    return filme;  
+    return filme;
   std::string linie;
   while (std::getline(fin, linie)) {
     if (linie.empty())
@@ -97,13 +97,12 @@ std::vector<std::shared_ptr<Proiectie>> StorageService::incarcaProiectii(
       continue;
     try {
       std::istringstream ss(linie);
-      std::string idStr, titluFilm, numeSala, dataOraStr,
-          formatStr;  
+      std::string idStr, titluFilm, numeSala, dataOraStr, formatStr;
       std::getline(ss, idStr, ',');
       std::getline(ss, titluFilm, ',');
       std::getline(ss, numeSala, ',');
       std::getline(ss, dataOraStr, ',');
-      std::getline(ss, formatStr);  
+      std::getline(ss, formatStr);
       int id = std::stoi(idStr);
       FormatAudio format = formatStr.empty() ? FormatAudio::Subtitrat
                                              : formatAudioFromString(formatStr);

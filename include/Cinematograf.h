@@ -27,6 +27,7 @@ private:
   Cinematograf &operator=(const Cinematograf &) = delete;
   Cinematograf(Cinematograf &&) = delete;
   Cinematograf &operator=(Cinematograf &&) = delete;
+
 public:
   ProdusConsumabil &getProdus(int index);
   std::vector<std::shared_ptr<Proiectie>> getProiectiiVIP() const;

@@ -21,6 +21,7 @@ public:
   std::string toCSV() const;
   static std::tm parseDataOra(const std::string &str);
   static std::string formatDataOra(const std::tm &dt);
+
 private:
   int idProiectie;
   std::shared_ptr<Film> film;

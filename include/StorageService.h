@@ -20,6 +20,7 @@ private:
   static const std::string FISIER_VOUCHERE;
   static const std::string FISIER_SNACKS;
   static void asiguraDirector();
+
 public:
   static void salveazaSnacks(const std::vector<ProdusConsumabil> &produse);
   static std::vector<ProdusConsumabil> incarcaSnacks();

@@ -1,0 +1,344 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #0f0f13;
+    --bg2: #1a1a24;
+    --bg3: #22222f;
+    --accent: #e50914;
+    --accent2: #ff6b6b;
+    --text: #f0f0f0;
+    --text-dim: #888;
+    --border: #2e2e3e;
+    --radius: 10px;
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.screen {
+    display: none;
+    min-height: 100vh;
+}
+
+.screen.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.hero {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(ellipse at 20% 50%, rgba(229, 9, 20, 0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(229, 9, 20, 0.08) 0%, transparent 50%),
+        var(--bg);
+}
+
+.hero-content {
+    text-align: center;
+    padding: 2rem;
+    max-width: 600px;
+}
+
+.logo-ascii pre {
+    font-family: 'Courier New', monospace;
+    font-size: clamp(0.45rem, 1.2vw, 0.75rem);
+    color: var(--accent);
+    line-height: 1.3;
+    text-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
+    white-space: pre;
+}
+
+.tagline {
+    color: var(--text-dim);
+    margin: 1.5rem 0 2.5rem;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 0.75rem 1.75rem;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #ff1a24;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(229, 9, 20, 0.4);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 2px solid var(--border);
+}
+
+.btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text-dim);
+}
+
+.btn-ghost:hover {
+    color: var(--text);
+}
+
+.full-width {
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.card-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: var(--shadow);
+}
+
+.card h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+}
+
+.tab-group {
+    display: flex;
+    background: var(--bg3);
+    border-radius: var(--radius);
+    padding: 4px;
+    margin-bottom: 1.5rem;
+}
+
+.tab {
+    flex: 1;
+    padding: 0.5rem;
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.tab.active {
+    background: var(--accent);
+    color: #fff;
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+}
+
+.form-footer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+
+.error-msg {
+    background: rgba(229, 9, 20, 0.1);
+    border: 1px solid rgba(229, 9, 20, 0.3);
+    color: var(--accent2);
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.success-msg {
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #4ade80;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0;
+    margin-bottom: 1.5rem;
+    transition: color 0.2s;
+}
+
+.back-btn:hover {
+    color: var(--text);
+}
+
+.page-container {
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.page-header h2 {
+    font-size: 1.8rem;
+    margin-top: 0.5rem;
+}
+
+.proiectii-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.proiectie-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.proiectie-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.proiectie-card .film-titlu {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.proiectie-card .meta {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    line-height: 1.7;
+}
+
+.proiectie-card .pret {
+    margin-top: 0.75rem;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-left: 6px;
+}
+
+.badge-3d {
+    background: rgba(229, 9, 20, 0.2);
+    color: var(--accent);
+}
+
+.badge-vip {
+    background: rgba(255, 215, 0, 0.15);
+    color: #ffd700;
+}
+
+.badge-imax {
+    background: rgba(0, 150, 255, 0.15);
+    color: #5bc0eb;
+}
+
+.loading {
+    color: var(--text-dim);
+    padding: 2rem 0;
+}

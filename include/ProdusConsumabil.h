@@ -12,6 +12,7 @@ public:
   bool esteDisponibil() const;
   std::string toCSV() const;
   static ProdusConsumabil fromCSV(const std::string &linie);
+
 private:
   std::string nume;
   std::string descriere;

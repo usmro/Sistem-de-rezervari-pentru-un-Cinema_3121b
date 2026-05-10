@@ -2,7 +2,7 @@
 #include "Cinematograf.h"
 #include "StorageService.h"
 #include "User.h"
-#include <windows.h>
+
 class ConsoleUI {
 private:
   void clearScreen() const;
@@ -33,6 +33,7 @@ private:
   void adminGestionareSnacks();
   void adminPOSBar();
   void clientPrecomandaSnacks(const User &user);
+
 public:
   void ruleaza();
 };

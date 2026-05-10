@@ -88,7 +88,8 @@ void ConsoleUI::afisareProiectie(const Proiectie &proiectie, int index) const {
        << proiectie.getFilm()->getTitlu() << " ("
        << proiectie.getFilm()->tipToString() << ") | "
        << proiectie.getSala()->getNume() << " | "
-       << proiectie.getDataOraString();
+       << proiectie.getDataOraString() << " | "
+       << proiectie.getFormatAudioString();
   if (proiectie.aInceput()) {
     cout << " [INCEPUT]";
   }
@@ -245,8 +246,9 @@ void ConsoleUI::meniuAdmin(User &user) {
     cout << " 10. Gestionare vouchere\n";
     cout << " 11. Gestionare snacks\n";
     cout << " 12. POS Bar (Vanzare Rapida)\n";
+    cout << " 13. Gestionare card fidelitate\n";
     cout << "  0. Logout\n\n";
-    int opt = citesteOptiune(0, 12);
+    int opt = citesteOptiune(0, 13);
     switch (opt) {
     case 1:
       adminAdaugaFilm();
@@ -323,6 +325,9 @@ void ConsoleUI::meniuAdmin(User &user) {
       break;
     case 12:
       adminPOSBar();
+      break;
+    case 13:
+      adminGestionareUseri();
       break;
     case 0:
       running = false;
@@ -1043,6 +1048,32 @@ void ConsoleUI::adminGestionareVouchere() {
     }
   }
 }
+
+void ConsoleUI::adminGestionareUseri() {
+  clearScreen();
+  auto &cinema = Cinematograf::getInstance();
+  cout << "\n  --- GESTIONARE USERI ---\n\n";
+  const auto &useri = cinema.getUseri();
+  for (size_t i = 0; i < useri.size(); ++i) {
+    cout << "  " << (i + 1) << ". " << useri[i]->getUsername() << " ["
+         << useri[i]->rolToString() << "]"
+         << " | Card fidelitate: "
+         << (useri[i]->getAreCardFidelitate() ? "DA" : "NU") << "\n";
+  }
+  cout << "\n  Alegeti userul pentru toggle card (0 = inapoi): ";
+  int idx = citesteOptiune(0, static_cast<int>(useri.size()));
+  if (idx == 0)
+    return;
+  auto *u = cinema.gasesteUser(useri[idx - 1]->getUsername());
+  if (u) {
+    u->setAreCardFidelitate(!u->getAreCardFidelitate());
+    cout << "\n  Card fidelitate "
+         << (u->getAreCardFidelitate() ? "ACTIVAT" : "DEZACTIVAT") << " pentru "
+         << u->getUsername() << ".\n";
+  }
+  pauseScreen();
+}
+
 void ConsoleUI::adminGestionareSnacks() {
   bool running = true;
   while (running) {
@@ -1109,7 +1140,7 @@ void ConsoleUI::adminGestionareSnacks() {
       int stocNou;
       cin >> stocNou;
       cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-      cinema.getProdus(idx - 1).setStoc(stocNou);  
+      cinema.getProdus(idx - 1).setStoc(stocNou);
       cout << "\n  Stoc actualizat!\n";
       pauseScreen();
       break;

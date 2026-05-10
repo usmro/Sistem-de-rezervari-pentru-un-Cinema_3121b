@@ -5,9 +5,10 @@ enum class RolUser { Admin, Client, Angajat };
 class User {
 private:
   std::string username;
-  std::string parola;  
+  std::string parola;
   RolUser rol;
   bool areCardFidelitate;
+
 public:
   User(const std::string &username, const std::string &parola, RolUser rol,
        bool areCardFidelitate = false);
