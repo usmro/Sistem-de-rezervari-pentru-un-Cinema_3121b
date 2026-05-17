@@ -1,142 +1,221 @@
 # Sistem de Rezervări pentru un Cinema
 
-Aplicație C++ orientată pe obiecte (OOP) pentru gestionarea completă a rezervărilor într-un cinematograf.
-Proiect realizat de Mandrescu Matei, sgr. 3121b.
+Aplicație C++17 orientată pe obiecte pentru gestionarea completă a rezervărilor într-un cinematograf, cu interfață consolă și server REST pentru frontend web.
 
-## Obiectivele Proiectului
-- Gestionarea entităților principale: `Film`, `Sala`, `Proiectie`, `Rezervare`, `User`.
-- Implementarea conceptelor OOP: Încapsulare, Moștenire, Polimorfism, Clasă Abstractă.
-- **Design Patterns**: Singleton (`Cinematograf`), Factory (`BiletFactory`).
-- Separarea logicii de business de interfața cu utilizatorul (`ConsoleUI`).
-- Sistem de autentificare cu roluri diferențiate (Admin / Client).
-- Persistența datelor în fișiere CSV.
-- Sistem de prețuri configurabil extern (fără recompilare).
-- Tratarea excepțiilor custom pentru validări.
-- Validare temporală: proiecțiile nu pot fi în trecut, rezervările nu se pot anula după începerea filmului.
+**Autor:** Mandrescu Matei, sgr. 3121b
 
-## Tehnologii Utilizate
-- **Limbaj:** C++ (Standard C++17)
-- **Sistem de Build:** CMake (minim 3.10) / g++
-- **IDE:** Visual Studio Code
-- **Version Control:** Git & GitHub
+---
 
-## Structura Proiectului
+## Funcționalități principale
+
+- Gestionarea entităților: `Film`, `Sala`, `Proiectie`, `Rezervare`, `User`, `Angajat`, `Voucher`, `ProdusConsumabil`
+- **Design Patterns:** Singleton (`Cinematograf`), Factory (`BiletFactory`), Polimorfism (`Bilet`, `User → Angajat`)
+- Sistem de autentificare cu roluri diferențiate: Admin / Client / Angajat
+- Tipuri de sală: Standard, IMAX, VIP — cu configurație automată și bilete filtrate
+- Sistem de vouchere cu validare pe zi și tip bilet
+- Card de fidelitate — reducere 10% automată la rezervare
+- Format audio per proiecție: Subtitrat / Dublat
+- POS Bar pentru angajați/admin (vânzare rapidă cu bon fiscal)
+- Pre-comandă snacks online — concept „skip the line" (legată de rezervare)
+- Persistență completă în fișiere CSV
+- Server REST (CROW) cu middleware CORS pentru frontend web
+- Salvare automată la exit forțat (SIGINT/SIGTERM)
+
+---
+
+## Tehnologii
+
+| Componentă | Tehnologie |
+|---|---|
+| Limbaj | C++17 |
+| Build | CMake ≥ 3.15 |
+| Server REST | CrowCpp 1.3.2 |
+| Networking | Asio |
+| Dependențe | vcpkg (Windows) / Homebrew (macOS) |
+| Frontend | HTML + CSS + JavaScript pur |
+| Version Control | Git & GitHub |
+
+---
+
+## Structura proiectului
+
 ```
-├── include/               # Headerele (.h)
-│   ├── Film.h             # Clasa Film (titlu, durată, tip, gen, preț)
-│   ├── Sala.h             # Clasa Sala (matrice de locuri, TipSala)
-│   ├── Proiectie.h        # Clasa Proiectie (Film + Sala + Data/Ora)
-│   ├── Rezervare.h        # Clasa Rezervare (bilet, preț, loc)
-│   ├── Bilet.h            # Clasă abstractă Bilet + BiletConfigurabil
-│   ├── BiletFactory.h     # Factory Pattern - creează bilete dinamic
-│   ├── User.h             # Clasa User (username, parolă, rol, cardFidelitate)
-│   ├── Angajat.h          # Clasa Angajat (moștenește User, cu program și sală)
-│   ├── Voucher.h          # Clasa Voucher (cod, reducere, validare)
-│   ├── FormatAudio.h      # Enum pentru Format Audio (Subtitrat/Dublat)
-│   ├── ProdusConsumabil.h # Clasa pentru snacks și băuturi
-│   ├── Cinematograf.h     # Singleton - orchestrează totul
-│   ├── StorageService.h   # Persistență CSV (citire/scriere fișiere)
-│   ├── ConsoleUI.h        # Interfața consolă (meniuri interactive)
-│   └── Exceptii.h         # Excepții custom centralizate
-├── src/                   # Implementările (.cpp)
-│   ├── main.cpp
-│   ├── Film.cpp
-│   ├── Sala.cpp
-│   ├── Proiectie.cpp
-│   ├── Rezervare.cpp
-│   ├── Bilet.cpp
-│   ├── User.cpp
-│   ├── Angajat.cpp
-│   ├── Voucher.cpp
-│   ├── ProdusConsumabil.cpp
+├── include/
+│   ├── Film.h, Sala.h, Proiectie.h, Rezervare.h
+│   ├── Bilet.h, BiletFactory.h
+│   ├── User.h, Angajat.h
+│   ├── Voucher.h, FormatAudio.h, ProdusConsumabil.h
+│   ├── ApiSerializer.h      # serializare JSON header-only
+│   ├── CrowServer.h
+│   ├── Cinematograf.h       # Singleton orchestrator
+│   ├── StorageService.h     # persistenta CSV (cai relative!)
+│   ├── ConsoleUI.h
+│   └── Exceptii.h           # 10 exceptii custom
+├── src/
+│   ├── main.cpp             # entry point consolă
+│   ├── main_crow.cpp        # entry point server REST
+│   ├── CrowServer.cpp       # toate rutele REST + CORS middleware
+│   ├── ConsoleUI.cpp
 │   ├── Cinematograf.cpp
-│   ├── StorageService.cpp
-│   └── ConsoleUI.cpp
-├── data/                  # Fișiere de date (CSV)
-│   ├── filme.csv          # Lista filmelor
-│   ├── sali.csv           # Lista sălilor
-│   ├── proiectii.csv      # Proiecțiile programate
-│   ├── rezervari.csv      # Istoricul rezervărilor
-│   ├── useri.csv          # Conturile utilizatorilor (admin, clienți, angajați)
-│   ├── preturi.csv        # Configurația prețurilor pe tip bilet
-│   ├── vouchere.csv       # Voucherele de reducere
-│   └── snacks.csv         # Inventar produse consumabile
+│   └── [Film|Sala|Proiectie|Rezervare|Bilet|User|Angajat|Voucher|ProdusConsumabil|StorageService].cpp
+├── web/
+│   ├── index.html           # welcome + login + register + program filme
+│   ├── style.css, app.js    # stiluri și logică pentru index.html
+│   ├── client.html          # flux rezervare 4 pași (self-contained)
+│   └── admin.html           # dashboard admin (self-contained)
+├── data/
+│   ├── filme.csv, sali.csv, proiectii.csv
+│   ├── rezervari.csv, useri.csv
+│   ├── preturi.csv, vouchere.csv, snacks.csv
+├── tests/
+│   └── test_all.cpp
 ├── CMakeLists.txt
 └── README.md
 ```
 
-## Cum se compilează și rulează
+---
+
+## Compilare și rulare
+
+> **Important:** Rulează întotdeauna serverul din **rădăcina proiectului**, nu din `build/`.  
+> `StorageService` folosește căi relative (`data/*.csv`) — altfel datele se scriu în locul greșit.
+
+### macOS (Homebrew)
+
+```bash
+# 1. Instalează dependențele (o singură dată)
+brew install cmake crow asio
+
+# 2. Configurează CMake
+cmake -B build -S . -DCMAKE_PREFIX_PATH="/opt/homebrew"
+
+# 3. Compilează
+cmake --build build --target CinemaServer -j 4   # serverul REST
+cmake --build build --target CinemaApp -j 4      # aplicația consolă
+
+# 4. Rulează (din rădăcina proiectului!)
+./build/CinemaServer    # pornește pe http://localhost:8080
+# sau
+./build/CinemaApp
+```
+
+### Windows (MinGW + vcpkg)
+
+```powershell
+# 1. Instalează Crow prin vcpkg (o singură dată)
+.\vcpkg\vcpkg install --triplet x64-windows
+
+# 2. Configurează CMake
+cmake -B build -S . `
+  -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" `
+  -DCMAKE_PREFIX_PATH="vcpkg/installed/x64-windows" `
+  -G "MinGW Makefiles"
+
+# 3. Compilează
+cmake --build build --target CinemaServer -j 4
+cmake --build build --target CinemaApp -j 4
+
+# 4. Rulează (din rădăcina proiectului!)
+.\build\CinemaServer.exe
+```
 
 ### Linux
+
 ```bash
-# Compilare cu CMake
-mkdir -p build && cd build
-cmake ..
-make
-
-# Rulare
-./CinemaApp
+sudo apt install cmake libboost-dev
+cmake -B build -S .
+cmake --build build -j 4
+./build/CinemaApp
 ```
 
-Sau compilare directă cu g++:
-```bash
-g++ -std=c++17 -Iinclude -o CinemaApp \
-    src/main.cpp src/Film.cpp src/Sala.cpp src/Rezervare.cpp \
-    src/Cinematograf.cpp src/Proiectie.cpp src/Bilet.cpp \
-    src/User.cpp src/Angajat.cpp src/StorageService.cpp \
-    src/ConsoleUI.cpp src/Voucher.cpp src/ProdusConsumabil.cpp
+---
 
-./CinemaApp
-```
+## Frontend web
 
-### Windows
-```powershell
-# Cu g++ (MinGW/MSYS2)
-g++ -std=c++17 -Iinclude -o build/CinemaApp.exe src/main.cpp src/Film.cpp src/Sala.cpp src/Rezervare.cpp src/Cinematograf.cpp src/Proiectie.cpp src/Bilet.cpp src/User.cpp src/Angajat.cpp src/StorageService.cpp src/ConsoleUI.cpp src/Voucher.cpp src/ProdusConsumabil.cpp
+Pornește serverul CROW, apoi deschide `web/index.html` în browser.  
+API-ul e disponibil la `http://localhost:8080/api/`.
 
-.\build\CinemaApp.exe
-```
+### Pagini disponibile
+
+| Pagină | Descriere |
+|--------|-----------|
+| `index.html` | Welcome, login, register, program filme |
+| `client.html` | Flux rezervare complet în 4 pași |
+| `admin.html` | Dashboard gestionare cinema |
+
+### Flux rezervare client (`client.html`)
+
+1. **Program filme** — grid cu gradienturi per gen, prețuri, genuri
+2. **Selectare oră** — toggle date, proiecții grupate IMAX › VIP › Standard
+3. **Selectare loc** — hartă vizuală a sălii, locuri ocupate marcate în timp real
+4. **Snacks & Bar** — comandă opțională produse bar, ridici la ghișeul „Pre-Comenzi"
+
+### Endpoint-uri REST
+
+#### Publice
+
+| Method | Endpoint | Descriere |
+|--------|----------|-----------|
+| POST | `/api/login` | Autentificare (`{"username","parola","tip"}`) |
+| POST | `/api/register` | Înregistrare cont client (`{"username","parola"}`) |
+| GET | `/api/filme` | Lista tuturor filmelor |
+| GET | `/api/proiectii/viitoare` | Proiecții viitoare (cu film + sală embed) |
+| GET | `/api/proiectii/vip` | Proiecții în săli VIP |
+| GET | `/api/snacks` | Produse bar cu stoc |
+| POST | `/api/verifica-voucher` | Validare voucher + returnare reducere % |
+| POST | `/api/rezerva` | Creare rezervare |
+| GET | `/api/proiectii/<id>/locuri` | Locuri ocupate pentru o proiecție |
+| POST | `/api/comanda-snacks` | Pre-comandă snacks legată de rezervare |
+
+#### Admin
+
+| Method | Endpoint | Descriere |
+|--------|----------|-----------|
+| GET | `/api/admin/useri` | Lista toți userii |
+| GET | `/api/admin/rezervari` | Lista toate rezervările |
+| POST | `/api/admin/anuleaza` | Anulare rezervare |
+| POST | `/api/admin/card-fidelitate` | Toggle card fidelitate user |
+| POST | `/api/admin/filme` | Adaugă film nou |
+| POST | `/api/admin/proiectii` | Adaugă proiecție nouă |
+
+---
 
 ## Credențiale implicite
-- **Admin**: username `admin`, parolă `admin123` (creat automat la prima rulare)
-- Clienții se pot înregistra singuri din meniul principal.
 
-## Fișiere de date (CSV)
+| Rol | Username | Parolă |
+|-----|----------|--------|
+| Admin | `admin` | `admin123` |
 
-Toate datele sunt persistente — se salvează automat la ieșirea din aplicație (opțiunea `0 - Iesire`).
+Admin-ul este creat automat la prima rulare dacă nu există.  
+Clienții se pot înregistra din meniu sau din pagina web.
 
-| Fișier | Conținut | Exemplu linie |
-|---|---|---|
-| `filme.csv` | titlu, durată, tip, gen, preț | `Dune: Part Two,155,3D,SF,35.00` |
-| `sali.csv` | nume, tip, rânduri, locuri/rând | `Sala IMAX,IMAX,8,12` |
-| `proiectii.csv` | id, film, sală, dată+oră | `1,Dune: Part Two,Sala IMAX,2026-05-01 20:00` |
-| `rezervari.csv` | id, idProi, rând, loc, tip, preț, user, anulat | `REZ1,1,3,5,Adult,35.00,matei,0` |
-| `useri.csv` | username, parolă (hash), rol, cardFidelitate | `admin,407908580,Admin` |
-| `vouchere.csv` | cod, reducere%, ziua, tipuri excluse, activ | `MARTI5,5.0,2,Personal,1` |
-| `snacks.csv` | id, nume, pret, stoc | `S1,Popcorn Mare,15.50,10` |
+---
 
-### Tipuri de Sală
+## Tipuri de sală
 
-La adăugarea unei săli, admin-ul alege **tipul** — configurația este automată:
+| Tip | Layout | Multiplicator | Bilete disponibile |
+|-----|--------|---------------|--------------------|
+| Standard | 10×15 = 150 locuri | ×1.00 | Adult, Student, Elev, Pensionar |
+| IMAX | 8×12 = 96 locuri | ×1.50 | Adult, Student, Elev, Pensionar |
+| VIP | 4×6 = 24 fotolii | ×2.00 | VIP, Personal, Adult |
 
-| Tip | Rânduri | Locuri/rând | Total | Multiplicator | Bilete permise |
-|-----|---------|-------------|-------|---------------|----------------|
-| Standard | 10 | 15 | 150 | ×1.00 | Adult, Student, Elev, Pensionar, Personal |
-| IMAX | 8 | 12 | 96 | ×1.50 | Adult, Student, Elev, Pensionar, Personal |
-| VIP | 4 | 6 | 24 | ×2.00 | VIP, Personal |
+**Formula preț:** `pretBazaFilm × multiplicatorBilet × multiplicatorSală`  
+**Card fidelitate:** reducere suplimentară de 10% aplicată automat.  
+**Voucher:** reducere procentuală aplicată pe prețul biletului.
 
-> Sala VIP: fotolii duble cu spațiu între ele (inspirat Cinema City).
-> Biletul VIP (×1.00) este disponibil EXCLUSIV în Sala VIP. Premium-ul vine din multiplicatorul sălii.
+---
 
-### Configurarea prețurilor
+## Fișiere CSV
 
-Editați `data/preturi.csv` pentru a modifica prețurile **fără recompilare**:
-```
-Adult,1.00
-Student,0.70
-Elev,0.60
-Pensionar,0.50
-VIP,1.80
-Personal,0.30
-```
-Prețul final = `pretBaza film × multiplicator tip bilet`.
+| Fișier | Format |
+|--------|--------|
+| `filme.csv` | `titlu,durata,tip,gen,pretBaza` |
+| `sali.csv` | `nume,tipSala,randuri,locuriPeRand` |
+| `proiectii.csv` | `id,titluFilm,numeSala,dataOra,formatAudio` |
+| `rezervari.csv` | `idRez,idProi,rand,loc,tipBilet,pret,username,anulat` |
+| `useri.csv` | `username,parolaHash,rol,cardFidelitate` |
+| `preturi.csv` | `tipBilet,multiplicator` |
+| `vouchere.csv` | `cod,reducere%,ziuaInt,tipuriExcluse\|,activ` |
+| `snacks.csv` | `nume,descriere,pret,stoc` |
+
+Datele se salvează automat la ieșirea normală sau la SIGINT/SIGTERM.

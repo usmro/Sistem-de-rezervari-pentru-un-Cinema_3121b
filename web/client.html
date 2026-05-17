@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cinema — Rezervare Bilet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --red: #e50914;
+      --red-glow: rgba(229, 9, 20, .4);
+      --red-subtle: rgba(229, 9, 20, .1);
+      --bg: #080808;
+      --bg2: #0e0e0e;
+      --bg3: #161616;
+      --bg4: #1e1e1e;
+      --bg5: #252525;
+      --border: rgba(255, 255, 255, .07);
+      --border2: rgba(255, 255, 255, .12);
+      --text: #f0f0f0;
+      --text2: #aaa;
+      --text3: #555;
+      --text4: #333;
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --blue: #3b82f6;
+      --gold: #f5c518;
+      --radius: 6px;
+      --radius-lg: 12px;
+      --fd: 'Bebas Neue', sans-serif;
+      --fb: 'DM Sans', sans-serif;
+      --nav-h: 60px;
+      --bar-h: 88px;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--fb);
+      font-size: 14px
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--bg5);
+      border-radius: 3px
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      background: rgba(8, 8, 8, .92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      gap: 16px
+    }
+
+    .nav-logo {
+      font-family: var(--fd);
+      font-size: 1.6rem;
+      letter-spacing: .12em;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .nav-logo-mark {
+      width: 30px;
+      height: 30px;
+      background: var(--red);
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .nav-logo-mark svg {
+      width: 15px;
+      height: 15px;
+      color: #fff
+    }
+
+    .nav-spacer {
+      flex: 1
+    }
+
+    .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text2)
+    }
+
+    .nav-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg5);
+      border: 1px solid var(--border2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--fd);
+      font-size: 14px;
+      color: var(--red)
+    }
+
+    .nav-btn {
+      background: none;
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      padding: 6px 12px;
+      color: var(--text2);
+      font-family: var(--fb);
+      font-size: 12.5px;
+      cursor: pointer;
+      transition: all .15s
+    }
+
+    .nav-btn:hover {
+      background: var(--bg3);
+      color: var(--text)
+    }
+
+    .nav-login-btn {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff
+    }
+
+    .nav-login-btn:hover {
+      background: #ff1a24;
+      box-shadow: 0 0 14px var(--red-glow)
+    }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 28px 0;
+      font-size: 12px;
+      color: var(--text3)
+    }
+
+    .bc-item {
+      color: var(--text3);
+      cursor: pointer;
+      transition: color .15s
+    }
+
+    .bc-item:hover {
+      color: var(--text2)
+    }
+
+    .bc-item.active {
+      color: var(--text2);
+      cursor: default
+    }
+
+    .bc-sep {
+      color: var(--text4)
+    }
+
+    /* ── STEPS ── */
+    .step {
+      display: none;
+      padding-bottom: calc(var(--bar-h) + 24px)
+    }
+
+    .step.active {
+      display: block
+    }
+
+    /* ── STEP 1: FILM GRID ── */
+    .section-header {
+      padding: 28px 28px 20px;
+      display: flex;
+      align-items: baseline;
+      gap: 12px
+    }
+
+    .section-title {
+      font-family: var(--fd);
+      font-size: 2.2rem;
+      letter-spacing: .08em;
+      color: var(--text)
+    }
+
+    .section-sub {
+      font-size: 13px;
+      color: var(--text3)
+    }
+
+    .films-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      padding: 0 28px 28px
+    }
+
+    .film-card {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      position: relative;
+      aspect-ratio: 2/3;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end
+    }
+
+    .film-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, .6)
+    }
+
+    .film-card-bg {
+      position: absolute;
+      inset: 0;
+      transition: filter .2s
+    }
+
+    .film-card:hover .film-card-bg {
+      filter: brightness(1.1)
+    }
+
+    .film-card-noise {
+      position: absolute;
+      inset: 0;
+      opacity: .03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")
+    }
+
+    .film-card-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, .98) 0%, rgba(0, 0, 0, .7) 40%, rgba(0, 0, 0, .1) 100%)
+    }
+
+    .film-card-body {
+      position: relative;
+      padding: 16px 14px 14px
+    }
+
+    .film-badge-row {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-bottom: 8px
+    }
+
+    .fbadge {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 3px
+    }
+
+    .fbadge-3d {
+      background: rgba(59, 130, 246, .15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, .25)
+    }
+
+    .fbadge-imax {
+      background: rgba(59, 130, 246, .15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, .25)
+    }
+
+    .fbadge-vip {
+      background: rgba(245, 197, 24, .12);
+      color: #f5c518;
+      border: 1px solid rgba(245, 197, 24, .2)
+    }
+
+    .fbadge-gen {
+      background: rgba(255, 255, 255, .08);
+      color: var(--text2);
+      border: 1px solid var(--border)
+    }
+
+    .film-title {
+      font-family: var(--fd);
+      font-size: 1.35rem;
+      letter-spacing: .05em;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 5px
+    }
+
+    .film-meta {
+      font-size: 12px;
+      color: var(--text3);
+      margin-bottom: 12px
+    }
+
+    .film-price {
+      font-size: 11.5px;
+      color: var(--text3);
+      margin-bottom: 10px
+    }
+
+    .film-price strong {
+      color: var(--red);
+      font-size: 14px
+    }
+
+    .rezerva-btn {
+      width: 100%;
+      padding: 9px;
+      background: var(--red);
+      border: none;
+      border-radius: var(--radius);
+      color: #fff;
+      font-family: var(--fb);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .18s;
+      letter-spacing: .03em
+    }
+
+    .rezerva-btn:hover {
+      background: #ff1a24;
+      box-shadow: 0 0 16px var(--red-glow)
+    }
+
+    .rezerva-btn:disabled {
+      background: var(--bg5);
+      color: var(--text3);
+      cursor: not-allowed;
+      box-shadow: none
+    }
+
+    /* ── STEP 2: SHOWTIMES ── */
+    .movie-hero {
+      padding: 28px 28px 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .hero-poster {
+      width: 90px;
+      height: 135px;
+      border-radius: var(--radius);
+      flex-shrink: 0;
+      overflow: hidden
+    }
+
+    .hero-poster-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .hero-info {
+      flex: 1
+    }
+
+    .hero-title {
+      font-family: var(--fd);
+      font-size: 2.4rem;
+      letter-spacing: .07em;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 10px
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-bottom: 10px
+    }
+
+    .hbadge {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 3px
+    }
+
+    .dates-section {
+      padding: 24px 28px 0
+    }
+
+    .dates-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 12px
+    }
+
+    .dates-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .date-btn {
+      padding: 9px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text2);
+      font-family: var(--fb);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all .15s;
+      white-space: nowrap;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px
+    }
+
+    .date-btn .date-day {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--text3)
+    }
+
+    .date-btn.active {
+      background: var(--red-subtle);
+      border-color: rgba(229, 9, 20, .4);
+      color: var(--text)
+    }
+
+    .date-btn.active .date-day {
+      color: var(--red)
+    }
+
+    .date-btn:hover:not(.active) {
+      background: var(--bg4);
+      color: var(--text)
+    }
+
+    .proj-section {
+      padding: 24px 28px
+    }
+
+    .room-group {
+      margin-bottom: 24px
+    }
+
+    .room-group-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px
+    }
+
+    .room-type-badge {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 3px
+    }
+
+    .rt-imax {
+      background: rgba(59, 130, 246, .12);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, .25)
+    }
+
+    .rt-vip {
+      background: rgba(245, 197, 24, .1);
+      color: #f5c518;
+      border: 1px solid rgba(245, 197, 24, .2)
+    }
+
+    .rt-standard {
+      background: rgba(255, 255, 255, .05);
+      color: var(--text2);
+      border: 1px solid var(--border2)
+    }
+
+    .room-name {
+      font-size: 13px;
+      color: var(--text3)
+    }
+
+    .times-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .time-btn {
+      padding: 10px 18px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--fb);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .15s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px
+    }
+
+    .time-btn .time-format {
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: .06em
+    }
+
+    .time-btn:hover {
+      background: var(--bg4);
+      border-color: var(--border2)
+    }
+
+    .time-btn.selected {
+      background: var(--red-subtle);
+      border-color: rgba(229, 9, 20, .5);
+      color: var(--text);
+      box-shadow: 0 0 12px rgba(229, 9, 20, .15)
+    }
+
+    .no-proj {
+      color: var(--text3);
+      font-size: 13px;
+      padding: 20px 0
+    }
+
+    /* ── STEP 3: SEAT MAP ── */
+    .seat-header {
+      padding: 24px 28px 16px
+    }
+
+    .seat-title {
+      font-family: var(--fd);
+      font-size: 1.8rem;
+      letter-spacing: .07em;
+      color: var(--text);
+      margin-bottom: 4px
+    }
+
+    .seat-sub {
+      font-size: 13px;
+      color: var(--text3)
+    }
+
+    .screen-wrap {
+      padding: 0 28px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px
+    }
+
+    .screen-el {
+      width: min(600px, 80%);
+      height: 6px;
+      background: transparent;
+      border-top: 3px solid rgba(229, 9, 20, .5);
+      border-radius: 50% 50% 0 0/100% 100% 0 0;
+      box-shadow: 0 -4px 20px rgba(229, 9, 20, .25), 0 -1px 8px rgba(229, 9, 20, .3);
+      margin-bottom: 4px
+    }
+
+    .screen-lbl {
+      font-size: 10px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(229, 9, 20, .5)
+    }
+
+    .seat-wrap {
+      padding: 0 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px
+    }
+
+    .seat-grid {
+      display: grid;
+      gap: 5px
+    }
+
+    .seat {
+      width: 28px;
+      height: 26px;
+      border-radius: 4px 4px 2px 2px;
+      cursor: pointer;
+      transition: all .12s;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: transparent;
+      user-select: none
+    }
+
+    .seat.available {
+      background: var(--bg4);
+      border: 1px solid var(--border2)
+    }
+
+    .seat.available:hover {
+      background: rgba(229, 9, 20, .2);
+      border-color: rgba(229, 9, 20, .5);
+      transform: scale(1.12)
+    }
+
+    .seat.selected {
+      background: var(--red);
+      border: 1px solid var(--red);
+      box-shadow: 0 0 8px rgba(229, 9, 20, .5);
+      color: rgba(255, 255, 255, .7)
+    }
+
+    .seat.occupied {
+      background: #000000 !important;
+      border: 1px solid #1a1a1a !important;
+      cursor: not-allowed !important;
+      opacity: 0.7 !important;
+      transform: none !important;
+      box-shadow: none !important;
+      pointer-events: none !important;
+    }
+
+    .seat.vip-seat {
+      border-radius: 4px 4px 2px 2px
+    }
+
+    .seat.vip-seat.available {
+      background: rgba(245, 197, 24, .08);
+      border-color: rgba(245, 197, 24, .2)
+    }
+
+    .seat.vip-seat.available:hover {
+      background: rgba(245, 197, 24, .2);
+      border-color: rgba(245, 197, 24, .5)
+    }
+
+    .seat.vip-seat.selected {
+      background: #f5c518;
+      border-color: #f5c518;
+      box-shadow: 0 0 8px rgba(245, 197, 24, .5);
+      color: rgba(0, 0, 0, .6)
+    }
+
+    .row-labels {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      align-self: center
+    }
+
+    .row-lbl {
+      height: 26px;
+      display: flex;
+      align-items: center;
+      font-size: 10px;
+      color: var(--text4);
+      width: 16px;
+      justify-content: center
+    }
+
+    .seat-grid-outer {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      max-width: 100%
+    }
+
+    .col-labels {
+      display: flex;
+      gap: 5px;
+      margin-left: 24px;
+      margin-bottom: 4px
+    }
+
+    .col-lbl {
+      width: 28px;
+      text-align: center;
+      font-size: 9px;
+      color: var(--text4)
+    }
+
+    .legend {
+      display: flex;
+      gap: 18px;
+      padding: 20px 28px 0;
+      flex-wrap: wrap
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      color: var(--text3)
+    }
+
+    .legend-seat {
+      width: 20px;
+      height: 18px;
+      border-radius: 3px 3px 1px 1px
+    }
+
+    .legend-seat.available {
+      background: var(--bg4);
+      border: 1px solid var(--border2)
+    }
+
+    .legend-seat.selected {
+      background: var(--red);
+      border: 1px solid var(--red)
+    }
+
+    .legend-seat.occupied {
+      background: var(--bg3);
+      border: 1px solid var(--bg5);
+      opacity: .5
+    }
+
+    .legend-seat.vip {
+      background: rgba(245, 197, 24, .2);
+      border: 1px solid rgba(245, 197, 24, .4)
+    }
+
+    /* ── STEP 4: SNACKS ── */
+    .snacks-section {
+      padding: 28px;
+      border-top: 1px solid var(--border);
+      margin-top: 10px;
+    }
+
+    .snacks-hdr {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 6px
+    }
+
+    .snacks-title {
+      font-family: var(--fd);
+      font-size: 1.8rem;
+      letter-spacing: .08em;
+      color: var(--text)
+    }
+
+    .snacks-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      background: rgba(245, 158, 11, .08);
+      border: 1px solid rgba(245, 158, 11, .2);
+      border-radius: 20px;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--amber);
+      letter-spacing: .05em
+    }
+
+    .snacks-sub {
+      font-size: 13px;
+      color: var(--text3);
+      margin-bottom: 20px;
+      line-height: 1.5
+    }
+
+    .snacks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px
+    }
+
+    .snack-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      text-align: center;
+      position: relative;
+      transition: border-color .15s, background .15s
+    }
+
+    .snack-card.has-qty {
+      border-color: rgba(229, 9, 20, .35);
+      background: rgba(229, 9, 20, .04)
+    }
+
+    .snack-card.oos {
+      opacity: .38;
+      pointer-events: none
+    }
+
+    .snack-emoji {
+      font-size: 2.5rem;
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+
+    .snack-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3
+    }
+
+    .snack-desc {
+      font-size: 11px;
+      color: var(--text3);
+      line-height: 1.4;
+      min-height: 28px
+    }
+
+    .snack-price {
+      font-family: var(--fd);
+      font-size: 1.2rem;
+      letter-spacing: .04em;
+      color: var(--red)
+    }
+
+    .snack-stock-tag {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: .05em;
+      padding: 1px 5px;
+      border-radius: 3px
+    }
+
+    .snack-stock-low {
+      background: rgba(245, 158, 11, .12);
+      color: var(--amber);
+      border: 1px solid rgba(245, 158, 11, .25)
+    }
+
+    .snack-stock-out {
+      background: rgba(229, 9, 20, .1);
+      color: var(--red);
+      border: 1px solid rgba(229, 9, 20, .2)
+    }
+
+    .qty-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 5px
+    }
+
+    .qty-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--border2);
+      background: var(--bg4);
+      color: var(--text);
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .12s;
+      flex-shrink: 0;
+      line-height: 1;
+      padding-bottom: 2px
+    }
+
+    .qty-btn:hover:not(:disabled) {
+      background: var(--bg5);
+      border-color: rgba(229, 9, 20, .4)
+    }
+
+    .qty-btn:disabled {
+      opacity: .3;
+      cursor: not-allowed
+    }
+
+    .qty-num {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      min-width: 18px;
+      text-align: center
+    }
+
+
+    /* ── BOOKING BAR ── */
+    .booking-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--bar-h);
+      background: rgba(14, 14, 14, .97);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border2);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      gap: 16px;
+      z-index: 90;
+      transform: translateY(100%);
+      transition: transform .25s ease
+    }
+
+    .booking-bar.visible {
+      transform: translateY(0)
+    }
+
+    .bar-info {
+      flex: 1;
+      min-width: 0
+    }
+
+    .bar-seat {
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .bar-film {
+      font-size: 12px;
+      color: var(--text3);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .bar-ticket {
+      display: flex;
+      flex-direction: column;
+      gap: 4px
+    }
+
+    .bar-ticket label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text3)
+    }
+
+    .ticket-select {
+      background: var(--bg4);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      padding: 6px 10px 6px 10px;
+      color: var(--text);
+      font-family: var(--fb);
+      font-size: 13px;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      padding-right: 28px
+    }
+
+    .bar-voucher {
+      display: flex;
+      flex-direction: column;
+      gap: 4px
+    }
+
+    .bar-voucher label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text3)
+    }
+
+    .voucher-input {
+      background: var(--bg4);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      padding: 7px 10px;
+      color: var(--text);
+      font-family: var(--fb);
+      font-size: 13px;
+      outline: none;
+      width: 130px
+    }
+
+    .bar-price {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      min-width: 90px
+    }
+
+    .price-lbl {
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: .07em;
+      text-transform: uppercase
+    }
+
+    .price-val {
+      font-family: var(--fd);
+      font-size: 1.8rem;
+      letter-spacing: .05em;
+      color: var(--text)
+    }
+
+    .price-val span {
+      font-size: 1rem;
+      opacity: .6
+    }
+
+    .confirm-btn {
+      padding: 14px 24px;
+      background: var(--red);
+      border: none;
+      border-radius: var(--radius);
+      color: #fff;
+      font-family: var(--fb);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .confirm-btn:hover {
+      background: #ff1a24;
+      box-shadow: 0 0 20px var(--red-glow)
+    }
+
+    .confirm-btn:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+      box-shadow: none
+    }
+
+    /* ── MODAL SUCCESS ── */
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .7);
+      z-index: 300;
+      align-items: center;
+      justify-content: center
+    }
+
+    .modal-bg.open {
+      display: flex
+    }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-lg);
+      width: 420px;
+      max-width: calc(100vw - 40px);
+      animation: modalIn .25s ease;
+      overflow: hidden;
+      text-align: center
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: scale(.94) translateY(12px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .modal-top {
+      padding: 32px 28px 24px;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .modal-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(34, 197, 94, .12);
+      border: 1px solid rgba(34, 197, 94, .25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px
+    }
+
+    .modal-icon svg {
+      width: 24px;
+      height: 24px;
+      color: #22c55e
+    }
+
+    .modal-title {
+      font-family: var(--fd);
+      font-size: 1.6rem;
+      letter-spacing: .08em;
+      color: var(--text);
+      margin-bottom: 6px
+    }
+
+    .modal-sub {
+      font-size: 13px;
+      color: var(--text3);
+      line-height: 1.6
+    }
+
+    .modal-id {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 6px 14px;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      font-family: monospace;
+      font-size: 14px;
+      color: var(--text2)
+    }
+
+    .modal-foot {
+      padding: 20px 28px
+    }
+
+    .modal-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--red);
+      border: none;
+      border-radius: var(--radius);
+      color: #fff;
+      font-family: var(--fb);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s
+    }
+
+    .modal-btn:hover {
+      background: #ff1a24
+    }
+
+    /* ── MODAL ERROR ── */
+    .modal-err .modal-icon {
+      background: rgba(229, 9, 20, .1);
+      border-color: rgba(229, 9, 20, .25)
+    }
+
+    .modal-err .modal-icon svg {
+      color: var(--red)
+    }
+
+    /* ── TOAST ── */
+    .toast-area {
+      position: fixed;
+      bottom: calc(var(--bar-h) + 12px);
+      right: 20px;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none
+    }
+
+    .toast {
+      background: var(--bg4);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-lg);
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: toastIn .2s ease;
+      pointer-events: auto;
+      max-width: 280px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .5)
+    }
+
+    .toast svg {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0
+    }
+
+    .toast.success {
+      border-left: 2px solid var(--green)
+    }
+
+    .toast.success svg {
+      color: var(--green)
+    }
+
+    .toast.error {
+      border-left: 2px solid var(--red)
+    }
+
+    .toast.error svg {
+      color: var(--red)
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateX(14px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    @keyframes toastOut {
+      from {
+        opacity: 1
+      }
+
+      to {
+        opacity: 0;
+        transform: translateX(14px)
+      }
+    }
+
+    /* ── MISC ── */
+    .back-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 20px 28px 0;
+      cursor: pointer;
+      width: fit-content
+    }
+
+    .back-row:hover .back-btn-txt {
+      color: var(--text)
+    }
+
+    .back-btn-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .15s
+    }
+
+    .back-row:hover .back-btn-icon {
+      background: var(--bg4)
+    }
+
+    .back-btn-icon svg {
+      width: 15px;
+      height: 15px;
+      color: var(--text2)
+    }
+
+    .back-btn-txt {
+      font-size: 13px;
+      color: var(--text2);
+      transition: color .15s
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--border2);
+      border-top-color: var(--red);
+      border-radius: 50%;
+      animation: spin .6s linear infinite
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .loading-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 60px 28px;
+      color: var(--text3);
+      font-size: 14px
+    }
+
+    .empty-msg {
+      text-align: center;
+      padding: 60px 28px;
+      color: var(--text3);
+      font-size: 14px
+    }
+
+    @media(max-width:600px) {
+      .films-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 0 14px 20px
+      }
+
+      .nav,
+      .breadcrumb,
+      .section-header,
+      .back-row,
+      .movie-hero,
+      .dates-section,
+      .proj-section,
+      .seat-header,
+      .screen-wrap,
+      .seat-wrap,
+      .legend,
+      .snacks-section {
+        padding-left: 14px;
+        padding-right: 14px
+      }
+
+      .booking-bar {
+        gap: 10px;
+        padding: 0 14px;
+        flex-wrap: wrap;
+        height: auto;
+        padding-top: 10px;
+        padding-bottom: 10px
+      }
+
+      .bar-voucher {
+        display: none
+      }
+
+      .hero-title {
+        font-size: 1.8rem
+      }
+
+      .confirm-btn {
+        padding: 12px 16px;
+        font-size: 13px
+      }
+
+      .snacks-grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="nav">
+    <a class="nav-logo" href="index.html">
+      <div class="nav-logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path
+            d="M7 4v16M17 4v16M3 8h4m10 0h4M3 16h4m10 0h4M4 20h16a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1z" />
+        </svg>
+      </div>
+      CINEMA
+    </a>
+    <div class="nav-spacer"></div>
+    <div class="nav-user" id="nav-user" style="display:none">
+      <div class="nav-avatar" id="nav-avatar">?</div>
+      <span id="nav-username"></span>
+      <button class="nav-btn" onclick="logout()">Ieși din cont</button>
+    </div>
+    <div id="nav-guest" style="display:none">
+      <a href="index.html"><button class="nav-btn nav-login-btn">Autentificare</button></a>
+    </div>
+  </nav>
+
+  <div class="breadcrumb" id="breadcrumb">
+    <span class="bc-item active" id="bc-1" onclick="goToStep(1)">Program</span>
+    <span class="bc-sep">›</span>
+    <span class="bc-item" id="bc-2">Selectare oră</span>
+    <span class="bc-sep">›</span>
+    <span class="bc-item" id="bc-3">Selectare loc</span>
+    <span class="bc-sep">›</span>
+    <span class="bc-item" id="bc-4">Snacks & Bar</span>
+  </div>
+
+  <div class="step active" id="step-1">
+    <div class="section-header">
+      <div class="section-title">PROGRAM FILME</div>
+      <div class="section-sub" id="films-count"></div>
+    </div>
+    <div class="films-grid" id="films-grid">
+      <div class="loading-wrap" style="grid-column:1/-1">
+        <div class="spinner"></div>Se încarcă...
+      </div>
+    </div>
+  </div>
+
+  <div class="step" id="step-2">
+    <div class="back-row" onclick="goToStep(1)">
+      <div class="back-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="15 18 9 12 15 6" />
+        </svg></div>
+      <span class="back-btn-txt">Înapoi la program</span>
+    </div>
+    <div class="movie-hero" id="movie-hero"></div>
+    <div class="dates-section">
+      <div class="dates-label">Selectează data</div>
+      <div class="dates-row" id="dates-row"></div>
+    </div>
+    <div class="proj-section" id="proj-section"></div>
+  </div>
+
+  <div class="step" id="step-3">
+    <div class="back-row" onclick="goToStep(2)">
+      <div class="back-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="15 18 9 12 15 6" />
+        </svg></div>
+      <span class="back-btn-txt">Înapoi la ore</span>
+    </div>
+    <div class="seat-header">
+      <div class="seat-title" id="seat-title"></div>
+      <div class="seat-sub" id="seat-sub"></div>
+    </div>
+    <div class="screen-wrap">
+      <div class="screen-el"></div>
+      <div class="screen-lbl">ECRAN</div>
+    </div>
+    <div class="seat-wrap">
+      <div class="col-labels" id="col-labels"></div>
+      <div class="seat-grid-outer">
+        <div class="row-labels" id="row-labels"></div>
+        <div class="seat-grid" id="seat-grid"></div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-seat available"></div> Disponibil
+      </div>
+      <div class="legend-item">
+        <div class="legend-seat selected"></div> Selectat
+      </div>
+      <div class="legend-item">
+        <div class="legend-seat occupied"></div> Ocupat
+      </div>
+      <div class="legend-item" id="legend-vip" style="display:none">
+        <div class="legend-seat vip"></div> VIP
+      </div>
+    </div>
+  </div>
+
+  <div class="step" id="step-4">
+    <div class="back-row" onclick="goToStep(3)">
+      <div class="back-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="15 18 9 12 15 6" />
+        </svg></div>
+      <span class="back-btn-txt">Înapoi la alegerea locului</span>
+    </div>
+    <div class="snacks-section">
+      <div class="snacks-hdr">
+        <div class="snacks-title">SNACKS & BĂUTURI</div>
+        <div class="snacks-tag">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg> Sari peste coadă
+        </div>
+      </div>
+      <div class="snacks-sub">Adaugă produsele dorite acum și ridică-le direct de la bar folosind ID-ul rezervării tale.
+      </div>
+      <div class="snacks-grid" id="client-snacks-grid"></div>
+    </div>
+  </div>
+
+  <div class="booking-bar" id="booking-bar">
+    <div class="bar-info">
+      <div class="bar-seat" id="bar-seat">—</div>
+      <div class="bar-film" id="bar-film"></div>
+    </div>
+    <div class="bar-ticket">
+      <label>Tip bilet</label>
+      <select class="ticket-select" id="ticket-select" onchange="aplicaVoucher()"></select>
+    </div>
+    <div class="bar-voucher">
+      <label>Voucher (opțional)</label>
+      <div style="display:flex;gap:5px;align-items:center;height:30px">
+        <input class="voucher-input" type="text" id="voucher-input" placeholder="ex: MARTI5">
+        <button onclick="aplicaVoucher()"
+          style="background:var(--bg4);border:1px solid var(--border2);color:var(--text);border-radius:var(--radius);padding:0 12px;cursor:pointer;font-family:var(--fb);font-size:12.5px;height:100%;transition:all .15s">Aplică</button>
+      </div>
+      <div id="voucher-msg" style="font-size:10.5px;font-weight:600;margin-top:4px;letter-spacing:.05em"></div>
+    </div>
+    <div class="bar-price">
+      <div class="price-lbl">Total</div>
+      <div class="price-val" id="price-val">—&nbsp;<span>RON</span></div>
+    </div>
+    <button class="confirm-btn" id="confirm-btn">
+      Continuă la Snacks ›
+    </button>
+  </div>
+
+  <div class="modal-bg" id="modal-success">
+    <div class="modal-box">
+      <div class="modal-top">
+        <div class="modal-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </div>
+        <div class="modal-title">REZERVARE CONFIRMATĂ</div>
+        <div class="modal-sub">Rezervarea ta a fost înregistrată cu succes.<br>Ne vedem la cinema!</div>
+        <div class="modal-id" id="modal-rez-id"></div>
+
+        <div id="modal-snacks-msg"
+          style="display:none; margin-top: 15px; font-size: 13px; color: var(--amber); background: rgba(245,158,11,0.1); padding: 10px; border-radius: var(--radius); border: 1px solid rgba(245,158,11,0.2);">
+          Ai adăugat snacks în valoare de <strong id="modal-snacks-val"></strong>.<br>Mergi la casa
+          <strong>"Pre-Comenzi"</strong> și prezintă ID-ul de mai sus pentru a ridica produsele.
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="modal-btn" onclick="afterBooking()">Rezervă alt bilet</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-bg" id="modal-error">
+    <div class="modal-box modal-err">
+      <div class="modal-top">
+        <div class="modal-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+        </div>
+        <div class="modal-title">EROARE</div>
+        <div class="modal-sub" id="modal-err-msg">A apărut o eroare.</div>
+      </div>
+      <div class="modal-foot">
+        <button class="modal-btn" onclick="closeModal('modal-error')">Încearcă din nou</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-area" id="toast-area"></div>
+
+  <script>
+    'use strict';
+    const API = 'http://localhost:8080/api';
+
+    // ── AUTH ──
+    const currentUser = JSON.parse(localStorage.getItem('cinema_user') || 'null');
+    (function initNav() {
+      if (currentUser) {
+        const navUser = document.getElementById('nav-user');
+        navUser.style.display = 'flex';
+        document.getElementById('nav-username').textContent = currentUser.username;
+        document.getElementById('nav-avatar').textContent = currentUser.username.substring(0, 2).toUpperCase();
+      } else {
+        document.getElementById('nav-guest').style.display = 'block';
+      }
+    })();
+    function logout() {
+      localStorage.removeItem('cinema_user');
+      window.location.href = 'index.html';
+    }
+
+    // ── STATE ──
+    let FILME = [], PROIECTII = [], SNACKS = [];
+    let selectedFilm = null;
+    let selectedDate = null;
+    let selectedProiectie = null;
+    let selectedSeat = null;
+    let cart = {};
+    let currentStep = 1;
+    let activeVoucherPercent = 0;
+
+    const GRADIENTS = {
+      'SF': 'linear-gradient(160deg,#060c28 0%,#0b1758 55%,#18085a 100%)',
+      'Thriller': 'linear-gradient(160deg,#080610 0%,#120e24 55%,#1c0e36 100%)',
+      'Drama': 'linear-gradient(160deg,#130505 0%,#220909 55%,#2e0808 100%)',
+      'Actiune': 'linear-gradient(160deg,#130400 0%,#2e0c00 55%,#3c1400 100%)',
+      'Animatie': 'linear-gradient(160deg,#020c18 0%,#031830 55%,#041240 100%)',
+      'Comedie': 'linear-gradient(160deg,#100d00 0%,#201800 55%,#2a2200 100%)',
+      'Horror': 'linear-gradient(160deg,#080000 0%,#120000 55%,#180000 100%)',
+      'Aventura': 'linear-gradient(160deg,#010e08 0%,#021c0e 55%,#021410 100%)',
+      'Istoric': 'linear-gradient(160deg,#100a00 0%,#201500 55%,#2a1a00 100%)',
+    };
+    function getGradient(gen) {
+      const first = (gen || '').split('/')[0].trim();
+      return GRADIENTS[first] || 'linear-gradient(160deg,#0d0d0d 0%,#181828 55%,#14122e 100%)';
+    }
+
+    // ── TICKET TYPES ──
+    const TICKET_STANDARD = [
+      { name: 'Adult', mult: 1.00 },
+      { name: 'Student', mult: 0.70 },
+      { name: 'Elev', mult: 0.60 },
+      { name: 'Pensionar', mult: 0.50 },
+    ];
+    const TICKET_VIP = [
+      { name: 'VIP', mult: 1.00 },
+      { name: 'Personal', mult: 0.30 },
+      { name: 'Adult', mult: 1.00 },
+    ];
+    function getTicketTypes(salaTip) {
+      return salaTip === 'VIP' ? TICKET_VIP : TICKET_STANDARD;
+    }
+
+    // ── HELPERS ──
+    function esc(s) {
+      return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+    function el(id) { return document.getElementById(id); }
+
+    const RO_MONTHS = ['Ian', 'Feb', 'Mar', 'Apr', 'Mai', 'Iun', 'Iul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const RO_DAYS = ['Dum', 'Lun', 'Mar', 'Mie', 'Joi', 'Vin', 'Sâm'];
+    function parseDate(str) {
+      const [datePart] = str.split(' ');
+      const [y, m, d] = datePart.split('-').map(Number);
+      return new Date(y, m - 1, d);
+    }
+    function formatDateLabel(dateObj) {
+      const today = new Date(); today.setHours(0, 0, 0, 0);
+      const tomorrow = new Date(today); tomorrow.setDate(today.getDate() + 1);
+      const t = new Date(dateObj); t.setHours(0, 0, 0, 0);
+      if (t.getTime() === today.getTime()) return { top: 'Azi', bottom: `${dateObj.getDate()} ${RO_MONTHS[dateObj.getMonth()]}` };
+      if (t.getTime() === tomorrow.getTime()) return { top: 'Mâine', bottom: `${dateObj.getDate()} ${RO_MONTHS[dateObj.getMonth()]}` };
+      return { top: RO_DAYS[dateObj.getDay()], bottom: `${dateObj.getDate()} ${RO_MONTHS[dateObj.getMonth()]}` };
+    }
+    function dateKey(str) { return str.split(' ')[0]; }
+    function timeOf(str) { return str.split(' ')[1] || str; }
+
+    function getSnackEmoji(nume) {
+      let n = nume.toLowerCase();
+      if (n.includes('popcorn')) return '🍿';
+      if (n.includes('cola') || n.includes('apa') || n.includes('suc') || n.includes('fanta') || n.includes('sprite')) return '🥤';
+      if (n.includes('nachos')) return '🧀';
+      if (n.includes('hot dog') || n.includes('hotdog')) return '🌭';
+      return '🍫';
+    }
+
+    // ── STEP NAVIGATION ──
+    async function goToStep(n) {
+      currentStep = n;
+      document.querySelectorAll('.step').forEach((s, i) => s.classList.toggle('active', i + 1 === n));
+      ['bc-1', 'bc-2', 'bc-3', 'bc-4'].forEach((id, i) => {
+        const ele = el(id);
+        if (ele) ele.classList.toggle('active', i + 1 === n);
+      });
+      if (n < 3) {
+        el('booking-bar').classList.remove('visible');
+        selectedSeat = null;
+      } else {
+        updatePrice();
+      }
+      if (n === 4) {
+        try {
+          const r = await fetch(`${API}/snacks`);
+          SNACKS = await r.json();
+        } catch {}
+        renderSnacks();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ─────────────────────────────────────────────
+    // STEP 1 – load & render films
+    // ─────────────────────────────────────────────
+    async function loadData() {
+      try {
+        const [rFilme, rProiectii, rSnacks] = await Promise.all([
+          fetch(`${API}/filme`),
+          fetch(`${API}/proiectii/viitoare`),
+          fetch(`${API}/snacks`) // Adus pentru Pasul 4
+        ]);
+        FILME = await rFilme.json();
+        PROIECTII = await rProiectii.json();
+        SNACKS = await rSnacks.json();
+
+        renderFilms();
+        renderSnacks();
+      } catch {
+        el('films-grid').innerHTML = '<div class="empty-msg">Serverul nu răspunde. Pornește CinemaServer.</div>';
+      }
+    }
+
+    function renderFilms() {
+      const withProj = new Set(PROIECTII.map(p => p.film.titlu));
+      const sorted = [...FILME].sort((a, b) => {
+        const ha = withProj.has(a.titlu), hb = withProj.has(b.titlu);
+        return ha === hb ? 0 : ha ? -1 : 1;
+      });
+
+      el('films-count').textContent = `${withProj.size} filme disponibile`;
+
+      if (!sorted.length) {
+        el('films-grid').innerHTML = '<div class="empty-msg">Niciun film în catalog.</div>';
+        return;
+      }
+
+      el('films-grid').innerHTML = sorted.map(f => {
+        const hasP = withProj.has(f.titlu);
+        const gen1 = (f.gen || '').split('/')[0].trim();
+        const is3d = f.tip === '3D';
+        return `
+    <div class="film-card" onclick="${hasP ? `selectFilm('${esc(f.titlu)}')` : ''}">
+      <div class="film-card-bg" style="background:${getGradient(f.gen)}"></div>
+      <div class="film-card-noise"></div>
+      <div class="film-card-gradient"></div>
+      <div class="film-card-body">
+        <div class="film-badge-row">
+          ${is3d ? '<span class="fbadge fbadge-3d">3D</span>' : ''}
+          <span class="fbadge fbadge-gen">${esc(gen1)}</span>
+        </div>
+        <div class="film-title">${esc(f.titlu)}</div>
+        <div class="film-meta">${f.durata} min${f.gen !== gen1 ? ' · ' + esc(f.gen.split('/').slice(1).join('/')) : ''}</div>
+        ${hasP
+            ? `<div class="film-price">de la <strong>${(f.pretBaza).toFixed(0)} RON</strong></div>
+             <button class="rezerva-btn">Rezervă bilet</button>`
+            : `<button class="rezerva-btn" disabled>Nicio proiecție</button>`
+          }
+      </div>
+    </div>`;
+      }).join('');
+    }
+
+    // ─────────────────────────────────────────────
+    // STEP 2 – showtimes
+    // ─────────────────────────────────────────────
+    function selectFilm(titlu) {
+      selectedFilm = FILME.find(f => f.titlu === titlu);
+      if (!selectedFilm) return;
+
+      const filmProiectii = PROIECTII.filter(p => p.film.titlu === titlu);
+      const is3d = selectedFilm.tip === '3D';
+      el('movie-hero').innerHTML = `
+    <div class="hero-poster">
+      <div class="hero-poster-inner" style="background:${getGradient(selectedFilm.gen)};border-radius:var(--radius)">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1.5"><path d="M7 4v16M17 4v16M3 8h4m10 0h4M3 16h4m10 0h4M4 20h16a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1z"/></svg>
+      </div>
+    </div>
+    <div class="hero-info">
+      <div class="hero-title">${esc(selectedFilm.titlu)}</div>
+      <div class="hero-badges">
+        ${is3d ? '<span class="hbadge fbadge-3d">3D</span>' : '<span class="hbadge fbadge-gen">2D</span>'}
+        <span class="hbadge fbadge-gen">${esc(selectedFilm.gen)}</span>
+        <span class="hbadge fbadge-gen">${selectedFilm.durata} min</span>
+        <span class="hbadge fbadge-gen">de la ${(selectedFilm.pretBaza).toFixed(0)} RON</span>
+      </div>
+    </div>`;
+
+      const dateKeys = [...new Set(filmProiectii.map(p => dateKey(p.dataOra)))].sort();
+      selectedDate = dateKeys[0] || null;
+
+      const datesRow = el('dates-row');
+      datesRow.innerHTML = dateKeys.map(dk => {
+        const d = parseDate(dk + ' 00:00');
+        const lbl = formatDateLabel(d);
+        return `<button class="date-btn ${dk === selectedDate ? 'active' : ''}" data-dk="${dk}" onclick="selectDate('${dk}')">
+      <span class="date-day">${lbl.top}</span>
+      <span>${lbl.bottom}</span>
+    </button>`;
+      }).join('');
+
+      renderProjections(filmProiectii);
+      goToStep(2);
+    }
+
+    function selectDate(dk) {
+      selectedDate = dk;
+      document.querySelectorAll('.date-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.dk === dk);
+      });
+      const filmProiectii = PROIECTII.filter(p => p.film.titlu === selectedFilm.titlu);
+      renderProjections(filmProiectii);
+    }
+
+    function renderProjections(filmProiectii) {
+      const filtered = filmProiectii.filter(p => dateKey(p.dataOra) === selectedDate);
+      const order = ['IMAX', 'VIP', 'Standard'];
+      const groups = {};
+      filtered.forEach(p => {
+        const t = p.sala.tip;
+        if (!groups[t]) groups[t] = [];
+        groups[t].push(p);
+      });
+
+      const sectionEl = el('proj-section');
+      if (!filtered.length) {
+        sectionEl.innerHTML = '<div class="no-proj">Nicio proiecție în această zi.</div>';
+        return;
+      }
+
+      sectionEl.innerHTML = order
+        .filter(t => groups[t]?.length)
+        .map(t => {
+          const projs = groups[t];
+          const badgeCls = t === 'IMAX' ? 'rt-imax' : t === 'VIP' ? 'rt-vip' : 'rt-standard';
+          const roomName = projs[0].sala.nume;
+          const filmTip = projs[0].film.tip;
+          return `
+      <div class="room-group">
+        <div class="room-group-header">
+          <span class="room-type-badge ${badgeCls}">${esc(t)}</span>
+          <span class="room-name">${esc(roomName)} · ${esc(filmTip)}</span>
+        </div>
+        <div class="times-row">
+          ${projs.map(p => `
+            <button class="time-btn" onclick="selectProiectie(${p.id})">
+              <span>${esc(timeOf(p.dataOra))}</span>
+              <span class="time-format">${esc(p.formatAudio)}</span>
+            </button>`).join('')}
+        </div>
+      </div>`;
+        }).join('');
+    }
+
+    // ─────────────────────────────────────────────
+    // STEP 3 – seat map
+    // ─────────────────────────────────────────────
+
+    function toggleSeat(seatEl, rand, loc) {
+      if (seatEl.classList.contains('occupied')) return;
+      if (selectedSeat) {
+        const prev = el('seat-grid').querySelector(`[data-rand="${selectedSeat.rand}"][data-loc="${selectedSeat.loc}"]`);
+        if (prev) prev.classList.replace('selected', 'available');
+      }
+
+      if (selectedSeat?.rand === rand && selectedSeat?.loc === loc) {
+        selectedSeat = null;
+        el('booking-bar').classList.remove('visible');
+        return;
+      }
+
+      seatEl.classList.replace('available', 'selected');
+      selectedSeat = { rand, loc };
+
+      const p = selectedProiectie;
+      const sala = p.sala;
+      el('bar-seat').textContent = `Rând ${String.fromCharCode(64 + rand)}, Loc ${loc}`;
+      el('bar-film').textContent = `${p.film.titlu} · ${p.dataOra} · ${sala.nume}`;
+      el('booking-bar').classList.add('visible');
+      updatePrice();
+    }
+
+    // ─────────────────────────────────────────────
+    // STEP 4 – snacks grid
+    // ─────────────────────────────────────────────
+    function renderSnacks() {
+      const container = el('client-snacks-grid');
+      container.innerHTML = SNACKS.map((s, index) => {
+        // ID-ul real catre backend va fi index + 1 (deoarece in C++ array incepe de la 0, iar noi cautam cu -1)
+        const id = index + 1;
+        const qty = cart[id]?.qty || 0;
+
+        return `
+    <div class="snack-card ${s.stoc === 0 ? 'oos' : ''} ${qty > 0 ? 'has-qty' : ''}">
+      ${s.stoc > 0 && s.stoc <= 5 ? `<div class="snack-stock-tag snack-stock-low">Ultimele ${s.stoc}</div>` : ''}
+      ${s.stoc === 0 ? `<div class="snack-stock-tag snack-stock-out">Epuizat</div>` : ''}
+      
+      <div class="snack-emoji">${getSnackEmoji(s.nume)}</div>
+      <div class="snack-name">${esc(s.nume)}</div>
+      <div class="snack-desc">${esc(s.descriere)}</div>
+      <div class="snack-price">${s.pret.toFixed(2)} RON</div>
+      
+      <div class="qty-row">
+        <button class="qty-btn" onclick="updateSnackQty(${id}, -1)" ${qty === 0 ? 'disabled' : ''}>-</button>
+        <div class="qty-num">${qty}</div>
+        <button class="qty-btn" onclick="updateSnackQty(${id}, 1)" ${qty >= s.stoc ? 'disabled' : ''}>+</button>
+      </div>
+    </div>`;
+      }).join('');
+    }
+
+    function updateSnackQty(id, delta) {
+      const snackIndex = id - 1;
+      const item = SNACKS[snackIndex];
+
+      if (!cart[id]) cart[id] = { item, qty: 0 };
+
+      let newQty = cart[id].qty + delta;
+      if (newQty < 0) newQty = 0;
+      if (newQty > item.stoc) newQty = item.stoc;
+
+      cart[id].qty = newQty;
+      if (newQty === 0) delete cart[id];
+
+      renderSnacks();
+      updatePrice();
+    }
+
+    async function aplicaVoucher() {
+      const cod = el('voucher-input').value.trim();
+      const msg = el('voucher-msg');
+
+      // Daca input-ul e gol si s-a dat click, doar recalculam pretul standard
+      if (!cod) {
+        activeVoucherPercent = 0; msg.textContent = '';
+        updatePrice(); return;
+      }
+
+      const tip = el('ticket-select').value;
+      try {
+        const res = await fetch(`${API}/verifica-voucher`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cod, tipBilet: tip })
+        });
+        const data = await res.json();
+
+        if (data.valid) {
+          activeVoucherPercent = data.reducere;
+          msg.style.color = 'var(--green)';
+          msg.textContent = `Reducere de ${data.reducere}% aplicată!`;
+        } else {
+          activeVoucherPercent = 0;
+          msg.style.color = 'var(--red)';
+          msg.textContent = 'Voucher invalid pt. acest bilet/zi.';
+        }
+        updatePrice();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function updatePrice() {
+      if (!selectedSeat || !selectedProiectie) return;
+      const p = selectedProiectie;
+      const sel = el('ticket-select');
+      const opt = sel.options[sel.selectedIndex];
+      const mult = parseFloat(opt?.dataset.mult || 1);
+      const multSala = p.sala.multiplicatorPret;
+
+      let pretBilet = p.film.pretBaza * mult * multSala;
+
+      if (currentUser?.cardFidelitate) {
+        pretBilet *= 0.90;
+      }
+      if (activeVoucherPercent > 0) {
+        pretBilet = pretBilet - (pretBilet * (activeVoucherPercent / 100));
+      }
+
+      let pretSnacks = 0;
+      Object.values(cart).forEach(c => { pretSnacks += c.item.pret * c.qty; });
+
+      const total = pretBilet + pretSnacks;
+      el('price-val').innerHTML = `${total.toFixed(2)}&nbsp;<span>RON</span>`;
+
+      const btn = el('confirm-btn');
+      if (currentStep === 3) {
+        btn.innerHTML = 'Continuă la Snacks ›';
+        btn.onclick = () => goToStep(4);
+      } else {
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Confirmă Rezervarea';
+        btn.onclick = () => confirmBooking();
+      }
+    }
+
+    function afterBooking() {
+      closeModal('modal-success');
+      cart = {};
+      activeVoucherPercent = 0;
+      const vInput = el('voucher-input');
+      if (vInput) vInput.value = '';
+      const vMsg = el('voucher-msg');
+      if (vMsg) vMsg.textContent = '';
+      goToStep(1);
+    }
+    function closeModal(id) { el(id).classList.remove('open'); }
+    document.querySelectorAll('.modal-bg').forEach(m => {
+      m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+    });
+
+    // ── TOAST ──
+    function showToast(msg, type = 'success') {
+      const area = el('toast-area'), t = document.createElement('div');
+      t.className = `toast ${type}`;
+      const icons = {
+        success: '<polyline points="20 6 9 17 4 12"/>',
+        error: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>'
+      };
+      t.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${icons[type] || icons.success}</svg><span>${esc(msg)}</span>`;
+      area.appendChild(t);
+      setTimeout(() => { t.style.animation = 'toastOut .2s ease forwards'; setTimeout(() => t.remove(), 200); }, 3000);
+    }
+
+    async function refreshSeatMap() {
+      if (!selectedProiectie) return;
+      try {
+        const res = await fetch(`${API}/proiectii/${selectedProiectie.id}/locuri`);
+        const occupiedSeats = await res.json();
+        renderSeatMap(occupiedSeats);
+      } catch (e) {
+        console.error("Eroare la refresh harta:", e);
+      }
+    }
+
+    async function confirmBooking() {
+      if (!selectedSeat || !selectedProiectie) return;
+      if (!currentUser) {
+        showToast('Trebuie să fii autentificat pentru a rezerva.', 'error');
+        setTimeout(() => window.location.href = 'index.html', 1500);
+        return;
+      }
+
+      const btn = el('confirm-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<div class="spinner"></div> Se procesează...';
+
+      const payload = {
+        idProiectie: selectedProiectie.id,
+        rand: selectedSeat.rand,
+        loc: selectedSeat.loc,
+        tipBilet: el('ticket-select').value,
+        username: currentUser.username,
+        codVoucher: el('voucher-input').value.trim()
+      };
+
+      try {
+        const res = await fetch(`${API}/rezerva`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (res.ok && data.status === 'ok') {
+          const idRez = data.idRezervare || '—';
+          el('modal-rez-id').textContent = idRez;
+
+          const cartKeys = Object.keys(cart);
+          if (cartKeys.length > 0) {
+            let snacksTotalVal = 0;
+            const snacksPayload = cartKeys.map(id => {
+              snacksTotalVal += cart[id].item.pret * cart[id].qty;
+              return { id: parseInt(id), qty: cart[id].qty };
+            });
+            el('modal-snacks-val').textContent = `${snacksTotalVal.toFixed(2)} RON`;
+            el('modal-snacks-msg').style.display = 'block';
+            try {
+              await fetch(`${API}/comanda-snacks`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idRezervare: idRez, snacks: snacksPayload })
+              });
+            } catch (e) { console.log('Eroare trimitere snacks'); }
+          } else {
+            el('modal-snacks-msg').style.display = 'none';
+          }
+
+          el('modal-success').classList.add('open');
+
+          const seatEl = el('seat-grid').querySelector(`[data-rand="${selectedSeat.rand}"][data-loc="${selectedSeat.loc}"]`);
+          if (seatEl) {
+            seatEl.classList.remove('selected', 'available');
+            seatEl.classList.add('occupied');
+          }
+          cart = {};
+          selectedSeat = null;
+          el('booking-bar').classList.remove('visible');
+
+        } else {
+          el('modal-err-msg').textContent = data.mesaj || 'Rezervarea a eșuat.';
+          el('modal-error').classList.add('open');
+          refreshSeatMap();
+        }
+      } catch {
+        el('modal-err-msg').textContent = 'Serverul nu răspunde.';
+        el('modal-error').classList.add('open');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Confirmă Rezervarea';
+      }
+    }
+
+    async function selectProiectie(id) {
+      selectedProiectie = PROIECTII.find(p => p.id === id);
+      if (!selectedProiectie) return;
+
+      document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+      if (window.event && window.event.currentTarget) {
+        window.event.currentTarget.classList.add('selected');
+      }
+
+      let occupiedSeats = [];
+      try {
+        const res = await fetch(`${API}/proiectii/${id}/locuri`);
+        if (res.ok) occupiedSeats = await res.json();
+      } catch (err) {
+        // endpoint not yet implemented — treat all seats as available
+      }
+      renderSeatMap(occupiedSeats);
+      goToStep(3);
+    }
+
+    function renderSeatMap(occupiedSeats = []) {
+      const p = selectedProiectie;
+      const sala = p.sala;
+      const rows = sala.randuri;
+      const cols = sala.locuriPeRand;
+      const isVip = sala.tip === 'VIP';
+
+      el('seat-title').textContent = p.film.titlu;
+      el('seat-sub').textContent = `${sala.nume}  ·  ${p.dataOra}  ·  ${p.formatAudio}`;
+      el('legend-vip').style.display = isVip ? '' : 'none';
+
+      el('col-labels').innerHTML = Array.from({ length: cols }, (_, i) => `<div class="col-lbl">${i + 1}</div>`).join('');
+      el('row-labels').innerHTML = Array.from({ length: rows }, (_, i) => `<div class="row-lbl">${String.fromCharCode(65 + i)}</div>`).join('');
+
+      const grid = el('seat-grid');
+      grid.style.gridTemplateColumns = `repeat(${cols}, 28px)`;
+      grid.innerHTML = '';
+
+      for (let r = 1; r <= rows; r++) {
+        for (let c = 1; c <= cols; c++) {
+          // Verifica daca locul curent (r, c) a venit in JSON-ul de la server
+          const isOccupied = occupiedSeats.some(s => s.rand === r && s.loc === c);
+
+          const seat = document.createElement('div');
+          seat.className = `seat ${isOccupied ? 'occupied' : 'available'}${isVip ? ' vip-seat' : ''}`;
+          seat.dataset.rand = r;
+          seat.dataset.loc = c;
+          seat.title = `Rând ${String.fromCharCode(64 + r)}, Loc ${c}`;
+
+          if (!isOccupied) {
+            seat.addEventListener('click', () => toggleSeat(seat, r, c));
+          }
+          grid.appendChild(seat);
+        }
+      }
+
+      const tickets = getTicketTypes(sala.tip);
+      const sel = el('ticket-select');
+      sel.innerHTML = tickets.map(t => `<option value="${t.name}" data-mult="${t.mult}">${t.name}</option>`).join('');
+
+      updatePrice();
+    }
+
+    // ── INIT ──
+    loadData();
+  </script>
+</body>
+
+</html>

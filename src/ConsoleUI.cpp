@@ -5,6 +5,8 @@
 #include <iostream>
 #include <limits>
 #include <string>
+#include <sstream>
+
 using std::cin;
 using std::cout;
 using std::endl;

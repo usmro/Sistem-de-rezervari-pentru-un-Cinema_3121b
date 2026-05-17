@@ -5,6 +5,11 @@
 #include <cstdlib>
 
 void salveazaLaIesire() {
+  static bool dejaSalvat = false;
+  if (dejaSalvat)
+    return;
+  dejaSalvat = true;
+
   auto &c = Cinematograf::getInstance();
   StorageService::salveazaFilme(c.getFilme());
   StorageService::salveazaSali(c.getSali());
@@ -16,7 +21,10 @@ void salveazaLaIesire() {
 }
 
 int main() {
+  Cinematograf::getInstance();
+
   std::atexit(salveazaLaIesire);
+
   std::signal(SIGINT, [](int) {
     salveazaLaIesire();
     std::exit(0);

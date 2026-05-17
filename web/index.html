@@ -5,130 +5,176 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cinema — Rezervari</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+    <!-- ═══════════════════════════════════════════
+         NAVBAR
+    ════════════════════════════════════════════ -->
+    <nav class="navbar" id="navbar">
+        <a class="nav-logo" href="#" onclick="showScreen('screen-welcome'); return false;">CINEMA</a>
+        <div class="nav-links">
+            <button class="nav-btn nav-btn-ghost" onclick="showScreen('screen-login')">Autentificare</button>
+            <button class="nav-btn nav-btn-primary" onclick="showScreen('screen-register')">Cont nou</button>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════
+         WELCOME / HERO
+    ════════════════════════════════════════════ -->
     <div id="screen-welcome" class="screen active">
+
+        <!-- Video background -->
+        <div class="video-wrap">
+            <video autoplay muted loop playsinline class="bg-video">
+                <source src="background.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+        </div>
+
+        <!-- Hero content -->
         <div class="hero">
             <div class="hero-content">
-                <div class="logo-ascii">
-                    <pre>
-  ____  _
- / ___|(_)_ __   ___ _ __ ___   __ _
-| |    | | '_ \ / _ \ '_ ` _ \ / _` |
-| |___ | | | | |  __/ | | | | | (_| |
- \____|_|_| |_|\___|_| |_| |_|\__,_|
-                    </pre>
+                <span class="hero-eyebrow">Acum în cinematografe</span>
+                <h1 class="hero-title">Filmele tale<br>preferate, la un<br><em>click distanță.</em></h1>
+                <p class="hero-sub">Rezervă-ți locul acum și bucură-te de magia ecranului mare.</p>
+                <div class="hero-cta">
+                    <button class="cta-btn" onclick="showScreen('screen-program')">
+                        <span>Vezi programul</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </button>
                 </div>
-                <p class="tagline">Sistemul tau de rezervari online</p>
-                <div class="hero-buttons">
-                    <button class="btn btn-primary" onclick="showScreen('screen-login')">
-                        Autentificare
-                    </button>
-                    <button class="btn btn-secondary" onclick="showScreen('screen-register')">
-                        Cont nou
-                    </button>
-                    <button class="btn btn-ghost" onclick="showScreen('screen-program')">
-                        Vezi programul
-                    </button>
+                <div class="hero-stats">
+                    <div class="stat"><span class="stat-n">3</span><span class="stat-l">Săli</span></div>
+                    <div class="stat-div"></div>
+                    <div class="stat"><span class="stat-n">HD</span><span class="stat-l">Sunet Dolby</span></div>
+                    <div class="stat-div"></div>
+                    <div class="stat"><span class="stat-n">IMAX</span><span class="stat-l">Disponibil</span></div>
                 </div>
             </div>
         </div>
+
+        <!-- Scroll indicator -->
+        <div class="scroll-hint">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
     </div>
 
-    <div id="screen-login" class="screen">
-        <div class="card-container">
-            <div class="card">
-                <button class="back-btn" onclick="showScreen('screen-welcome')">
-                    &larr; Inapoi
-                </button>
-                <h2>Autentificare</h2>
+    <!-- ═══════════════════════════════════════════
+         LOGIN
+    ════════════════════════════════════════════ -->
+    <div id="screen-login" class="screen screen-form">
+        <div class="form-backdrop"></div>
+        <div class="form-wrap">
+            <button class="back-link" onclick="showScreen('screen-welcome')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                Înapoi
+            </button>
 
-                <div class="tab-group">
-                    <button class="tab active" data-tip="client" onclick="selectTab(this, 'client')">
-                        Client
-                    </button>
-                    <button class="tab" data-tip="admin" onclick="selectTab(this, 'admin')">
-                        Admin
-                    </button>
+            <div class="form-header">
+                <h2>Bine ai revenit.</h2>
+                <p>Intră în contul tău pentru a face rezervări.</p>
+            </div>
+
+            <div class="tab-row">
+                <button class="tab active" onclick="selectTab(this, 'client')">Client</button>
+                <button class="tab" onclick="selectTab(this, 'admin')">Admin</button>
+            </div>
+
+            <form onsubmit="handleLogin(event)">
+                <div class="field">
+                    <label>Username</label>
+                    <input type="text" id="login-username" placeholder="username-ul tău" autocomplete="username"
+                        required>
                 </div>
+                <div class="field">
+                    <label>Parolă</label>
+                    <input type="password" id="login-parola" placeholder="••••••••" autocomplete="current-password"
+                        required>
+                </div>
+                <div id="login-error" class="msg msg-error hidden"></div>
+                <button type="submit" class="submit-btn">Intră în cont</button>
+            </form>
 
-                <form onsubmit="handleLogin(event)">
-                    <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" id="login-username" placeholder="username" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Parola</label>
-                        <input type="password" id="login-parola" placeholder="••••••••" required>
-                    </div>
-                    <div id="login-error" class="error-msg hidden"></div>
-                    <button type="submit" class="btn btn-primary full-width">
-                        Intra in cont
-                    </button>
-                </form>
-
-                <p class="form-footer">
-                    Nu ai cont?
-                    <a href="#" onclick="showScreen('screen-register')">
-                        Inregistreaza-te
-                    </a>
-                </p>
-            </div>
+            <p class="switch-link">Nu ai cont? <a href="#"
+                    onclick="showScreen('screen-register'); return false;">Înregistrează-te</a></p>
         </div>
     </div>
 
-    <div id="screen-register" class="screen">
-        <div class="card-container">
-            <div class="card">
-                <button class="back-btn" onclick="showScreen('screen-welcome')">
-                    &larr; Inapoi
-                </button>
-                <h2>Cont nou</h2>
+    <!-- ═══════════════════════════════════════════
+         REGISTER
+    ════════════════════════════════════════════ -->
+    <div id="screen-register" class="screen screen-form">
+        <div class="form-backdrop"></div>
+        <div class="form-wrap">
+            <button class="back-link" onclick="showScreen('screen-welcome')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                Înapoi
+            </button>
 
-                <form onsubmit="handleRegister(event)">
-                    <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" id="reg-username" placeholder="alege un username" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Parola</label>
-                        <input type="password" id="reg-parola" placeholder="••••••••" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Confirma parola</label>
-                        <input type="password" id="reg-parola2" placeholder="••••••••" required>
-                    </div>
-                    <div id="reg-error" class="error-msg hidden"></div>
-                    <div id="reg-success" class="success-msg hidden"></div>
-                    <button type="submit" class="btn btn-primary full-width">
-                        Creeaza cont
-                    </button>
-                </form>
-
-                <p class="form-footer">
-                    Ai deja cont?
-                    <a href="#" onclick="showScreen('screen-login')">
-                        Autentifica-te
-                    </a>
-                </p>
+            <div class="form-header">
+                <h2>Cont nou.</h2>
+                <p>Creează-ți contul și rezervă primul tău bilet.</p>
             </div>
+
+            <form onsubmit="handleRegister(event)">
+                <div class="field">
+                    <label>Username</label>
+                    <input type="text" id="reg-username" placeholder="alege un username" autocomplete="username"
+                        required>
+                </div>
+                <div class="field">
+                    <label>Parolă</label>
+                    <input type="password" id="reg-parola" placeholder="••••••••" autocomplete="new-password" required>
+                </div>
+                <div class="field">
+                    <label>Confirmă parola</label>
+                    <input type="password" id="reg-parola2" placeholder="••••••••" autocomplete="new-password" required>
+                </div>
+                <div id="reg-error" class="msg msg-error hidden"></div>
+                <div id="reg-success" class="msg msg-success hidden"></div>
+                <button type="submit" class="submit-btn">Creează cont</button>
+            </form>
+
+            <p class="switch-link">Ai deja cont? <a href="#"
+                    onclick="showScreen('screen-login'); return false;">Autentifică-te</a></p>
         </div>
     </div>
 
-    <div id="screen-program" class="screen">
-        <div class="page-container">
-            <div class="page-header">
-                <button class="back-btn" onclick="showScreen('screen-welcome')">
-                    &larr; Inapoi
-                </button>
-                <h2>Program filme</h2>
-            </div>
-            <div id="program-list" class="proiectii-grid">
-                <p class="loading">Se incarca...</p>
-            </div>
+    <!-- ═══════════════════════════════════════════
+         PROGRAM
+    ════════════════════════════════════════════ -->
+    <div id="screen-program" class="screen screen-program">
+        <div class="prog-header">
+            <button class="back-link" onclick="showScreen('screen-welcome')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                Înapoi
+            </button>
+            <h2>Program <span class="red">filme</span></h2>
+            <p>Toate proiecțiile disponibile în perioada următoare</p>
+        </div>
+        <div id="program-list" class="prog-grid">
+            <p class="loading-text">Se încarcă...</p>
         </div>
     </div>
 

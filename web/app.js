@@ -9,6 +9,19 @@ function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => {
         s.classList.remove('active');
     });
+
+    if (id === 'screen-login') {
+        document.getElementById('login-username').value = '';
+        document.getElementById('login-parola').value = '';
+        document.getElementById('login-error').classList.add('hidden');
+    } else if (id === 'screen-register') {
+        document.getElementById('reg-username').value = '';
+        document.getElementById('reg-parola').value = '';
+        document.getElementById('reg-parola2').value = '';
+        document.getElementById('reg-error').classList.add('hidden');
+        document.getElementById('reg-success').classList.add('hidden');
+    }
+
     const target = document.getElementById(id);
     if (target) {
         target.classList.add('active');
@@ -50,8 +63,13 @@ async function handleLogin(e) {
         }
 
         state.user = data.user;
-        alert(`Bine ai venit, ${state.user.username}! (${state.user.rol})`);
+        localStorage.setItem('cinema_user', JSON.stringify(data.user));
 
+        if (state.loginTip === 'admin' || state.user.rol === 'Admin') {
+            window.location.href = 'admin.html';
+        } else {
+            window.location.href = 'client.html';
+        }
     } catch (err) {
         errEl.textContent = 'Serverul nu raspunde. Porneste CinemaServer.';
         errEl.classList.remove('hidden');

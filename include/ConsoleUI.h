@@ -5,6 +5,7 @@
 
 class ConsoleUI {
 private:
+  void adminGestionareUseri();
   void clearScreen() const;
   void pauseScreen() const;
   int citesteOptiune(int minim, int maxim) const;

@@ -4,6 +4,7 @@ project(CinemaProject)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# vcpkg toolchain (doar pe Windows)
 if(DEFINED ENV{VCPKG_ROOT})
     set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
         CACHE STRING "")
@@ -39,11 +40,12 @@ add_executable(CinemaServer
     ${BACKEND_SOURCES}
 )
 
-target_link_libraries(CinemaServer PRIVATE 
-    Crow::Crow
-    ws2_32
-    mswsock
-)
+target_link_libraries(CinemaServer PRIVATE Crow::Crow)
+
+# ws2_32 si mswsock doar pe Windows
+if(WIN32)
+    target_link_libraries(CinemaServer PRIVATE ws2_32 mswsock)
+endif()
 
 file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
 file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/web)
