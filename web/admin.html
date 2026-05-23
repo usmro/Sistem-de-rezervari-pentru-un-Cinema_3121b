@@ -1,1069 +1,3404 @@
 <!DOCTYPE html>
 <html lang="ro">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cinema — Admin Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --red:#e50914;--red-glow:rgba(229,9,20,.35);--red-subtle:rgba(229,9,20,.08);
-  --bg:#080808;--bg2:#0e0e0e;--bg3:#161616;--bg4:#1e1e1e;--bg5:#252525;
-  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.11);
-  --text:#f0f0f0;--text2:#999;--text3:#555;--text4:#333;
-  --green:#22c55e;--green-bg:rgba(34,197,94,.08);--green-border:rgba(34,197,94,.2);
-  --amber:#f59e0b;--amber-bg:rgba(245,158,11,.08);--amber-border:rgba(245,158,11,.2);
-  --blue:#3b82f6;--blue-bg:rgba(59,130,246,.08);--blue-border:rgba(59,130,246,.2);
-  --gold:#f5c518;--gold-bg:rgba(245,197,24,.08);--gold-border:rgba(245,197,24,.2);
-  --sidebar-w:232px;--header-h:56px;--radius:5px;--radius-lg:10px;
-  --fd:'Bebas Neue',sans-serif;--fb:'DM Sans',sans-serif;
-}
-html,body{height:100%;overflow:hidden}
-body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:13.5px;display:flex}
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:3px}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cinema — Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
 
-/* SIDEBAR */
-.sidebar{width:var(--sidebar-w);min-height:100vh;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
-.sidebar-logo{height:var(--header-h);display:flex;align-items:center;gap:10px;padding:0 18px;border-bottom:1px solid var(--border)}
-.logo-mark{width:28px;height:28px;background:var(--red);border-radius:4px;display:flex;align-items:center;justify-content:center}
-.logo-mark svg{width:14px;height:14px;color:#fff}
-.logo-text{font-family:var(--fd);font-size:1.35rem;letter-spacing:.12em;color:var(--text)}
-.logo-badge{margin-left:auto;font-size:9px;font-weight:600;letter-spacing:.08em;padding:2px 6px;background:var(--red-subtle);border:1px solid rgba(229,9,20,.2);color:var(--red);border-radius:3px;text-transform:uppercase}
-.sidebar-nav{flex:1;overflow-y:auto;padding:12px 0}
-.nav-section{margin-bottom:8px}
-.nav-section-label{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text4);padding:8px 18px 4px}
-.nav-item{display:flex;align-items:center;gap:9px;padding:9px 18px;cursor:pointer;color:var(--text2);font-size:13.5px;transition:color .15s,background .15s;border-left:2px solid transparent;user-select:none}
-.nav-item svg{width:16px;height:16px;flex-shrink:0;opacity:.7;transition:opacity .15s}
-.nav-item:hover{background:var(--bg3);color:var(--text)}.nav-item:hover svg{opacity:1}
-.nav-item.active{background:var(--red-subtle);color:var(--text);border-left-color:var(--red)}
-.nav-item.active svg{opacity:1;color:var(--red)}
-.nav-count{margin-left:auto;background:var(--bg5);color:var(--text2);font-size:10px;font-weight:500;padding:1px 6px;border-radius:10px;min-width:20px;text-align:center}
-.nav-item.active .nav-count{background:rgba(229,9,20,.15);color:var(--red)}
-.sidebar-footer{padding:14px 18px;border-top:1px solid var(--border);display:flex;align-items:center;gap:9px}
-.avatar{width:30px;height:30px;background:var(--bg5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:14px;color:var(--red);border:1px solid var(--border2);flex-shrink:0}
-.footer-info{flex:1;min-width:0}
-.footer-name{font-size:12.5px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.footer-role{font-size:11px;color:var(--text3)}
-.logout-btn{background:none;border:none;cursor:pointer;color:var(--text3);padding:4px;transition:color .15s}.logout-btn:hover{color:var(--red)}.logout-btn svg{width:15px;height:15px}
+    :root {
+      --red: #e50914;
+      --red-glow: rgba(229, 9, 20, .35);
+      --red-subtle: rgba(229, 9, 20, .08);
+      --bg: #080808;
+      --bg2: #0e0e0e;
+      --bg3: #161616;
+      --bg4: #1e1e1e;
+      --bg5: #252525;
+      --border: rgba(255, 255, 255, .07);
+      --border2: rgba(255, 255, 255, .11);
+      --text: #f0f0f0;
+      --text2: #999;
+      --text3: #555;
+      --text4: #333;
+      --green: #22c55e;
+      --green-bg: rgba(34, 197, 94, .08);
+      --green-border: rgba(34, 197, 94, .2);
+      --amber: #f59e0b;
+      --amber-bg: rgba(245, 158, 11, .08);
+      --amber-border: rgba(245, 158, 11, .2);
+      --blue: #3b82f6;
+      --blue-bg: rgba(59, 130, 246, .08);
+      --blue-border: rgba(59, 130, 246, .2);
+      --gold: #f5c518;
+      --gold-bg: rgba(245, 197, 24, .08);
+      --gold-border: rgba(245, 197, 24, .2);
+      --sidebar-w: 232px;
+      --header-h: 56px;
+      --radius: 5px;
+      --radius-lg: 10px;
+      --fd: 'Bebas Neue', sans-serif;
+      --fb: 'DM Sans', sans-serif;
+    }
 
-/* MAIN */
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
-.topbar{height:var(--header-h);background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:14px;flex-shrink:0}
-.topbar-group{display:flex;flex-direction:column;flex:1}
-.topbar-title{font-family:var(--fd);font-size:1.35rem;letter-spacing:.08em;color:var(--text)}
-.topbar-sub{font-size:12px;color:var(--text3);margin-top:1px}
-.topbar-actions{display:flex;gap:8px;align-items:center}
-.srv-status{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--text3)}
-.status-dot{width:7px;height:7px;border-radius:50%;background:var(--text4)}
-.status-dot.online{background:var(--green);box-shadow:0 0 6px var(--green)}
-.status-dot.offline{background:var(--red);box-shadow:0 0 6px var(--red-glow)}
-.content{flex:1;overflow-y:auto}
+    html,
+    body {
+      height: 100%;
+      overflow: hidden
+    }
 
-/* VIEWS */
-.view{display:none;padding:24px;animation:fadeIn .2s ease}
-.view.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    body {
+      font-family: var(--fb);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 13.5px;
+      display: flex
+    }
 
-/* BUTTONS */
-.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid var(--border2);background:var(--bg3);color:var(--text);border-radius:var(--radius);font-family:var(--fb);font-size:12.5px;font-weight:500;cursor:pointer;transition:background .15s;white-space:nowrap}
-.btn:hover{background:var(--bg4)}.btn svg{width:14px;height:14px}
-.btn-primary{background:var(--red);border-color:var(--red);color:#fff}.btn-primary:hover{background:#ff1a24;box-shadow:0 0 16px var(--red-glow)}
-.btn-ghost{background:transparent;border-color:transparent;color:var(--text2)}.btn-ghost:hover{background:var(--bg3);color:var(--text);border-color:var(--border)}
-.btn-danger{background:rgba(229,9,20,.08);border-color:rgba(229,9,20,.2);color:var(--red)}.btn-danger:hover{background:rgba(229,9,20,.15)}
-.btn-sm{padding:4px 10px;font-size:11.5px}
-.btn:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px
+    }
 
-/* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;position:relative;overflow:hidden}
-.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--ac,var(--red));opacity:.5}
-.stat-label{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
-.stat-val{font-family:var(--fd);font-size:2.2rem;letter-spacing:.04em;color:var(--text);line-height:1}
-.stat-footer{font-size:11px;color:var(--text3);margin-top:6px}
+    ::-webkit-scrollbar-track {
+      background: transparent
+    }
 
-/* CARD */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:16px}
-.card-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);gap:12px}
-.card-title{font-family:var(--fd);font-size:1.05rem;letter-spacing:.06em;color:var(--text)}
-.card-sub{font-size:11.5px;color:var(--text3);margin-top:1px}
-.card-title-group{flex:1}.card-actions{display:flex;gap:6px}
-.card-body{padding:20px}
+    ::-webkit-scrollbar-thumb {
+      background: var(--bg5);
+      border-radius: 3px
+    }
 
-/* SEARCH */
-.search-wrap{position:relative;display:flex;align-items:center}
-.search-wrap svg{position:absolute;left:10px;width:14px;height:14px;color:var(--text3);pointer-events:none}
-.search-input{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:7px 12px 7px 30px;color:var(--text);font-family:var(--fb);font-size:12.5px;width:200px;outline:none;transition:border-color .15s}
-.search-input::placeholder{color:var(--text4)}.search-input:focus{border-color:rgba(229,9,20,.4)}
+    /* SIDEBAR */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-height: 100vh;
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0
+    }
 
-/* TABLES */
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse}
-thead th{padding:10px 16px;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;background:var(--bg2)}
-tbody tr{border-bottom:1px solid rgba(255,255,255,.04);transition:background .12s}
-tbody tr:last-child{border-bottom:none}
-tbody tr:hover{background:var(--bg3)}
-td{padding:12px 16px;color:var(--text2);font-size:13px;white-space:nowrap}
-td.tdp{color:var(--text);font-weight:500}
-td.tdm{font-family:monospace;font-size:12px;color:var(--text3)}
-.tda{display:flex;gap:4px}
+    .sidebar-logo {
+      height: var(--header-h);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 18px;
+      border-bottom: 1px solid var(--border)
+    }
 
-/* BADGES */
-.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:3px;font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}
-.br{background:var(--red-subtle);color:var(--red);border:1px solid rgba(229,9,20,.2)}
-.bg{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
-.ba{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
-.bb{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border)}
-.bgold{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border)}
-.bgray{background:rgba(255,255,255,.04);color:var(--text3);border:1px solid var(--border)}
+    .logo-mark {
+      width: 28px;
+      height: 28px;
+      background: var(--red);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
 
-/* FORMS */
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.c2{grid-column:span 2}
-.field{display:flex;flex-direction:column;gap:6px}
-.fl{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3)}
-.fl .req{color:var(--red);margin-left:2px}
-.field input,.field select,.field textarea{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:9px 12px;color:var(--text);font-family:var(--fb);font-size:13px;outline:none;transition:border-color .15s,box-shadow .15s;width:100%}
-.field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:30px}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:rgba(229,9,20,.45);box-shadow:0 0 0 3px rgba(229,9,20,.07)}
-.fhint{font-size:11px;color:var(--text4)}
-.fsec{font-family:var(--fd);font-size:1rem;letter-spacing:.08em;color:var(--text);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
-.fsec svg{width:16px;height:16px;color:var(--red)}
-.factions{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding-top:16px;border-top:1px solid var(--border);margin-top:16px}
-.option-group{display:flex;gap:8px;flex-wrap:wrap}
-.opill{display:flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid var(--border2);border-radius:var(--radius);cursor:pointer;color:var(--text2);font-size:12.5px;transition:all .15s;user-select:none}
-.opill:hover{color:var(--text);background:var(--bg3)}
-.opill.sel{border-color:rgba(229,9,20,.4);background:var(--red-subtle);color:var(--text)}
-.opill input{display:none}
-.odot{width:8px;height:8px;border-radius:50%;border:1.5px solid var(--text4);transition:all .12s;flex-shrink:0}
-.opill.sel .odot{border-color:var(--red);background:var(--red)}
-.ferr{background:rgba(229,9,20,.08);border:1px solid rgba(229,9,20,.25);color:#ff6b6b;padding:10px 14px;border-radius:var(--radius);font-size:13px;display:none;margin-bottom:12px}
-.ferr.show{display:block}
-.fok{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25);color:#4ade80;padding:10px 14px;border-radius:var(--radius);font-size:13px;display:none;margin-bottom:12px}
-.fok.show{display:block}
+    .logo-mark svg {
+      width: 14px;
+      height: 14px;
+      color: #fff
+    }
 
-/* POS */
-.pos-layout{display:grid;grid-template-columns:1fr 320px;gap:16px;height:calc(100vh - var(--header-h) - 48px)}
-.pos-products{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);display:flex;flex-direction:column;overflow:hidden}
-.pos-hdr{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.pos-grid{flex:1;overflow-y:auto;padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;align-content:start}
-.pos-tabs{display:flex;gap:4px;flex-wrap:wrap}
-.pos-tab{padding:5px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg3);color:var(--text2);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s}
-.pos-tab.active{background:var(--red);border-color:var(--red);color:#fff}
-.pos-tab:hover:not(.active){background:var(--bg4);color:var(--text)}
-.snack-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 12px;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;position:relative;overflow:hidden;user-select:none}
-.snack-card:hover{border-color:var(--border2);background:var(--bg4);transform:translateY(-1px)}
-.snack-card:active{transform:scale(.97)}
-.snack-card.oos{opacity:.4;cursor:not-allowed;pointer-events:none}
-.s-emoji{font-size:2rem;line-height:1}.s-name{font-size:12px;font-weight:500;color:var(--text);line-height:1.3}
-.s-price{font-family:var(--fd);font-size:1rem;letter-spacing:.04em;color:var(--red)}
-.s-stoc{position:absolute;top:7px;right:7px;font-size:9px;font-weight:600;color:var(--text4)}
-.s-stoc.low{color:var(--amber)}
-.pos-receipt{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);display:flex;flex-direction:column;overflow:hidden}
-.r-hdr{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.r-title{font-family:var(--fd);font-size:1.05rem;letter-spacing:.08em;color:var(--text)}
-.r-items{flex:1;overflow-y:auto;padding:12px 14px}
-.r-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:160px;color:var(--text4);gap:8px;font-size:13px}
-.r-empty svg{width:28px;height:28px;opacity:.3}
-.r-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);animation:slideIn .15s ease}
-.rqty{width:24px;height:24px;border-radius:4px;background:var(--bg5);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--text);flex-shrink:0}
-.rname{flex:1;font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rprice{font-size:13px;font-weight:500;color:var(--text2);white-space:nowrap}
-.rrem{background:none;border:none;cursor:pointer;color:var(--text4);padding:3px;border-radius:3px;transition:color .12s;font-size:14px}.rrem:hover{color:var(--red)}
-.r-foot{padding:14px 16px;border-top:1px solid var(--border)}
-.r-totals{margin-bottom:14px}
-.r-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:12.5px;color:var(--text2)}
-.r-row.tot{font-size:14px;font-weight:600;color:var(--text);padding-top:8px;margin-top:5px;border-top:1px solid var(--border)}
-.r-row.tot .rv{font-family:var(--fd);font-size:1.3rem;letter-spacing:.04em;color:var(--red)}
-.checkout-btn{width:100%;padding:12px;background:var(--red);color:#fff;border:none;border-radius:var(--radius);font-family:var(--fb);font-size:13.5px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.checkout-btn:hover{background:#ff1a24;box-shadow:0 0 20px var(--red-glow)}
-.checkout-btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none;background:var(--red)}
+    .logo-text {
+      font-family: var(--fd);
+      font-size: 1.35rem;
+      letter-spacing: .12em;
+      color: var(--text)
+    }
 
-/* TOGGLE */
-.uavatar{width:30px;height:30px;border-radius:50%;background:var(--bg5);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:13px;color:var(--text2);border:1px solid var(--border);flex-shrink:0}
-.toggle{width:34px;height:18px;background:var(--bg5);border-radius:9px;position:relative;cursor:pointer;transition:background .2s;border:1px solid var(--border2);flex-shrink:0}
-.toggle.on{background:var(--green);border-color:var(--green)}
-.toggle::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;background:#fff;border-radius:50%;transition:transform .2s}
-.toggle.on::after{transform:translateX(16px)}
+    .logo-badge {
+      margin-left: auto;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      padding: 2px 6px;
+      background: var(--red-subtle);
+      border: 1px solid rgba(229, 9, 20, .2);
+      color: var(--red);
+      border-radius: 3px;
+      text-transform: uppercase
+    }
 
-/* MODAL / CONFIRM */
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:200;align-items:center;justify-content:center}
-.modal-bg.open{display:flex}
-.confirm-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);width:380px;max-width:calc(100vw - 40px);animation:modalIn .2s ease;overflow:hidden}
-@keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(8px)}to{opacity:1;transform:none}}
-.c-hdr{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
-.c-icon{width:32px;height:32px;border-radius:50%;background:rgba(229,9,20,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.c-icon svg{width:16px;height:16px;color:var(--red)}
-.c-title{font-family:var(--fd);font-size:1rem;letter-spacing:.08em;color:var(--text)}
-.c-body{padding:16px 20px;font-size:13px;color:var(--text2);line-height:1.6}
-.c-foot{padding:14px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 0
+    }
 
-/* TOAST */
-.toast-area{position:fixed;bottom:20px;right:20px;z-index:999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
-.toast{background:var(--bg4);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:10px 14px;font-size:13px;color:var(--text);display:flex;align-items:center;gap:8px;animation:toastIn .25s ease;pointer-events:auto;max-width:300px;box-shadow:0 4px 20px rgba(0,0,0,.4)}
-.toast svg{width:16px;height:16px;flex-shrink:0}
-.toast.success{border-left:2px solid var(--green)}.toast.success svg{color:var(--green)}
-.toast.error{border-left:2px solid var(--red)}.toast.error svg{color:var(--red)}
-.toast.info{border-left:2px solid var(--blue)}.toast.info svg{color:var(--blue)}
+    .nav-section {
+      margin-bottom: 8px
+    }
 
-/* MISC */
-.spinner{width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--red);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading-row{display:flex;align-items:center;gap:10px;padding:20px 16px;color:var(--text3);font-size:13px}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
-.empty-state{text-align:center;padding:48px 20px;color:var(--text4)}
-.empty-state svg{width:36px;height:36px;opacity:.3;margin-bottom:12px}
-.empty-state p{font-size:13px}
-@keyframes slideIn{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:none}}
-@keyframes toastIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
-@keyframes toastOut{from{opacity:1}to{opacity:0;transform:translateX(16px)}}
-</style>
+    .nav-section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--text4);
+      padding: 8px 18px 4px
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 18px;
+      cursor: pointer;
+      color: var(--text2);
+      font-size: 13.5px;
+      transition: color .15s, background .15s;
+      border-left: 2px solid transparent;
+      user-select: none
+    }
+
+    .nav-item svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      opacity: .7;
+      transition: opacity .15s
+    }
+
+    .nav-item:hover {
+      background: var(--bg3);
+      color: var(--text)
+    }
+
+    .nav-item:hover svg {
+      opacity: 1
+    }
+
+    .nav-item.active {
+      background: var(--red-subtle);
+      color: var(--text);
+      border-left-color: var(--red)
+    }
+
+    .nav-item.active svg {
+      opacity: 1;
+      color: var(--red)
+    }
+
+    .nav-count {
+      margin-left: auto;
+      background: var(--bg5);
+      color: var(--text2);
+      font-size: 10px;
+      font-weight: 500;
+      padding: 1px 6px;
+      border-radius: 10px;
+      min-width: 20px;
+      text-align: center
+    }
+
+    .nav-item.active .nav-count {
+      background: rgba(229, 9, 20, .15);
+      color: var(--red)
+    }
+
+    .sidebar-footer {
+      padding: 14px 18px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 9px
+    }
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      background: var(--bg5);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--fd);
+      font-size: 14px;
+      color: var(--red);
+      border: 1px solid var(--border2);
+      flex-shrink: 0
+    }
+
+    .footer-info {
+      flex: 1;
+      min-width: 0
+    }
+
+    .footer-name {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .footer-role {
+      font-size: 11px;
+      color: var(--text3)
+    }
+
+    .logout-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text3);
+      padding: 4px;
+      transition: color .15s
+    }
+
+    .logout-btn:hover {
+      color: var(--red)
+    }
+
+    .logout-btn svg {
+      width: 15px;
+      height: 15px
+    }
+
+    /* MAIN */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-width: 0
+    }
+
+    .topbar {
+      height: var(--header-h);
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 14px;
+      flex-shrink: 0
+    }
+
+    .topbar-group {
+      display: flex;
+      flex-direction: column;
+      flex: 1
+    }
+
+    .topbar-title {
+      font-family: var(--fd);
+      font-size: 1.35rem;
+      letter-spacing: .08em;
+      color: var(--text)
+    }
+
+    .topbar-sub {
+      font-size: 12px;
+      color: var(--text3);
+      margin-top: 1px
+    }
+
+    .topbar-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center
+    }
+
+    .srv-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      color: var(--text3)
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--text4)
+    }
+
+    .status-dot.online {
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green)
+    }
+
+    .status-dot.offline {
+      background: var(--red);
+      box-shadow: 0 0 6px var(--red-glow)
+    }
+
+    .content {
+      flex: 1;
+      overflow-y: auto
+    }
+
+    /* VIEWS */
+    .view {
+      display: none;
+      padding: 24px;
+      animation: fadeIn .2s ease
+    }
+
+    .view.active {
+      display: block
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border: 1px solid var(--border2);
+      background: var(--bg3);
+      color: var(--text);
+      border-radius: var(--radius);
+      font-family: var(--fb);
+      font-size: 12.5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background .15s;
+      white-space: nowrap
+    }
+
+    .btn:hover {
+      background: var(--bg4)
+    }
+
+    .btn svg {
+      width: 14px;
+      height: 14px
+    }
+
+    .btn-primary {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff
+    }
+
+    .btn-primary:hover {
+      background: #ff1a24;
+      box-shadow: 0 0 16px var(--red-glow)
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: transparent;
+      color: var(--text2)
+    }
+
+    .btn-ghost:hover {
+      background: var(--bg3);
+      color: var(--text);
+      border-color: var(--border)
+    }
+
+    .btn-danger {
+      background: rgba(229, 9, 20, .08);
+      border-color: rgba(229, 9, 20, .2);
+      color: var(--red)
+    }
+
+    .btn-danger:hover {
+      background: rgba(229, 9, 20, .15)
+    }
+
+    .btn-sm {
+      padding: 4px 10px;
+      font-size: 11.5px
+    }
+
+    .btn:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+      pointer-events: none
+    }
+
+    /* STATS */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px
+    }
+
+    .stat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px 18px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--ac, var(--red));
+      opacity: .5
+    }
+
+    .stat-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 8px
+    }
+
+    .stat-val {
+      font-family: var(--fd);
+      font-size: 2.2rem;
+      letter-spacing: .04em;
+      color: var(--text);
+      line-height: 1
+    }
+
+    .stat-footer {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 6px
+    }
+
+    /* CARD */
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 16px
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      gap: 12px
+    }
+
+    .card-title {
+      font-family: var(--fd);
+      font-size: 1.05rem;
+      letter-spacing: .06em;
+      color: var(--text)
+    }
+
+    .card-sub {
+      font-size: 11.5px;
+      color: var(--text3);
+      margin-top: 1px
+    }
+
+    .card-title-group {
+      flex: 1
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 6px
+    }
+
+    .card-body {
+      padding: 20px
+    }
+
+    /* SEARCH */
+    .search-wrap {
+      position: relative;
+      display: flex;
+      align-items: center
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      left: 10px;
+      width: 14px;
+      height: 14px;
+      color: var(--text3);
+      pointer-events: none
+    }
+
+    .search-input {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 7px 12px 7px 30px;
+      color: var(--text);
+      font-family: var(--fb);
+      font-size: 12.5px;
+      width: 200px;
+      outline: none;
+      transition: border-color .15s
+    }
+
+    .search-input::placeholder {
+      color: var(--text4)
+    }
+
+    .search-input:focus {
+      border-color: rgba(229, 9, 20, .4)
+    }
+
+    /* TABLES */
+    .table-wrap {
+      overflow-x: auto
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse
+    }
+
+    thead th {
+      padding: 10px 16px;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text3);
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      background: var(--bg2)
+    }
+
+    tbody tr {
+      border-bottom: 1px solid rgba(255, 255, 255, .04);
+      transition: background .12s
+    }
+
+    tbody tr:last-child {
+      border-bottom: none
+    }
+
+    tbody tr:hover {
+      background: var(--bg3)
+    }
+
+    td {
+      padding: 12px 16px;
+      color: var(--text2);
+      font-size: 13px;
+      white-space: nowrap
+    }
+
+    td.tdp {
+      color: var(--text);
+      font-weight: 500
+    }
+
+    td.tdm {
+      font-family: monospace;
+      font-size: 12px;
+      color: var(--text3)
+    }
+
+    .tda {
+      display: flex;
+      gap: 4px
+    }
+
+    /* BADGES */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      white-space: nowrap
+    }
+
+    .br {
+      background: var(--red-subtle);
+      color: var(--red);
+      border: 1px solid rgba(229, 9, 20, .2)
+    }
+
+    .bg {
+      background: var(--green-bg);
+      color: var(--green);
+      border: 1px solid var(--green-border)
+    }
+
+    .ba {
+      background: var(--amber-bg);
+      color: var(--amber);
+      border: 1px solid var(--amber-border)
+    }
+
+    .bb {
+      background: var(--blue-bg);
+      color: var(--blue);
+      border: 1px solid var(--blue-border)
+    }
+
+    .bgold {
+      background: var(--gold-bg);
+      color: var(--gold);
+      border: 1px solid var(--gold-border)
+    }
+
+    .bgray {
+      background: rgba(255, 255, 255, .04);
+      color: var(--text3);
+      border: 1px solid var(--border)
+    }
+
+    /* FORMS */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px
+    }
+
+    .c2 {
+      grid-column: span 2
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px
+    }
+
+    .fl {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text3)
+    }
+
+    .fl .req {
+      color: var(--red);
+      margin-left: 2px
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      padding: 9px 12px;
+      color: var(--text);
+      font-family: var(--fb);
+      font-size: 13px;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+      width: 100%
+    }
+
+    .field select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: rgba(229, 9, 20, .45);
+      box-shadow: 0 0 0 3px rgba(229, 9, 20, .07)
+    }
+
+    .fhint {
+      font-size: 11px;
+      color: var(--text4)
+    }
+
+    .fsec {
+      font-family: var(--fd);
+      font-size: 1rem;
+      letter-spacing: .08em;
+      color: var(--text);
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .fsec svg {
+      width: 16px;
+      height: 16px;
+      color: var(--red)
+    }
+
+    .factions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      margin-top: 16px
+    }
+
+    .option-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .opill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      cursor: pointer;
+      color: var(--text2);
+      font-size: 12.5px;
+      transition: all .15s;
+      user-select: none
+    }
+
+    .opill:hover {
+      color: var(--text);
+      background: var(--bg3)
+    }
+
+    .opill.sel {
+      border-color: rgba(229, 9, 20, .4);
+      background: var(--red-subtle);
+      color: var(--text)
+    }
+
+    .opill input {
+      display: none
+    }
+
+    .odot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 1.5px solid var(--text4);
+      transition: all .12s;
+      flex-shrink: 0
+    }
+
+    .opill.sel .odot {
+      border-color: var(--red);
+      background: var(--red)
+    }
+
+    .ferr {
+      background: rgba(229, 9, 20, .08);
+      border: 1px solid rgba(229, 9, 20, .25);
+      color: #ff6b6b;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      display: none;
+      margin-bottom: 12px
+    }
+
+    .ferr.show {
+      display: block
+    }
+
+    .fok {
+      background: rgba(34, 197, 94, .08);
+      border: 1px solid rgba(34, 197, 94, .25);
+      color: #4ade80;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      display: none;
+      margin-bottom: 12px
+    }
+
+    .fok.show {
+      display: block
+    }
+
+    /* POS */
+    .pos-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 16px;
+      height: calc(100vh - var(--header-h) - 48px)
+    }
+
+    .pos-products {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden
+    }
+
+    .pos-hdr {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap
+    }
+
+    .pos-grid {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+      align-content: start
+    }
+
+    .pos-tabs {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap
+    }
+
+    .pos-tab {
+      padding: 5px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg3);
+      color: var(--text2);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .15s
+    }
+
+    .pos-tab.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff
+    }
+
+    .pos-tab:hover:not(.active) {
+      background: var(--bg4);
+      color: var(--text)
+    }
+
+    .snack-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px 12px;
+      cursor: pointer;
+      transition: all .15s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      user-select: none
+    }
+
+    .snack-card:hover {
+      border-color: var(--border2);
+      background: var(--bg4);
+      transform: translateY(-1px)
+    }
+
+    .snack-card:active {
+      transform: scale(.97)
+    }
+
+    .snack-card.oos {
+      opacity: .4;
+      cursor: not-allowed;
+      pointer-events: none
+    }
+
+    .s-emoji {
+      font-size: 2rem;
+      line-height: 1
+    }
+
+    .s-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.3
+    }
+
+    .s-price {
+      font-family: var(--fd);
+      font-size: 1rem;
+      letter-spacing: .04em;
+      color: var(--red)
+    }
+
+    .s-stoc {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--text4)
+    }
+
+    .s-stoc.low {
+      color: var(--amber)
+    }
+
+    .pos-receipt {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden
+    }
+
+    .r-hdr {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .r-title {
+      font-family: var(--fd);
+      font-size: 1.05rem;
+      letter-spacing: .08em;
+      color: var(--text)
+    }
+
+    .r-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 14px
+    }
+
+    .r-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 160px;
+      color: var(--text4);
+      gap: 8px;
+      font-size: 13px
+    }
+
+    .r-empty svg {
+      width: 28px;
+      height: 28px;
+      opacity: .3
+    }
+
+    .r-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, .04);
+      animation: slideIn .15s ease
+    }
+
+    .rqty {
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      background: var(--bg5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      flex-shrink: 0
+    }
+
+    .rname {
+      flex: 1;
+      font-size: 13px;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .rprice {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text2);
+      white-space: nowrap
+    }
+
+    .rrem {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text4);
+      padding: 3px;
+      border-radius: 3px;
+      transition: color .12s;
+      font-size: 14px
+    }
+
+    .rrem:hover {
+      color: var(--red)
+    }
+
+    .r-foot {
+      padding: 14px 16px;
+      border-top: 1px solid var(--border)
+    }
+
+    .r-totals {
+      margin-bottom: 14px
+    }
+
+    .r-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3px 0;
+      font-size: 12.5px;
+      color: var(--text2)
+    }
+
+    .r-row.tot {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      padding-top: 8px;
+      margin-top: 5px;
+      border-top: 1px solid var(--border)
+    }
+
+    .r-row.tot .rv {
+      font-family: var(--fd);
+      font-size: 1.3rem;
+      letter-spacing: .04em;
+      color: var(--red)
+    }
+
+    .checkout-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-family: var(--fb);
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px
+    }
+
+    .checkout-btn:hover {
+      background: #ff1a24;
+      box-shadow: 0 0 20px var(--red-glow)
+    }
+
+    .checkout-btn:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+      box-shadow: none;
+      background: var(--red)
+    }
+
+    /* TOGGLE */
+    .uavatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--bg5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--fd);
+      font-size: 13px;
+      color: var(--text2);
+      border: 1px solid var(--border);
+      flex-shrink: 0
+    }
+
+    .toggle {
+      width: 34px;
+      height: 18px;
+      background: var(--bg5);
+      border-radius: 9px;
+      position: relative;
+      cursor: pointer;
+      transition: background .2s;
+      border: 1px solid var(--border2);
+      flex-shrink: 0
+    }
+
+    .toggle.on {
+      background: var(--green);
+      border-color: var(--green)
+    }
+
+    .toggle::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 12px;
+      height: 12px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform .2s
+    }
+
+    .toggle.on::after {
+      transform: translateX(16px)
+    }
+
+    /* MODAL / CONFIRM */
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .65);
+      z-index: 200;
+      align-items: center;
+      justify-content: center
+    }
+
+    .modal-bg.open {
+      display: flex
+    }
+
+    .confirm-box {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-lg);
+      width: 380px;
+      max-width: calc(100vw - 40px);
+      animation: modalIn .2s ease;
+      overflow: hidden
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: scale(.96) translateY(8px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .c-hdr {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .c-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(229, 9, 20, .1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0
+    }
+
+    .c-icon svg {
+      width: 16px;
+      height: 16px;
+      color: var(--red)
+    }
+
+    .c-title {
+      font-family: var(--fd);
+      font-size: 1rem;
+      letter-spacing: .08em;
+      color: var(--text)
+    }
+
+    .c-body {
+      padding: 16px 20px;
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.6
+    }
+
+    .c-foot {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px
+    }
+
+    /* TOAST */
+    .toast-area {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none
+    }
+
+    .toast {
+      background: var(--bg4);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-lg);
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: toastIn .25s ease;
+      pointer-events: auto;
+      max-width: 300px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .4)
+    }
+
+    .toast svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0
+    }
+
+    .toast.success {
+      border-left: 2px solid var(--green)
+    }
+
+    .toast.success svg {
+      color: var(--green)
+    }
+
+    .toast.error {
+      border-left: 2px solid var(--red)
+    }
+
+    .toast.error svg {
+      color: var(--red)
+    }
+
+    .toast.info {
+      border-left: 2px solid var(--blue)
+    }
+
+    .toast.info svg {
+      color: var(--blue)
+    }
+
+    /* MISC */
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--border2);
+      border-top-color: var(--red);
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+      flex-shrink: 0
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .loading-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 16px;
+      color: var(--text3);
+      font-size: 13px
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--text4)
+    }
+
+    .empty-state svg {
+      width: 36px;
+      height: 36px;
+      opacity: .3;
+      margin-bottom: 12px
+    }
+
+    .empty-state p {
+      font-size: 13px
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(8px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateX(16px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    @keyframes toastOut {
+      from {
+        opacity: 1
+      }
+
+      to {
+        opacity: 0;
+        transform: translateX(16px)
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- ═══ SIDEBAR ═══ -->
-<aside class="sidebar">
-  <div class="sidebar-logo">
-    <div class="logo-mark">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M17 4v16M3 8h4m10 0h4M3 16h4m10 0h4M4 20h16a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1z"/></svg>
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path
+            d="M7 4v16M17 4v16M3 8h4m10 0h4M3 16h4m10 0h4M4 20h16a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1z" />
+        </svg>
+      </div>
+      <span class="logo-text">CINEMA</span>
+      <span class="logo-badge">Admin</span>
     </div>
-    <span class="logo-text">CINEMA</span>
-    <span class="logo-badge">Admin</span>
-  </div>
-  <nav class="sidebar-nav">
-    <div class="nav-section">
-      <div class="nav-section-label">Catalog</div>
-      <div class="nav-item active" onclick="switchView('filme',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
-        Filme <span class="nav-count" id="cnt-filme">0</span>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-label">Catalog</div>
+        <div class="nav-item active" onclick="switchView('filme',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="20" height="20" rx="2" />
+            <line x1="7" y1="2" x2="7" y2="22" />
+            <line x1="17" y1="2" x2="17" y2="22" />
+            <line x1="2" y1="12" x2="22" y2="12" />
+          </svg>
+          Filme <span class="nav-count" id="cnt-filme">0</span>
+        </div>
+        <div class="nav-item" onclick="switchView('sali',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+          Săli <span class="nav-count" id="cnt-sali">0</span>
+        </div>
+        <div class="nav-item" onclick="switchView('proiectii',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+          Proiecții <span class="nav-count" id="cnt-pct">0</span>
+        </div>
       </div>
-      <div class="nav-item" onclick="switchView('sali',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Săli <span class="nav-count">3</span>
+      <div class="nav-section">
+        <div class="nav-section-label">Vânzări &amp; Bar</div>
+        <div class="nav-item" onclick="switchView('rezervari',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 12V22H4V12" />
+            <path d="M22 7H2v5h20V7z" />
+            <path d="M12 22V7" />
+            <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
+            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
+          </svg>
+          Rezervări <span class="nav-count" id="cnt-rez">0</span>
+        </div>
+        <div class="nav-item" onclick="switchView('snacks',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+            <line x1="6" y1="1" x2="6" y2="4" />
+            <line x1="10" y1="1" x2="10" y2="4" />
+            <line x1="14" y1="1" x2="14" y2="4" />
+          </svg>
+          Snacks
+        </div>
+        <div class="nav-item" onclick="switchView('pos',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="1" y="4" width="22" height="16" rx="2" />
+            <line x1="1" y1="10" x2="23" y2="10" />
+          </svg>
+          POS Bar
+        </div>
+        <div class="nav-item" onclick="switchView('vouchere',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+            <line x1="7" y1="7" x2="7.01" y2="7" />
+          </svg>
+          Vouchere <span class="nav-count" id="cnt-vouchere">0</span>
+        </div>
       </div>
-      <div class="nav-item" onclick="switchView('proiectii',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        Proiecții <span class="nav-count" id="cnt-pct">0</span>
+      <div class="nav-section">
+        <div class="nav-section-label">Utilizatori</div>
+        <div class="nav-item" onclick="switchView('clienti',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+          Clienți &amp; Fidelitate <span class="nav-count" id="cnt-users">0</span>
+        </div>
       </div>
-    </div>
-    <div class="nav-section">
-      <div class="nav-section-label">Vânzări &amp; Bar</div>
-      <div class="nav-item" onclick="switchView('rezervari',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-        Rezervări <span class="nav-count" id="cnt-rez">0</span>
+      <div class="nav-section">
+        <div class="nav-section-label">Adăugare</div>
+        <div class="nav-item" onclick="switchView('add-film',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="16" />
+            <line x1="8" y1="12" x2="16" y2="12" />
+          </svg>
+          Film nou
+        </div>
+        <div class="nav-item" onclick="switchView('add-proiectie',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="16" />
+            <line x1="8" y1="12" x2="16" y2="12" />
+          </svg>
+          Proiecție nouă
+        </div>
       </div>
-      <div class="nav-item" onclick="switchView('snacks',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-        Snacks
+    </nav>
+    <div class="sidebar-footer">
+      <div class="avatar">AD</div>
+      <div class="footer-info">
+        <div class="footer-name">admin</div>
+        <div class="footer-role">Administrator</div>
       </div>
-      <div class="nav-item" onclick="switchView('pos',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-        POS Bar
-      </div>
-    </div>
-    <div class="nav-section">
-      <div class="nav-section-label">Utilizatori</div>
-      <div class="nav-item" onclick="switchView('clienti',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        Clienți &amp; Fidelitate <span class="nav-count" id="cnt-users">0</span>
-      </div>
-    </div>
-    <div class="nav-section">
-      <div class="nav-section-label">Adăugare</div>
-      <div class="nav-item" onclick="switchView('add-film',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-        Film nou
-      </div>
-      <div class="nav-item" onclick="switchView('add-proiectie',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-        Proiecție nouă
-      </div>
-    </div>
-  </nav>
-  <div class="sidebar-footer">
-    <div class="avatar">AD</div>
-    <div class="footer-info">
-      <div class="footer-name">admin</div>
-      <div class="footer-role">Administrator</div>
-    </div>
-    <button class="logout-btn" title="Deconectare" onclick="window.location.href='index.html'">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-    </button>
-  </div>
-</aside>
-
-<!-- ═══ MAIN ═══ -->
-<div class="main">
-  <div class="topbar">
-    <div class="topbar-group">
-      <div class="topbar-title" id="topbar-title">FILME</div>
-      <div class="topbar-sub" id="topbar-sub">Gestionează catalogul de filme</div>
-    </div>
-    <div class="topbar-actions">
-      <div class="srv-status">
-        <div class="status-dot" id="srv-dot"></div>
-        <span id="srv-lbl">Conectare...</span>
-      </div>
-      <div class="search-wrap" id="search-wrap" style="display:none">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input class="search-input" placeholder="Caută..." id="search-input" oninput="handleSearch(this.value)">
-      </div>
-      <button class="btn btn-ghost btn-sm" onclick="loadAll()" title="Reîncarcă">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
-        Reîncarcă
+      <button class="logout-btn" title="Deconectare" onclick="window.location.href='index.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
       </button>
     </div>
-  </div>
+  </aside>
 
-  <div class="content">
-
-    <!-- FILME -->
-    <div class="view active" id="view-filme">
-      <div class="stats-row">
-        <div class="stat-card" style="--ac:var(--red)"><div class="stat-label">Total Filme</div><div class="stat-val" id="s-filme">0</div></div>
-        <div class="stat-card" style="--ac:var(--blue)"><div class="stat-label">Filme 3D</div><div class="stat-val" id="s-3d">0</div></div>
-        <div class="stat-card" style="--ac:var(--green)"><div class="stat-label">Proiecții Viitoare</div><div class="stat-val" id="s-proj">0</div></div>
-        <div class="stat-card" style="--ac:var(--amber)"><div class="stat-label">Preț Mediu</div><div class="stat-val" id="s-pret">— <small style="font-size:1rem;opacity:.5">RON</small></div></div>
+  <!-- ═══ MAIN ═══ -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-group">
+        <div class="topbar-title" id="topbar-title">FILME</div>
+        <div class="topbar-sub" id="topbar-sub">Gestionează catalogul de filme</div>
       </div>
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title-group"><div class="card-title">Catalog Filme</div><div class="card-sub" id="filme-sub">Se încarcă...</div></div>
-          <div class="card-actions"><button class="btn btn-primary btn-sm" onclick="switchView('add-film',null)">+ Film nou</button></div>
+      <div class="topbar-actions">
+        <div class="srv-status">
+          <div class="status-dot" id="srv-dot"></div>
+          <span id="srv-lbl">Conectare...</span>
         </div>
-        <div class="table-wrap">
-          <table><thead><tr><th>Titlu</th><th>Tip</th><th>Gen</th><th>Durată</th><th>Preț Bază</th></tr></thead>
-          <tbody id="filme-tbody"><tr><td colspan="5"><div class="loading-row"><div class="spinner"></div>Se încarcă...</div></td></tr></tbody></table>
+        <div class="search-wrap" id="search-wrap" style="display:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input class="search-input" placeholder="Caută..." id="search-input" oninput="handleSearch(this.value)">
         </div>
+        <button class="btn btn-ghost btn-sm" onclick="loadAll()" title="Reîncarcă">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="1 4 1 10 7 10" />
+            <path d="M3.51 15a9 9 0 1 0 .49-4.5" />
+          </svg>
+          Reîncarcă
+        </button>
       </div>
     </div>
 
-    <!-- SALI -->
-    <div class="view" id="view-sali">
-      <div class="card">
-        <div class="card-header"><div class="card-title-group"><div class="card-title">Săli Cinema</div><div class="card-sub">Configurație fixă (C++ backend)</div></div></div>
-        <div class="table-wrap"><table>
-          <thead><tr><th>Sală</th><th>Tip</th><th>Rânduri</th><th>Locuri/Rând</th><th>Capacitate</th><th>Multiplicator</th><th>Bilete Permise</th></tr></thead>
-          <tbody>
-            <tr><td class="tdp">Sala 1</td><td><span class="badge bgray">Standard</span></td><td>10</td><td>15</td><td>150</td><td>×1.00</td><td><span class="badge bgray">Adult</span> <span class="badge bb">Student</span> <span class="badge bg">Elev</span> <span class="badge ba">Pensionar</span></td></tr>
-            <tr><td class="tdp">Sala 2</td><td><span class="badge bgray">Standard</span></td><td>10</td><td>15</td><td>150</td><td>×1.00</td><td><span class="badge bgray">Adult</span> <span class="badge bb">Student</span> <span class="badge bg">Elev</span> <span class="badge ba">Pensionar</span></td></tr>
-            <tr><td class="tdp">Sala 3</td><td><span class="badge bgray">Standard</span></td><td>10</td><td>15</td><td>150</td><td>×1.00</td><td><span class="badge bgray">Adult</span> <span class="badge bb">Student</span> <span class="badge bg">Elev</span> <span class="badge ba">Pensionar</span></td></tr>
-            <tr><td class="tdp">Sala IMAX</td><td><span class="badge bb">IMAX</span></td><td>8</td><td>12</td><td>96</td><td>×1.50</td><td><span class="badge bgray">Adult</span> <span class="badge bb">Student</span> <span class="badge bg">Elev</span> <span class="badge ba">Pensionar</span></td></tr>
-            <tr><td class="tdp">Sala VIP</td><td><span class="badge bgold">VIP</span></td><td>4</td><td>6</td><td>24</td><td>×2.00</td><td><span class="badge bgold">VIP</span> <span class="badge br">Personal</span></td></tr>
-          </tbody>
-        </table></div>
-      </div>
-      <div class="card"><div class="card-header"><div class="card-title">Formula Preț</div></div>
-        <div class="card-body" style="font-family:monospace;font-size:13px;color:var(--text2);line-height:2;background:var(--bg3);border-radius:var(--radius)">
-          Preț Final = <span style="color:var(--red)">PretBaza</span> × <span style="color:var(--blue)">MultBilet</span> × <span style="color:var(--gold)">MultSala</span><br>
-          Card Fidelitate → ×0.90 &nbsp;|&nbsp; Voucher → se aplică per zi / tip bilet
-        </div>
-      </div>
-    </div>
+    <div class="content">
 
-    <!-- PROIECTII -->
-    <div class="view" id="view-proiectii">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title-group"><div class="card-title">Proiecții Programate</div><div class="card-sub" id="proj-sub">Se încarcă...</div></div>
-          <div class="card-actions"><button class="btn btn-primary btn-sm" onclick="switchView('add-proiectie',null)">+ Proiecție nouă</button></div>
-        </div>
-        <div class="table-wrap"><table>
-          <thead><tr><th>#</th><th>Film</th><th>Sală</th><th>Data &amp; Ora</th><th>Format Audio</th><th>Status</th></tr></thead>
-          <tbody id="proiectii-tbody"><tr><td colspan="6"><div class="loading-row"><div class="spinner"></div>Se încarcă...</div></td></tr></tbody>
-        </table></div>
-      </div>
-    </div>
-
-    <!-- REZERVARI -->
-    <div class="view" id="view-rezervari">
-      <div class="stats-row">
-        <div class="stat-card" style="--ac:var(--red)"><div class="stat-label">Total</div><div class="stat-val" id="s-rez-tot">0</div></div>
-        <div class="stat-card" style="--ac:var(--green)"><div class="stat-label">Active</div><div class="stat-val" id="s-rez-act">0</div></div>
-        <div class="stat-card" style="--ac:var(--amber)"><div class="stat-label">Anulate</div><div class="stat-val" id="s-rez-an">0</div></div>
-        <div class="stat-card" style="--ac:var(--blue)"><div class="stat-label">Venituri</div><div class="stat-val" id="s-venituri">— <small style="font-size:1rem;opacity:.5">RON</small></div></div>
-      </div>
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title-group"><div class="card-title">Toate Rezervările</div><div class="card-sub" id="rez-sub">Se încarcă...</div></div>
-        </div>
-        <div class="table-wrap"><table>
-          <thead><tr><th>ID</th><th>Client</th><th>Film</th><th>Proiecție</th><th>Loc</th><th>Bilet</th><th>Preț</th><th>Status</th><th></th></tr></thead>
-          <tbody id="rezervari-tbody"><tr><td colspan="9"><div class="loading-row"><div class="spinner"></div>Se încarcă...</div></td></tr></tbody>
-        </table></div>
-      </div>
-    </div>
-
-    <!-- SNACKS -->
-    <div class="view" id="view-snacks">
-      <div class="card">
-        <div class="card-header"><div class="card-title-group"><div class="card-title">Produse Bar</div><div class="card-sub">Stoc live din backend</div></div></div>
-        <div class="table-wrap"><table>
-          <thead><tr><th>Produs</th><th>Descriere</th><th>Preț</th><th>Stoc</th><th>Disponibil</th><th></th></tr></thead>
-          <tbody id="snacks-tbody"><tr><td colspan="6"><div class="loading-row"><div class="spinner"></div>Se încarcă...</div></td></tr></tbody>
-        </table></div>
-      </div>
-    </div>
-
-    <!-- POS BAR -->
-    <div class="view" id="view-pos">
-      <div class="pos-layout">
-        <div class="pos-products">
-          <div class="pos-hdr">
-            <div class="pos-tabs">
-              <button class="pos-tab active" onclick="filterPOS('toate',this)">Toate</button>
-              <button class="pos-tab" onclick="filterPOS('snacks',this)">Snacks</button>
-              <button class="pos-tab" onclick="filterPOS('bauturi',this)">Băuturi</button>
-              <button class="pos-tab" onclick="filterPOS('dulciuri',this)">Dulciuri</button>
-            </div>
-            <span style="margin-left:auto;font-size:11.5px;color:var(--text3)">Click = adaugă în bon</span>
+      <!-- FILME -->
+      <div class="view active" id="view-filme">
+        <div class="stats-row">
+          <div class="stat-card" style="--ac:var(--red)">
+            <div class="stat-label">Total Filme</div>
+            <div class="stat-val" id="s-filme">0</div>
           </div>
-          <div class="pos-grid" id="pos-grid"><div class="loading-row" style="grid-column:1/-1"><div class="spinner"></div>Se încarcă...</div></div>
-        </div>
-        <div class="pos-receipt">
-          <div class="r-hdr">
-            <div class="r-title">BON CURENT</div>
-            <button class="btn btn-ghost btn-sm" id="clear-btn" onclick="clearCart()" disabled>Șterge tot</button>
+          <div class="stat-card" style="--ac:var(--blue)">
+            <div class="stat-label">Filme 3D</div>
+            <div class="stat-val" id="s-3d">0</div>
           </div>
-          <div class="r-items" id="r-items">
-            <div class="r-empty" id="r-empty">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-              <p>Bonul este gol</p>
-            </div>
+          <div class="stat-card" style="--ac:var(--green)">
+            <div class="stat-label">Proiecții Viitoare</div>
+            <div class="stat-val" id="s-proj">0</div>
           </div>
-          <div class="r-foot">
-            <div class="r-totals">
-              <div class="r-row"><span>Subtotal</span><span id="r-sub">0.00 RON</span></div>
-              <div class="r-row"><span>TVA (19%)</span><span id="r-tva">0.00 RON</span></div>
-              <div class="r-row tot"><span>TOTAL</span><span class="rv" id="r-tot">0.00 RON</span></div>
-            </div>
-            <button class="checkout-btn" id="checkout-btn" onclick="finalizeBon()" disabled>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px"><polyline points="20 6 9 17 4 12"/></svg>
-              Finalizare Bon
-            </button>
+          <div class="stat-card" style="--ac:var(--amber)">
+            <div class="stat-label">Preț Mediu</div>
+            <div class="stat-val" id="s-pret">— <small style="font-size:1rem;opacity:.5">RON</small></div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- CLIENTI -->
-    <div class="view" id="view-clienti">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title-group"><div class="card-title">Clienți &amp; Fidelitate</div><div class="card-sub">Toggle = activează/dezactivează card fidelitate (reducere −10%)</div></div>
-        </div>
-        <div class="table-wrap"><table>
-          <thead><tr><th>Utilizator</th><th>Rol</th><th>Card Fidelitate</th><th>Reducere Activă</th></tr></thead>
-          <tbody id="users-tbody"><tr><td colspan="4"><div class="loading-row"><div class="spinner"></div>Se încarcă...</div></td></tr></tbody>
-        </table></div>
-      </div>
-    </div>
-
-    <!-- ADD FILM -->
-    <div class="view" id="view-add-film">
-      <div class="two-col">
         <div class="card">
-          <div class="card-header"><div class="card-title">Film Nou</div></div>
-          <div class="card-body">
-            <div id="ferr-film" class="ferr"></div>
-            <div id="fok-film" class="fok"></div>
-            <div class="fsec">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2"/></svg>
-              Informații Film
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-title">Catalog Filme</div>
+              <div class="card-sub" id="filme-sub">Se încarcă...</div>
             </div>
-            <div class="form-grid" style="margin-bottom:20px">
-              <div class="field c2"><label class="fl">Titlu <span class="req">*</span></label><input type="text" id="f-titlu" placeholder="ex: Inception" oninput="updatePrev()"></div>
-              <div class="field"><label class="fl">Gen <span class="req">*</span></label>
-                <select id="f-gen"><option value="">— Selectează —</option><option>Acțiune</option><option>SF</option><option>Dramă</option><option>Comedie</option><option>Thriller</option><option>Horror</option><option>Animație</option><option>Aventură</option><option>Documentar</option></select>
+            <div class="card-actions"><button class="btn btn-primary btn-sm" onclick="switchView('add-film',null)">+
+                Film nou</button></div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Titlu</th>
+                  <th>Tip</th>
+                  <th>Gen</th>
+                  <th>Durată</th>
+                  <th>Preț Bază</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="filme-tbody">
+                <tr>
+                  <td colspan="6">
+                    <div class="loading-row">
+                      <div class="spinner"></div>Se încarcă...
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SALI -->
+      <div class="view" id="view-sali">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-title">Săli Cinema</div>
+              <div class="card-sub" id="sali-sub">Configurație încărcată din backend (C++)</div>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Sală</th>
+                  <th>Tip</th>
+                  <th>Layout</th>
+                  <th>Rânduri</th>
+                  <th>Locuri/Rând</th>
+                  <th>Capacitate</th>
+                  <th>Multiplicator</th>
+                  <th>Bilete Permise</th>
+                </tr>
+              </thead>
+              <tbody id="sali-tbody">
+                <tr>
+                  <td colspan="8" style="text-align:center;color:var(--text3)">Se încarcă...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Row tier pricing info -->
+        <div class="card" style="margin-top:16px">
+          <div class="card-header">
+            <div class="card-title">Preț per Rând (Săli Standard &amp; IMAX)</div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px 20px">
+            <div
+              style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:8px;padding:14px;text-align:center">
+              <div style="font-family:var(--fd);font-size:1.2rem;color:var(--green);letter-spacing:.06em">FAȚĂ</div>
+              <div style="font-size:11px;color:var(--text3);margin:4px 0 8px">Rândurile 1–30%</div>
+              <div style="font-size:1.4rem;font-weight:700;color:var(--green)">×0.85</div>
+              <div style="font-size:11px;color:var(--green);opacity:.7;margin-top:2px">−15% față de preț bază</div>
+            </div>
+            <div
+              style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center">
+              <div style="font-family:var(--fd);font-size:1.2rem;color:var(--text2);letter-spacing:.06em">MIJLOC</div>
+              <div style="font-size:11px;color:var(--text3);margin:4px 0 8px">Rândurile 30–70%</div>
+              <div style="font-size:1.4rem;font-weight:700;color:var(--text)">×1.00</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:2px">Preț standard</div>
+            </div>
+            <div
+              style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:14px;text-align:center">
+              <div style="font-family:var(--fd);font-size:1.2rem;color:var(--amber);letter-spacing:.06em">SPATE</div>
+              <div style="font-size:11px;color:var(--text3);margin:4px 0 8px">Rândurile 70–100%</div>
+              <div style="font-size:1.4rem;font-weight:700;color:var(--amber)">×1.20</div>
+              <div style="font-size:11px;color:var(--amber);opacity:.7;margin-top:2px">+20% față de preț bază</div>
+            </div>
+          </div>
+          <div style="padding:0 20px 16px;font-size:11.5px;color:var(--text3)">
+            * Sala VIP nu aplică multiplicator de rând — preț fix per bilet VIP/Adult.
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <div class="card-header">
+            <div class="card-title">Formula Preț Completă</div>
+          </div>
+          <div class="card-body"
+            style="font-family:monospace;font-size:13px;color:var(--text2);line-height:2.2;background:var(--bg3);border-radius:var(--radius)">
+            Preț Final = <span style="color:var(--red)">PretBaza</span> × <span
+              style="color:var(--blue)">MultBilet</span> × <span style="color:var(--gold)">MultSala</span> × <span
+              style="color:var(--green)">MultRând</span><br>
+            MultRând: Față ×0.85 &nbsp;|&nbsp; Mijloc ×1.00 &nbsp;|&nbsp; Spate ×1.20 &nbsp;(nu se aplică la VIP)<br>
+            Card Fidelitate → ×0.90 &nbsp;|&nbsp; Voucher → se aplică per zi / tip bilet
+          </div>
+        </div>
+      </div>
+
+      <!-- PROIECTII -->
+      <div class="view" id="view-proiectii">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-title">Proiecții Programate</div>
+              <div class="card-sub" id="proj-sub">Se încarcă...</div>
+            </div>
+            <div class="card-actions"><button class="btn btn-primary btn-sm"
+                onclick="switchView('add-proiectie',null)">+ Proiecție nouă</button></div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Film</th>
+                  <th>Sală</th>
+                  <th>Data &amp; Ora</th>
+                  <th>Format Audio</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="proiectii-tbody">
+                <tr>
+                  <td colspan="7">
+                    <div class="loading-row">
+                      <div class="spinner"></div>Se încarcă...
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- REZERVARI -->
+      <div class="view" id="view-rezervari">
+        <div class="stats-row">
+          <div class="stat-card" style="--ac:var(--red)">
+            <div class="stat-label">Total</div>
+            <div class="stat-val" id="s-rez-tot">0</div>
+          </div>
+          <div class="stat-card" style="--ac:var(--green)">
+            <div class="stat-label">Active</div>
+            <div class="stat-val" id="s-rez-act">0</div>
+          </div>
+          <div class="stat-card" style="--ac:var(--amber)">
+            <div class="stat-label">Anulate</div>
+            <div class="stat-val" id="s-rez-an">0</div>
+          </div>
+          <div class="stat-card" style="--ac:var(--blue)">
+            <div class="stat-label">Venituri</div>
+            <div class="stat-val" id="s-venituri">— <small style="font-size:1rem;opacity:.5">RON</small></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-title">Toate Rezervările</div>
+              <div class="card-sub" id="rez-sub">Se încarcă...</div>
+            </div>
+            <div class="card-actions">
+              <button class="btn btn-ghost btn-sm" onclick="exportRezervariCSV()">⬇ Export CSV</button>
+            </div>
+          </div>
+          <div style="padding:10px 20px 0;display:flex;gap:10px;flex-wrap:wrap">
+            <input id="rez-search" type="text" placeholder="Caută film / client..." oninput="filterRezervari()"
+              style="flex:1;min-width:180px;padding:7px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-family:var(--fb);font-size:13px;outline:none">
+            <select id="rez-status" onchange="filterRezervari()"
+              style="padding:7px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-family:var(--fb);font-size:13px;outline:none">
+              <option value="toate">Toate statusurile</option>
+              <option value="active">Doar active</option>
+              <option value="anulate">Doar anulate</option>
+            </select>
+            <select id="rez-sort" onchange="filterRezervari()"
+              style="padding:7px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-family:var(--fb);font-size:13px;outline:none">
+              <option value="newest">Cele mai noi</option>
+              <option value="oldest">Cele mai vechi</option>
+              <option value="price-desc">Preț ↓</option>
+              <option value="price-asc">Preț ↑</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Client</th>
+                  <th>Film</th>
+                  <th>Proiecție</th>
+                  <th>Loc</th>
+                  <th>Bilet</th>
+                  <th>Preț</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="rezervari-tbody">
+                <tr>
+                  <td colspan="9">
+                    <div class="loading-row">
+                      <div class="spinner"></div>Se încarcă...
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card" style="margin-top:18px">
+          <div class="card-header">
+            <div class="card-title">Venituri pe Film</div>
+          </div>
+          <div id="revenue-chart" style="padding:12px 20px 16px;min-height:60px">
+            <div style="color:var(--text4);font-size:13px">Nu există rezervări.</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:18px">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-title">Încasări pe Perioadă</div>
+              <div class="card-sub" id="rev-period-sub">Total grupat pe perioade</div>
+            </div>
+            <div class="card-actions" style="display:flex;gap:6px">
+              <button class="btn btn-sm" id="rev-btn-week" onclick="setRevenuePeriod('week')">Săptămână</button>
+              <button class="btn btn-ghost btn-sm" id="rev-btn-month" onclick="setRevenuePeriod('month')">Lună</button>
+            </div>
+          </div>
+          <div id="revenue-period" style="padding:12px 20px 16px;min-height:60px">
+            <div style="color:var(--text4);font-size:13px">Nu există rezervări.</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:18px">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-title">Comenzi VIP Premium</div>
+              <div class="card-sub">Extras comandate în Sala VIP</div>
+            </div>
+            <div class="card-actions"><button class="btn btn-ghost btn-sm" onclick="loadVIPExtras()">⟳
+                Actualizează</button></div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID Rezervare</th>
+                  <th>Produs</th>
+                  <th>Preț</th>
+                </tr>
+              </thead>
+              <tbody id="vip-extras-tbody">
+                <tr>
+                  <td colspan="3">
+                    <div class="loading-row">
+                      <div class="spinner"></div>Apasă Actualizează
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SNACKS -->
+      <div class="view" id="view-snacks">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-title">Produse Bar</div>
+              <div class="card-sub">Stoc live din backend</div>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Produs</th>
+                  <th>Descriere</th>
+                  <th>Preț</th>
+                  <th>Stoc</th>
+                  <th>Disponibil</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="snacks-tbody">
+                <tr>
+                  <td colspan="6">
+                    <div class="loading-row">
+                      <div class="spinner"></div>Se încarcă...
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- VIP Menu -->
+        <div class="card" style="margin-top:18px">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-title">Meniu Sala VIP</div>
+              <div class="card-sub">Inclus în bilet + opțiuni premium cu cost suplimentar</div>
+            </div>
+            <span class="badge bgold" style="align-self:center">Sala VIP</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--border)">
+
+            <!-- Inclus -->
+            <div style="padding:16px 20px;border-right:1px solid var(--border)">
+              <div
+                style="font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--green);text-transform:uppercase;margin-bottom:12px">
+                Inclus în bilet — Nelimitat</div>
+              <table style="width:100%;font-size:13px">
+                <tbody>
+                  <tr>
+                    <td style="padding:7px 0;width:32px;font-size:1.2rem">🥤</td>
+                    <td style="font-weight:500">Pepsi</td>
+                    <td style="color:var(--green);text-align:right;font-weight:600">Gratuit ∞</td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:7px 0;font-size:1.2rem">🍿</td>
+                    <td style="font-weight:500">Popcorn</td>
+                    <td style="color:var(--green);text-align:right;font-weight:600">Gratuit ∞</td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:7px 0;font-size:1.2rem">🧀</td>
+                    <td style="font-weight:500">Nachos</td>
+                    <td style="color:var(--green);text-align:right;font-weight:600">Gratuit ∞</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Premium -->
+            <div style="padding:16px 20px">
+              <div
+                style="font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--gold);text-transform:uppercase;margin-bottom:12px">
+                Premium — cu cost suplimentar</div>
+              <table style="width:100%;font-size:13px">
+                <thead>
+                  <tr>
+                    <th style="text-align:left;font-weight:500;color:var(--text3);padding-bottom:6px">Produs</th>
+                    <th style="text-align:right;font-weight:500;color:var(--text3);padding-bottom:6px">Preț</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="padding:6px 0;border-top:1px solid var(--border)">🍷 Vin roșu <span
+                        style="color:var(--text3);font-size:11px">— Pahar 150 ml</span></td>
+                    <td style="text-align:right;font-weight:600">35 RON</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 0;border-top:1px solid var(--border)">🍾 Șampanie <span
+                        style="color:var(--text3);font-size:11px">— Prosecco DOC</span></td>
+                    <td style="text-align:right;font-weight:600">45 RON</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 0;border-top:1px solid var(--border)">🧀 Platou brânzeturi <span
+                        style="color:var(--text3);font-size:11px">— + crackers</span></td>
+                    <td style="text-align:right;font-weight:600">65 RON</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 0;border-top:1px solid var(--border)">🐟 Somon afumat <span
+                        style="color:var(--text3);font-size:11px">— 150 g</span></td>
+                    <td style="text-align:right;font-weight:600">75 RON</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 0;border-top:1px solid var(--border)">🍽️ Meniu șnițel <span
+                        style="color:var(--text3);font-size:11px">— + garnitură</span></td>
+                    <td style="text-align:right;font-weight:600">55 RON</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 0;border-top:1px solid var(--border)">🍰 Tort de ciocolată <span
+                        style="color:var(--text3);font-size:11px">— felie 150 g</span></td>
+                    <td style="text-align:right;font-weight:600">40 RON</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- POS BAR -->
+      <div class="view" id="view-pos">
+        <div class="pos-layout">
+          <div class="pos-products">
+            <div class="pos-hdr">
+              <div class="pos-tabs">
+                <button class="pos-tab active" onclick="filterPOS('toate',this)">Toate</button>
+                <button class="pos-tab" onclick="filterPOS('snacks',this)">Snacks</button>
+                <button class="pos-tab" onclick="filterPOS('bauturi',this)">Băuturi</button>
+                <button class="pos-tab" onclick="filterPOS('dulciuri',this)">Dulciuri</button>
               </div>
-              <div class="field"><label class="fl">Durată (min) <span class="req">*</span></label><input type="number" id="f-durata" placeholder="120" min="1" max="400"></div>
-              <div class="field"><label class="fl">Preț Bază (RON) <span class="req">*</span></label><input type="number" id="f-pret" placeholder="25.00" step="0.5" min="0" oninput="updatePrev()"><span class="fhint">Preț Final = Bază × MultBilet × MultSală</span></div>
-              <div class="field"><label class="fl">Format</label>
-                <div class="option-group" id="f-tip-g" style="margin-top:4px">
-                  <label class="opill sel" onclick="selPill(this,'f-tip-g')"><input type="radio" name="ftip" value="2D" checked><span class="odot"></span>2D</label>
-                  <label class="opill" onclick="selPill(this,'f-tip-g')"><input type="radio" name="ftip" value="3D"><span class="odot"></span>3D</label>
-                </div>
+              <span style="margin-left:auto;font-size:11.5px;color:var(--text3)">Click = adaugă în bon</span>
+            </div>
+            <div class="pos-grid" id="pos-grid">
+              <div class="loading-row" style="grid-column:1/-1">
+                <div class="spinner"></div>Se încarcă...
               </div>
             </div>
-            <div class="factions">
-              <button class="btn btn-ghost" onclick="switchView('filme',null)">Anulează</button>
-              <button class="btn btn-primary" id="btn-add-film" onclick="submitFilm()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:13px;height:13px"><polyline points="20 6 9 17 4 12"/></svg>
-                Salvează Film
+          </div>
+          <div class="pos-receipt">
+            <div class="r-hdr">
+              <div class="r-title">BON CURENT</div>
+              <button class="btn btn-ghost btn-sm" id="clear-btn" onclick="clearCart()" disabled>Șterge tot</button>
+            </div>
+            <div class="r-items" id="r-items">
+              <div class="r-empty" id="r-empty">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+                <p>Bonul este gol</p>
+              </div>
+            </div>
+            <div class="r-foot">
+              <div class="r-totals">
+                <div class="r-row"><span>Subtotal</span><span id="r-sub">0.00 RON</span></div>
+                <div class="r-row"><span>TVA (19%)</span><span id="r-tva">0.00 RON</span></div>
+                <div class="r-row tot"><span>TOTAL</span><span class="rv" id="r-tot">0.00 RON</span></div>
+              </div>
+              <button class="checkout-btn" id="checkout-btn" onclick="finalizeBon()" disabled>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  style="width:16px;height:16px">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                Finalizare Bon
               </button>
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- CLIENTI -->
+      <div class="view" id="view-clienti">
         <div class="card">
-          <div class="card-header"><div class="card-title">Preview Prețuri</div></div>
-          <div class="card-body">
-            <div style="font-size:12px;color:var(--text3);margin-bottom:12px">Preț bază: <strong style="color:var(--text)" id="prev-pb">— RON</strong></div>
-            <table style="font-size:12.5px">
-              <thead><tr><th>Bilet</th><th>×</th><th>Standard</th><th>IMAX ×1.5</th><th>VIP ×2.0</th></tr></thead>
-              <tbody id="prev-tbody"><tr><td colspan="5" style="color:var(--text4);padding:12px 16px">Introduceți preț bază</td></tr></tbody>
-            </table>
-            <div style="margin-top:12px;padding:10px 12px;background:var(--bg3);border-radius:var(--radius);font-size:11.5px;color:var(--text3);border-left:2px solid var(--amber)">
-              ⚠️ Necesită <code style="color:var(--amber);font-family:monospace">POST /api/admin/filme</code> în C++ pentru salvare reală. Până atunci se adaugă local în memorie.
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-title">Clienți &amp; Fidelitate</div>
+              <div class="card-sub">Toggle = activează/dezactivează card fidelitate (reducere −10%)</div>
             </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Utilizator</th>
+                  <th>Rol</th>
+                  <th>Activitate</th>
+                  <th>Card Fidelitate</th>
+                  <th>Reducere Activă</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="users-tbody">
+                <tr>
+                  <td colspan="6">
+                    <div class="loading-row">
+                      <div class="spinner"></div>Se încarcă...
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- ADD PROIECTIE -->
-    <div class="view" id="view-add-proiectie">
-      <div class="card" style="max-width:640px">
-        <div class="card-header"><div class="card-title">Proiecție Nouă</div></div>
-        <div class="card-body">
-          <div id="ferr-proj" class="ferr"></div>
-          <div id="fok-proj" class="fok"></div>
-          <div class="fsec">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Detalii Proiecție
-          </div>
-          <div class="form-grid" style="margin-bottom:20px">
-            <div class="field c2"><label class="fl">Film <span class="req">*</span></label>
-              <select id="p-film"><option value="">— Selectează film —</option></select>
+      <!-- ADD FILM -->
+      <div class="view" id="view-add-film">
+        <div class="two-col">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Film Nou</div>
             </div>
-            <div class="field"><label class="fl">Sală <span class="req">*</span></label>
-              <select id="p-sala"><option value="">— Selectează —</option><option value="Sala 1">Sala 1 (Standard · 150 locuri)</option><option value="Sala 2">Sala 2 (Standard · 150 locuri)</option><option value="Sala 3">Sala 3 (Standard · 150 locuri)</option><option value="Sala IMAX">Sala IMAX (IMAX · 96 locuri)</option><option value="Sala VIP">Sala VIP (VIP · 24 locuri)</option></select>
-            </div>
-            <div class="field"><label class="fl">Format Audio <span class="req">*</span></label>
-              <div class="option-group" id="p-audio-g" style="margin-top:4px">
-                <label class="opill sel" onclick="selPill(this,'p-audio-g')"><input type="radio" name="paudio" value="Subtitrat" checked><span class="odot"></span>Subtitrat</label>
-                <label class="opill" onclick="selPill(this,'p-audio-g')"><input type="radio" name="paudio" value="Dublat"><span class="odot"></span>Dublat</label>
+            <div class="card-body">
+              <div id="ferr-film" class="ferr"></div>
+              <div id="fok-film" class="fok"></div>
+              <div class="fsec">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="2" width="20" height="20" rx="2" />
+                </svg>
+                Informații Film
+              </div>
+              <div class="form-grid" style="margin-bottom:20px">
+                <div class="field c2"><label class="fl">Titlu <span class="req">*</span></label><input type="text"
+                    id="f-titlu" placeholder="ex: Inception" oninput="updatePrev()"></div>
+                <div class="field"><label class="fl">Gen <span class="req">*</span></label>
+                  <select id="f-gen">
+                    <option value="">— Selectează —</option>
+                    <option>Acțiune</option>
+                    <option>SF</option>
+                    <option>Dramă</option>
+                    <option>Comedie</option>
+                    <option>Thriller</option>
+                    <option>Horror</option>
+                    <option>Animație</option>
+                    <option>Aventură</option>
+                    <option>Documentar</option>
+                  </select>
+                </div>
+                <div class="field"><label class="fl">Durată (min) <span class="req">*</span></label><input type="number"
+                    id="f-durata" placeholder="120" min="1" max="400"></div>
+                <div class="field"><label class="fl">Preț Bază (RON) <span class="req">*</span></label><input
+                    type="number" id="f-pret" placeholder="25.00" step="0.5" min="0" oninput="updatePrev()"><span
+                    class="fhint">Preț Final = Bază × MultBilet × MultSală</span></div>
+                <div class="field"><label class="fl">Format</label>
+                  <div class="option-group" id="f-tip-g" style="margin-top:4px">
+                    <label class="opill sel" onclick="selPill(this,'f-tip-g')"><input type="radio" name="ftip"
+                        value="2D" checked><span class="odot"></span>2D</label>
+                    <label class="opill" onclick="selPill(this,'f-tip-g')"><input type="radio" name="ftip"
+                        value="3D"><span class="odot"></span>3D</label>
+                  </div>
+                </div>
+              </div>
+              <div class="factions">
+                <button class="btn btn-ghost" onclick="switchView('filme',null)">Anulează</button>
+                <button class="btn btn-primary" id="btn-add-film" onclick="submitFilm()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    style="width:13px;height:13px">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  Salvează Film
+                </button>
               </div>
             </div>
-            <div class="field"><label class="fl">Data <span class="req">*</span></label><input type="date" id="p-data"></div>
-            <div class="field"><label class="fl">Ora <span class="req">*</span></label><input type="time" id="p-ora"><span class="fhint">Trebuie să fie în viitor</span></div>
           </div>
-          <div class="factions">
-            <button class="btn btn-ghost" onclick="switchView('proiectii',null)">Anulează</button>
-            <button class="btn btn-primary" id="btn-add-proj" onclick="submitProiectie()">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:13px;height:13px"><polyline points="20 6 9 17 4 12"/></svg>
-              Adaugă Proiecție
-            </button>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Preview Prețuri</div>
+            </div>
+            <div class="card-body">
+              <div style="font-size:12px;color:var(--text3);margin-bottom:12px">Preț bază: <strong
+                  style="color:var(--text)" id="prev-pb">— RON</strong></div>
+              <table style="font-size:12.5px">
+                <thead>
+                  <tr>
+                    <th>Bilet</th>
+                    <th>×</th>
+                    <th>Standard</th>
+                    <th>IMAX ×1.5</th>
+                    <th>VIP ×2.0</th>
+                  </tr>
+                </thead>
+                <tbody id="prev-tbody">
+                  <tr>
+                    <td colspan="5" style="color:var(--text4);padding:12px 16px">Introduceți preț bază</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div
+                style="margin-top:12px;padding:10px 12px;background:var(--bg3);border-radius:var(--radius);font-size:11.5px;color:var(--text3);border-left:2px solid var(--amber)">
+                ⚠️ Necesită <code style="color:var(--amber);font-family:monospace">POST /api/admin/filme</code> în C++
+                pentru salvare reală. Până atunci se adaugă local în memorie.
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-  </div><!-- /content -->
-</div><!-- /main -->
+      <!-- ADD PROIECTIE -->
+      <div class="view" id="view-add-proiectie">
+        <div class="card" style="max-width:640px">
+          <div class="card-header">
+            <div class="card-title">Proiecție Nouă</div>
+          </div>
+          <div class="card-body">
+            <div id="ferr-proj" class="ferr"></div>
+            <div id="fok-proj" class="fok"></div>
+            <div class="fsec">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              Detalii Proiecție
+            </div>
+            <div class="form-grid" style="margin-bottom:20px">
+              <div class="field c2"><label class="fl">Film <span class="req">*</span></label>
+                <select id="p-film">
+                  <option value="">— Selectează film —</option>
+                </select>
+              </div>
+              <div class="field"><label class="fl">Sală <span class="req">*</span></label>
+                <select id="p-sala">
+                  <option value="">— Selectează —</option>
+                </select>
+              </div>
+              <div class="field"><label class="fl">Format Audio <span class="req">*</span></label>
+                <div class="option-group" id="p-audio-g" style="margin-top:4px">
+                  <label class="opill sel" onclick="selPill(this,'p-audio-g')"><input type="radio" name="paudio"
+                      value="Subtitrat" checked><span class="odot"></span>Subtitrat</label>
+                  <label class="opill" onclick="selPill(this,'p-audio-g')"><input type="radio" name="paudio"
+                      value="Dublat"><span class="odot"></span>Dublat</label>
+                </div>
+              </div>
+              <div class="field"><label class="fl">Data <span class="req">*</span></label><input type="date"
+                  id="p-data"></div>
+              <div class="field"><label class="fl">Ora <span class="req">*</span></label><input type="time"
+                  id="p-ora"><span class="fhint">Trebuie să fie în viitor</span></div>
+            </div>
+            <div class="factions">
+              <button class="btn btn-ghost" onclick="switchView('proiectii',null)">Anulează</button>
+              <button class="btn btn-primary" id="btn-add-proj" onclick="submitProiectie()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  style="width:13px;height:13px">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                Adaugă Proiecție
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-<!-- CONFIRM MODAL -->
-<div class="modal-bg" id="modal-confirm">
-  <div class="confirm-box">
-    <div class="c-hdr">
-      <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-      <div class="c-title" id="c-title">Confirmare</div>
-    </div>
-    <div class="c-body" id="c-body">Ești sigur?</div>
-    <div class="c-foot">
-      <button class="btn btn-ghost" onclick="closeConfirm()">Anulează</button>
-      <button class="btn btn-danger" id="c-ok">Confirmă</button>
+      <!-- VOUCHERE -->
+      <div class="view" id="view-vouchere">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-title">Vouchere de Reducere</div>
+              <div class="card-sub" id="vouchere-sub">Se încarcă...</div>
+            </div>
+            <div class="card-actions"><button class="btn btn-primary btn-sm" onclick="openAddVoucher()">+ Voucher
+                nou</button></div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Cod</th>
+                  <th>Reducere</th>
+                  <th>Ziua Validă</th>
+                  <th>Tipuri Excluse</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="vouchere-tbody">
+                <tr>
+                  <td colspan="6">
+                    <div class="loading-row">
+                      <div class="spinner"></div>Se încarcă...
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+
+  <!-- ADD VOUCHER MODAL -->
+  <div class="modal-bg" id="modal-add-voucher" style="display:none">
+    <div class="confirm-box" style="max-width:480px;width:90%">
+      <div class="c-hdr">
+        <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+            <line x1="7" y1="7" x2="7.01" y2="7" />
+          </svg></div>
+        <div class="c-title">Voucher Nou</div>
+      </div>
+      <div style="padding:4px 20px 16px">
+        <div id="vadd-err"
+          style="display:none;background:rgba(229,9,20,.1);border:1px solid rgba(229,9,20,.3);color:#ff6b6b;padding:8px 12px;border-radius:5px;font-size:12.5px;margin-bottom:12px">
+        </div>
+        <div class="form-grid" style="gap:12px">
+          <div class="field c2"><label class="fl">Cod <span class="req">*</span></label><input type="text" id="vadd-cod"
+              placeholder="ex: SUMMER20" style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()">
+          </div>
+          <div class="field"><label class="fl">Reducere (%) <span class="req">*</span></label><input type="number"
+              id="vadd-reducere" min="1" max="100" placeholder="20"></div>
+          <div class="field"><label class="fl">Ziua Validă</label>
+            <select id="vadd-ziua">
+              <option value="-1">Oricând (toate zilele)</option>
+              <option value="1">Luni</option>
+              <option value="2">Marți</option>
+              <option value="3">Miercuri</option>
+              <option value="4">Joi</option>
+              <option value="5">Vineri</option>
+              <option value="6">Sâmbătă</option>
+              <option value="0">Duminică</option>
+            </select>
+          </div>
+          <div class="field c2"><label class="fl" style="margin-bottom:8px">Tipuri de bilet excluse</label>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input
+                  type="checkbox" id="vex-vip" value="VIP"> VIP</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input
+                  type="checkbox" id="vex-personal" value="Personal"> Personal</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input
+                  type="checkbox" id="vex-student" value="Student"> Student</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input
+                  type="checkbox" id="vex-elev" value="Elev"> Elev</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input
+                  type="checkbox" id="vex-pensionar" value="Pensionar"> Pensionar</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="c-foot">
+        <button class="btn btn-ghost" onclick="closeAddVoucher()">Anulează</button>
+        <button class="btn btn-primary" id="btn-vadd" onclick="submitVoucher()">Adaugă Voucher</button>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="toast-area" id="toast-area"></div>
+  <!-- CLIENT HISTORY MODAL -->
+  <div class="modal-bg" id="modal-client-history" style="display:none">
+    <div class="confirm-box" style="max-width:680px;width:95%">
+      <div class="c-hdr">
+        <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+          </svg></div>
+        <div class="c-title" id="ch-title">Istoric Client</div>
+      </div>
+      <div id="ch-body" style="padding:0 20px 8px;max-height:400px;overflow-y:auto">
+        <div class="loading-row">
+          <div class="spinner"></div>Se încarcă...
+        </div>
+      </div>
+      <div class="c-foot">
+        <button class="btn btn-ghost" onclick="closeClientHistory()">Închide</button>
+      </div>
+    </div>
+  </div>
 
-<script>
-'use strict';
-const API = 'http://localhost:8080/api';
+  <!-- SEAT MAP MODAL -->
+  <div class="modal-bg" id="modal-seats" style="display:none">
+    <div class="confirm-box" style="max-width:560px;width:90%">
+      <div class="c-hdr">
+        <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="7" width="20" height="14" rx="2" />
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+          </svg></div>
+        <div class="c-title" id="seat-modal-title">Hartă Locuri</div>
+      </div>
+      <div id="seat-map-body" style="padding:16px 20px">
+        <div style="display:flex;gap:16px;margin-bottom:14px;font-size:12px;color:var(--text3)">
+          <span style="display:flex;align-items:center;gap:6px"><span
+              style="width:14px;height:14px;border-radius:3px;background:var(--bg5);border:1px solid var(--border2);display:inline-block"></span>Liber</span>
+          <span style="display:flex;align-items:center;gap:6px"><span
+              style="width:14px;height:14px;border-radius:3px;background:var(--red);display:inline-block"></span>Ocupat</span>
+        </div>
+        <div id="seat-grid" style="display:flex;flex-direction:column;gap:4px;max-height:340px;overflow-y:auto"></div>
+        <div style="margin-top:12px;font-size:12px;color:var(--text3)" id="seat-stats"></div>
+      </div>
+      <div class="c-foot">
+        <button class="btn btn-ghost" onclick="closeSeatMap()">Închide</button>
+      </div>
+    </div>
+  </div>
 
-let FILME = [], SNACKS = [], USERS = [], PROIECTII = [], REZERVARI = [];
-const cart = {};
-let posFilter = 'toate';
-let currentView = 'filme';
-let confirmCb = null;
+  <!-- CONFIRM MODAL -->
+  <div class="modal-bg" id="modal-confirm">
+    <div class="confirm-box">
+      <div class="c-hdr">
+        <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg></div>
+        <div class="c-title" id="c-title">Confirmare</div>
+      </div>
+      <div class="c-body" id="c-body">Ești sigur?</div>
+      <div class="c-foot">
+        <button class="btn btn-ghost" onclick="closeConfirm()">Anulează</button>
+        <button class="btn btn-danger" id="c-ok">Confirmă</button>
+      </div>
+    </div>
+  </div>
 
-// ─── SERVER STATUS ───
-function setSrv(ok) {
-  document.getElementById('srv-dot').className = 'status-dot ' + (ok ? 'online' : 'offline');
-  document.getElementById('srv-lbl').textContent = ok ? 'Server online' : 'Server offline';
-}
+  <div class="toast-area" id="toast-area"></div>
 
-// ─── LOAD ALL ───
-async function loadAll() {
-  try {
-    const ping = await fetch(`${API}/filme`, {signal: AbortSignal.timeout(4000)});
-    setSrv(ping.ok);
-    if (!ping.ok) { showToast('Serverul nu răspunde.', 'error'); return; }
-  } catch { setSrv(false); showToast('CinemaServer.exe nu rulează.', 'error'); return; }
+  <script>
+    'use strict';
+    const API = 'http://localhost:8080/api';
 
-  const loads = await Promise.allSettled([
-    fetch(`${API}/filme`),
-    fetch(`${API}/proiectii/viitoare`),
-    fetch(`${API}/snacks`),
-    fetch(`${API}/admin/useri`),
-    fetch(`${API}/admin/rezervari`)
-  ]);
+    let FILME = [], SNACKS = [], USERS = [], PROIECTII = [], REZERVARI = [], VOUCHERE = [], SALI = [];
+    const cart = {};
+    let posFilter = 'toate';
+    let currentView = 'filme';
+    let confirmCb = null;
 
-  // Filme
-  if (loads[0].status==='fulfilled' && loads[0].value.ok) {
-    FILME = await loads[0].value.json();
-    renderFilme(); populateFilmSelect();
-    cnt('cnt-filme', FILME.length);
-    el('s-filme').textContent = FILME.length;
-    el('s-3d').textContent = FILME.filter(f=>f.tip==='3D').length;
-    const pm = FILME.length ? (FILME.reduce((a,f)=>a+(f.pretBaza||f.pret||0),0)/FILME.length).toFixed(0) : '—';
-    el('s-pret').innerHTML = pm + ' <small style="font-size:1rem;opacity:.5">RON</small>';
-    el('filme-sub').textContent = FILME.length + ' titluri';
-  }
+    // ─── SERVER STATUS ───
+    function setSrv(ok) {
+      document.getElementById('srv-dot').className = 'status-dot ' + (ok ? 'online' : 'offline');
+      document.getElementById('srv-lbl').textContent = ok ? 'Server online' : 'Server offline';
+    }
 
-  // Proiecții
-  if (loads[1].status==='fulfilled' && loads[1].value.ok) {
-    PROIECTII = await loads[1].value.json();
-    renderProiectii(); cnt('cnt-pct', PROIECTII.length);
-    el('s-proj').textContent = PROIECTII.length;
-    el('proj-sub').textContent = PROIECTII.length + ' proiecții viitoare';
-  }
-
-  // Snacks
-  if (loads[2].status==='fulfilled' && loads[2].value.ok) {
-    const raw = await loads[2].value.json();
-    SNACKS = raw.map((s,i)=>({id:i+1,emoji:snackEmoji(s.nume),name:s.nume,desc:s.descriere,price:s.pret,stock:s.stoc,cat:snackCat(s.nume)}));
-    renderSnacks(); renderPOSGrid();
-  }
-
-  // Useri
-  if (loads[3].status==='fulfilled' && loads[3].value.ok) {
-    USERS = await loads[3].value.json();
-    renderUsers(); cnt('cnt-users', USERS.filter(u=>u.rol==='Client').length);
-  }
-
-  // Rezervări
-  if (loads[4].status==='fulfilled' && loads[4].value.ok) {
-    REZERVARI = await loads[4].value.json();
-    renderRezervari(); cnt('cnt-rez', REZERVARI.length);
-    updateRezStats();
-  }
-}
-
-// ─── HELPERS ───
-function snackEmoji(n) {
-  n = (n||'').toLowerCase();
-  if (n.includes('popcorn')) return '🍿';
-  if (n.includes('cola')||n.includes('apa')||n.includes('suc')||n.includes('juice')) return '🥤';
-  if (n.includes('ciocolata')||n.includes('ciocolată')) return '🍫';
-  if (n.includes('bomboana')||n.includes('bomboane')) return '🍬';
-  if (n.includes('hot dog')||n.includes('hotdog')) return '🌭';
-  if (n.includes('inghetata')||n.includes('înghețată')) return '🍦';
-  return '🎭';
-}
-function snackCat(n) {
-  n = (n||'').toLowerCase();
-  if (n.includes('cola')||n.includes('apa')||n.includes('suc')||n.includes('juice')) return 'bauturi';
-  if (n.includes('ciocolata')||n.includes('bomboane')||n.includes('inghetata')) return 'dulciuri';
-  return 'snacks';
-}
-function el(id) { return document.getElementById(id); }
-function cnt(id, v) { const e=el(id); if(e) e.textContent=v; }
-function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-// ─── RENDER FILME ───
-function renderFilme(data) {
-  data = data || FILME;
-  const tbody = el('filme-tbody');
-  if (!data.length) { tbody.innerHTML='<tr><td colspan="5"><div class="empty-state"><p>Niciun film</p></div></td></tr>'; return; }
-  tbody.innerHTML = data.map(f=>`<tr>
-    <td class="tdp">${esc(f.titlu)}</td>
-    <td><span class="badge ${f.tip==='3D'?'br':'bgray'}">${f.tip}</span></td>
-    <td>${esc(f.gen)}</td>
-    <td>${f.durata||f.durataMinute||'-'} min</td>
-    <td style="font-weight:500;color:var(--text)">${(f.pretBaza||f.pret||0).toFixed(2)} RON</td>
-  </tr>`).join('');
-}
-
-// ─── RENDER PROIECTII ───
-function renderProiectii(data) {
-  data = data || PROIECTII;
-  const tbody = el('proiectii-tbody');
-  if (!data.length) { tbody.innerHTML='<tr><td colspan="6"><div class="empty-state"><p>Nicio proiecție</p></div></td></tr>'; return; }
-  tbody.innerHTML = data.map(p=>{
-    const t = p.sala?.tip||'';
-    const bc = t==='VIP'?'bgold':t==='IMAX'?'bb':'bgray';
-    return `<tr>
-      <td class="tdm">P-${p.id}</td>
-      <td class="tdp">${esc(p.film?.titlu||'-')}</td>
-      <td><span class="badge ${bc}">${esc(p.sala?.nume||'-')}</span></td>
-      <td>${esc(p.dataOra||'-')}</td>
-      <td><span class="badge bgray">${esc(p.formatAudio||'-')}</span></td>
-      <td><span class="badge bg">Viitoare</span></td>
-    </tr>`;
-  }).join('');
-}
-
-// ─── RENDER REZERVARI ───
-function renderRezervari(data) {
-  data = data || REZERVARI;
-  const tbody = el('rezervari-tbody');
-  if (!data.length) { tbody.innerHTML='<tr><td colspan="9"><div class="empty-state"><p>Nicio rezervare</p></div></td></tr>'; return; }
-  tbody.innerHTML = data.map(r=>{
-    const id = r.id||r.idRezervare||'-';
-    const user = r.usernameClient||'-';
-    return `<tr>
-      <td class="tdm">${esc(id)}</td>
-      <td><div style="display:flex;align-items:center;gap:7px"><div class="uavatar">${user.substring(0,2)}</div>${esc(user)}</div></td>
-      <td>${esc(r.titluFilm||'-')}</td>
-      <td>${esc(r.dataOra||'-')}</td>
-      <td>R${r.rand||'-'} / L${r.loc||'-'}</td>
-      <td><span class="badge bb">${esc(r.tipBilet||'-')}</span></td>
-      <td style="font-weight:500;color:var(--text)">${(r.pretFinal||0).toFixed(2)} RON</td>
-      <td><span class="badge ${r.anulata?'br':'bg'}">${r.anulata?'Anulată':'Activă'}</span></td>
-      <td>${!r.anulata?`<button class="btn btn-danger btn-sm" onclick="confirmAnulare('${esc(id)}','${esc(user)}')">Anulează</button>`:''}</td>
-    </tr>`;
-  }).join('');
-}
-
-function updateRezStats() {
-  const act = REZERVARI.filter(r=>!r.anulata).length;
-  const an = REZERVARI.filter(r=>r.anulata).length;
-  const ven = REZERVARI.filter(r=>!r.anulata).reduce((a,r)=>a+(r.pretFinal||0),0);
-  el('s-rez-tot').textContent = REZERVARI.length;
-  el('s-rez-act').textContent = act;
-  el('s-rez-an').textContent = an;
-  el('s-venituri').innerHTML = ven.toFixed(0)+' <small style="font-size:1rem;opacity:.5">RON</small>';
-  el('rez-sub').textContent = REZERVARI.length + ' rezervări totale';
-}
-
-function confirmAnulare(idRez, username) {
-  showConfirm('Anulare Rezervare',
-    `Anulezi rezervarea <strong>${idRez}</strong> a clientului <strong>${username}</strong>?`,
-    async () => {
+    // ─── LOAD ALL ───
+    async function loadAll() {
       try {
-        const res = await fetch(`${API}/admin/anuleaza`, {
-          method:'POST', headers:{'Content-Type':'application/json'},
-          body: JSON.stringify({idRezervare:idRez, username:'admin', rol:'Admin'})
-        });
-        if (res.ok) { showToast(`Rezervare ${idRez} anulată!`,'success'); await loadAll(); return; }
-        const d = await res.json(); showToast(d.mesaj||'Eroare','error');
-      } catch {
-        // local fallback
-        const idx = REZERVARI.findIndex(r=>(r.id||r.idRezervare)===idRez);
-        if (idx!==-1) REZERVARI[idx].anulata = true;
-        renderRezervari(); updateRezStats();
-        showToast(`${idRez} anulată local (endpoint absent)`, 'info');
+        const ping = await fetch(`${API}/filme`, { signal: AbortSignal.timeout(4000) });
+        setSrv(ping.ok);
+        if (!ping.ok) { showToast('Serverul nu răspunde.', 'error'); return; }
+      } catch { setSrv(false); showToast('CinemaServer.exe nu rulează.', 'error'); return; }
+
+      const loads = await Promise.allSettled([
+        fetch(`${API}/filme`),
+        fetch(`${API}/proiectii/viitoare`),
+        fetch(`${API}/snacks`),
+        fetch(`${API}/admin/useri`),
+        fetch(`${API}/admin/rezervari`),
+        fetch(`${API}/admin/vouchere`),
+        fetch(`${API}/sali`)
+      ]);
+
+      // Filme
+      if (loads[0].status === 'fulfilled' && loads[0].value.ok) {
+        FILME = await loads[0].value.json();
+        renderFilme(); populateFilmSelect();
+        cnt('cnt-filme', FILME.length);
+        el('s-filme').textContent = FILME.length;
+        el('s-3d').textContent = FILME.filter(f => f.tip === '3D').length;
+        const pm = FILME.length ? (FILME.reduce((a, f) => a + (f.pretBaza || f.pret || 0), 0) / FILME.length).toFixed(0) : '—';
+        el('s-pret').innerHTML = pm + ' <small style="font-size:1rem;opacity:.5">RON</small>';
+        el('filme-sub').textContent = FILME.length + ' titluri';
+      }
+
+      // Proiecții
+      if (loads[1].status === 'fulfilled' && loads[1].value.ok) {
+        PROIECTII = await loads[1].value.json();
+        renderProiectii(); cnt('cnt-pct', PROIECTII.length);
+        el('s-proj').textContent = PROIECTII.length;
+        el('proj-sub').textContent = PROIECTII.length + ' proiecții viitoare';
+      }
+
+      // Snacks
+      if (loads[2].status === 'fulfilled' && loads[2].value.ok) {
+        const raw = await loads[2].value.json();
+        SNACKS = raw.map((s, i) => ({ id: i + 1, emoji: snackEmoji(s.nume), name: s.nume, desc: s.descriere, price: s.pret, stock: s.stoc, cat: snackCat(s.nume) }));
+        renderSnacks(); renderPOSGrid();
+      }
+
+      // Useri
+      if (loads[3].status === 'fulfilled' && loads[3].value.ok) {
+        USERS = await loads[3].value.json();
+        renderUsers(); cnt('cnt-users', USERS.filter(u => u.rol === 'Client').length);
+      }
+
+      // Rezervări
+      if (loads[4].status === 'fulfilled' && loads[4].value.ok) {
+        REZERVARI = await loads[4].value.json();
+        renderRezervari(); cnt('cnt-rez', REZERVARI.length);
+        updateRezStats();
+      }
+
+      // Vouchere
+      if (loads[5].status === 'fulfilled' && loads[5].value.ok) {
+        VOUCHERE = await loads[5].value.json();
+      }
+      renderVouchere();
+
+      // Săli
+      if (loads[6] && loads[6].status === 'fulfilled' && loads[6].value.ok) {
+        SALI = await loads[6].value.json();
+        renderSali(); populateSalaSelect();
+        cnt('cnt-sali', SALI.length);
       }
     }
-  );
-}
 
-// ─── RENDER SNACKS ───
-function renderSnacks() {
-  el('snacks-tbody').innerHTML = SNACKS.map(s=>`<tr>
+    // ─── RENDER SĂLI (dinamic din /api/sali) ───
+    function renderSali() {
+      const tbody = el('sali-tbody');
+      if (!tbody) return;
+      if (!SALI.length) { tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text3)">Nicio sală</td></tr>'; return; }
+      const sub = el('sali-sub'); if (sub) sub.textContent = SALI.length + ' săli configurate';
+      tbody.innerHTML = SALI.map(s => {
+        const tip = s.tip;
+        const isVip = tip === 'VIP';
+        const tipBadge = isVip ? 'bgold' : (tip === 'IMAX' ? 'bb' : 'bgray');
+        const layout = isVip
+          ? '<span class="badge bgold" style="font-size:10px">⊞ Perechi 2</span>'
+          : `<span class="badge ${tipBadge}" style="font-size:10px">⊟ Culoar central</span>`;
+        const cap = s.capacitate || (s.randuri * s.locuriPeRand);
+        const mult = '×' + (s.multiplicatorPret != null ? s.multiplicatorPret.toFixed(2) : '1.00');
+        const bilete = isVip
+          ? '<span class="badge bgold">VIP</span> <span class="badge bgray">Adult</span>'
+          : '<span class="badge bgray">Adult</span> <span class="badge bb">Student</span> <span class="badge bg">Copil</span> <span class="badge ba">Pensionar</span>';
+        return `<tr>
+          <td class="tdp">${esc(s.nume)}</td>
+          <td><span class="badge ${tipBadge}">${esc(tip)}</span></td>
+          <td>${layout}</td>
+          <td>${s.randuri}</td><td>${s.locuriPeRand}</td><td>${cap}</td><td>${mult}</td>
+          <td>${bilete}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    function populateSalaSelect() {
+      const sel = el('p-sala');
+      if (!sel) return;
+      sel.innerHTML = '<option value="">— Selectează —</option>' +
+        SALI.map(s => {
+          const cap = s.capacitate || (s.randuri * s.locuriPeRand);
+          return `<option value="${esc(s.nume)}">${esc(s.nume)} (${esc(s.tip)} · ${cap} locuri)</option>`;
+        }).join('');
+    }
+
+    // ─── HELPERS ───
+    function snackEmoji(n) {
+      n = (n || '').toLowerCase();
+      if (n.includes('popcorn')) return '🍿';
+      if (n.includes('cola') || n.includes('apa') || n.includes('suc') || n.includes('juice')) return '🥤';
+      if (n.includes('ciocolata') || n.includes('ciocolată')) return '🍫';
+      if (n.includes('bomboana') || n.includes('bomboane')) return '🍬';
+      if (n.includes('hot dog') || n.includes('hotdog')) return '🌭';
+      if (n.includes('inghetata') || n.includes('înghețată')) return '🍦';
+      return '🎭';
+    }
+    function snackCat(n) {
+      n = (n || '').toLowerCase();
+      if (n.includes('cola') || n.includes('apa') || n.includes('suc') || n.includes('juice')) return 'bauturi';
+      if (n.includes('ciocolata') || n.includes('bomboane') || n.includes('inghetata')) return 'dulciuri';
+      return 'snacks';
+    }
+    function el(id) { return document.getElementById(id); }
+    function cnt(id, v) { const e = el(id); if (e) e.textContent = v; }
+    function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+    // ─── RENDER FILME ───
+    function renderFilme(data) {
+      data = data || FILME;
+      const tbody = el('filme-tbody');
+      if (!data.length) { tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><p>Niciun film</p></div></td></tr>'; return; }
+      tbody.innerHTML = data.map(f => `<tr>
+    <td class="tdp">${esc(f.titlu)}</td>
+    <td><span class="badge ${f.tip === '3D' ? 'br' : 'bgray'}">${f.tip}</span></td>
+    <td>${esc(f.gen)}</td>
+    <td>${f.durata || f.durataMinute || '-'} min</td>
+    <td style="font-weight:500;color:var(--text)">${(f.pretBaza || f.pret || 0).toFixed(2)} RON</td>
+    <td><button class="btn btn-danger btn-sm" onclick="deleteFilm('${esc(f.titlu)}')">Șterge</button></td>
+  </tr>`).join('');
+    }
+
+    // ─── RENDER PROIECTII ───
+    function renderProiectii(data) {
+      data = data || PROIECTII;
+      const tbody = el('proiectii-tbody');
+      if (!data.length) { tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><p>Nicio proiecție</p></div></td></tr>'; return; }
+      tbody.innerHTML = data.map(p => {
+        const t = p.sala?.tip || '';
+        const bc = t === 'VIP' ? 'bgold' : t === 'IMAX' ? 'bb' : 'bgray';
+        const cap = p.sala?.capacitate || (p.sala?.randuri || 10) * (p.sala?.locuriPeRand || 15);
+        const ocupate = REZERVARI.filter(r => !r.anulata && r.titluFilm === p.film?.titlu && r.dataOra === p.dataOra).length;
+        const pct = cap > 0 ? Math.round((ocupate / cap) * 100) : 0;
+        let ocupBadge = '';
+        if (ocupate >= cap) ocupBadge = '<span class="badge br" style="font-size:10px;margin-left:5px">Sold Out</span>';
+        else if (pct >= 80) ocupBadge = `<span class="badge ba" style="font-size:10px;margin-left:5px">⚠ ${pct}%</span>`;
+        else ocupBadge = `<span style="font-size:11px;color:var(--text3);margin-left:5px">${ocupate}/${cap}</span>`;
+        const layoutBadge = t === 'VIP'
+          ? '<span class="badge bgold" style="font-size:10px;margin-left:4px">⊞ Perechi</span>'
+          : '<span class="badge bgray" style="font-size:10px;margin-left:4px">⊟ Culoar</span>';
+        return `<tr>
+      <td class="tdm">P-${p.id}</td>
+      <td class="tdp">${esc(p.film?.titlu || '-')}</td>
+      <td><span class="badge ${bc}">${esc(p.sala?.nume || '-')}</span>${layoutBadge}</td>
+      <td>${esc(p.dataOra || '-')}</td>
+      <td><span class="badge bgray">${esc(p.formatAudio || '-')}</span></td>
+      <td><span class="badge bg">Viitoare</span>${ocupBadge}</td>
+      <td><button class="btn btn-ghost btn-sm" onclick="showSeatMap(${p.id},'${esc(p.film?.titlu || '')}','${esc(p.sala?.nume || '')}',${p.sala?.randuri || 10},${p.sala?.locuriPeRand || 15})">🗺 Hartă</button></td>
+    </tr>`;
+      }).join('');
+    }
+
+    // ─── RENDER REZERVARI ───
+    // ─── FILTER REZERVARI ───
+    function filterRezervari() {
+      const search = (el('rez-search')?.value || '').toLowerCase();
+      const status = el('rez-status')?.value || 'toate';
+      const sort = el('rez-sort')?.value || 'newest';
+
+      let data = [...REZERVARI];
+      if (search) data = data.filter(r =>
+        (r.titluFilm || '').toLowerCase().includes(search) ||
+        (r.usernameClient || '').toLowerCase().includes(search) ||
+        (r.id || '').toLowerCase().includes(search)
+      );
+      if (status === 'active') data = data.filter(r => !r.anulata);
+      if (status === 'anulate') data = data.filter(r => r.anulata);
+      if (sort === 'oldest') data.reverse();
+      if (sort === 'price-desc') data.sort((a, b) => (b.pretFinal || 0) - (a.pretFinal || 0));
+      if (sort === 'price-asc') data.sort((a, b) => (a.pretFinal || 0) - (b.pretFinal || 0));
+      renderRezervari(data);
+    }
+
+    // ─── EXPORT CSV ───
+    function exportRezervariCSV() {
+      const rows = [['ID', 'Client', 'Film', 'Data', 'Rand', 'Loc', 'Bilet', 'Pret', 'Status']];
+      REZERVARI.forEach(r => rows.push([
+        r.id || '', r.usernameClient || '', r.titluFilm || '', r.dataOra || '',
+        r.rand || '', r.loc || '', r.tipBilet || '',
+        (r.pretFinal || 0).toFixed(2), r.anulata ? 'Anulata' : 'Activa'
+      ]));
+      const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+      const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url;
+      a.download = `rezervari_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click(); URL.revokeObjectURL(url);
+    }
+
+    // ─── VIP EXTRAS ───
+    async function loadVIPExtras() {
+      el('vip-extras-tbody').innerHTML = '<tr><td colspan="3"><div class="loading-row"><div class="spinner"></div>Se încarcă...</div></td></tr>';
+      try {
+        const res = await fetch(`${API}/admin/vip-extras`);
+        const data = await res.json();
+        if (!data.length) {
+          el('vip-extras-tbody').innerHTML = '<tr><td colspan="3"><div class="empty-state"><p>Nicio comandă VIP premium.</p></div></td></tr>';
+          return;
+        }
+        let rows = '';
+        data.forEach(order => {
+          const extras = typeof order.extras === 'string' ? JSON.parse(order.extras) : order.extras;
+          extras.forEach((e, i) => {
+            rows += `<tr>
+              ${i === 0 ? `<td class="tdm" rowspan="${extras.length}">${esc(order.idRezervare)}</td>` : ''}
+              <td>${esc(e.name)}</td>
+              <td style="font-weight:500">${(e.pret || 0).toFixed(2)} RON</td>
+            </tr>`;
+          });
+        });
+        el('vip-extras-tbody').innerHTML = rows;
+      } catch {
+        el('vip-extras-tbody').innerHTML = '<tr><td colspan="3" style="color:var(--text3);padding:12px">Eroare la încărcare.</td></tr>';
+      }
+    }
+
+    function getAdminRowTier(rand, totalRanduri) {
+      const pct = rand / totalRanduri;
+      if (pct <= 0.30) return { label: 'Față', cls: 'color:var(--green)' };
+      if (pct <= 0.70) return { label: 'Mijloc', cls: 'color:var(--text3)' };
+      return { label: 'Spate', cls: 'color:var(--amber)' };
+    }
+
+    function renderRezervari(data) {
+      data = data || REZERVARI;
+      const tbody = el('rezervari-tbody');
+      if (!data.length) { tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><p>Nicio rezervare</p></div></td></tr>'; return; }
+      tbody.innerHTML = data.map(r => {
+        const id = r.id || r.idRezervare || '-';
+        const user = r.usernameClient || '-';
+        // Find sala rows for tier calculation
+        const proj = PROIECTII.find(p => p.film?.titlu === r.titluFilm && p.dataOra === r.dataOra);
+        const totalRanduri = proj?.sala?.randuri || 10;
+        const isVip = (proj?.sala?.tip || '').toUpperCase() === 'VIP';
+        const tier = isVip ? null : getAdminRowTier(r.rand, totalRanduri);
+        const tierBadge = isVip
+          ? '<span class="badge bgold" style="font-size:10px;margin-left:4px">VIP</span>'
+          : tier ? `<span style="font-size:10px;margin-left:4px;${tier.cls}">${tier.label}</span>` : '';
+        const ticketCls = (r.tipBilet || '').toLowerCase() === 'vip' ? 'bgold' : 'bb';
+        return `<tr>
+      <td class="tdm">${esc(id)}</td>
+      <td><div style="display:flex;align-items:center;gap:7px"><div class="uavatar">${user.substring(0, 2)}</div>${esc(user)}</div></td>
+      <td>${esc(r.titluFilm || '-')}</td>
+      <td>${esc(r.dataOra || '-')}</td>
+      <td>R${r.rand || '-'} / L${r.loc || '-'}${tierBadge}</td>
+      <td><span class="badge ${ticketCls}">${esc(r.tipBilet || '-')}</span></td>
+      <td style="font-weight:500;color:var(--text)">${(r.pretFinal || 0).toFixed(2)} RON</td>
+      <td><span class="badge ${r.anulata ? 'br' : 'bg'}">${r.anulata ? 'Anulată' : 'Activă'}</span></td>
+      <td>${!r.anulata ? `<button class="btn btn-danger btn-sm" onclick="confirmAnulare('${esc(id)}','${esc(user)}')">Anulează</button>` : ''}</td>
+    </tr>`;
+      }).join('');
+    }
+
+    function updateRezStats() {
+      const act = REZERVARI.filter(r => !r.anulata).length;
+      const an = REZERVARI.filter(r => r.anulata).length;
+      const ven = REZERVARI.filter(r => !r.anulata).reduce((a, r) => a + (r.pretFinal || 0), 0);
+      el('s-rez-tot').textContent = REZERVARI.length;
+      el('s-rez-act').textContent = act;
+      el('s-rez-an').textContent = an;
+      el('s-venituri').innerHTML = ven.toFixed(0) + ' <small style="font-size:1rem;opacity:.5">RON</small>';
+      el('rez-sub').textContent = REZERVARI.length + ' rezervări totale';
+      renderRevenueChart();
+      renderRevenuePeriod();
+    }
+
+    // ─── ÎNCASĂRI PE PERIOADĂ (săptămână / lună) ───
+    let revenuePeriodMode = 'week';
+    function setRevenuePeriod(mode) {
+      revenuePeriodMode = mode;
+      el('rev-btn-week').className = 'btn btn-sm' + (mode === 'week' ? '' : ' btn-ghost');
+      el('rev-btn-month').className = 'btn btn-sm' + (mode === 'month' ? '' : ' btn-ghost');
+      renderRevenuePeriod();
+    }
+    function parseDateAdmin(s) {
+      const m = String(s || '').match(/(\d{4})-(\d{2})-(\d{2})/);
+      return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null;
+    }
+    function mondayOf(d) {
+      const x = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+      x.setDate(x.getDate() - ((x.getDay() + 6) % 7));
+      return x;
+    }
+    function renderRevenuePeriod() {
+      const container = el('revenue-period');
+      if (!container) return;
+      const active = REZERVARI.filter(r => !r.anulata);
+      if (!active.length) { container.innerHTML = '<div style="color:var(--text4);font-size:13px">Nu există rezervări active.</div>'; return; }
+
+      const MONTHS = ['ian', 'feb', 'mar', 'apr', 'mai', 'iun', 'iul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+      const buckets = {};
+      active.forEach(r => {
+        const d = parseDateAdmin(r.dataOra);
+        if (!d) return;
+        let key, label;
+        if (revenuePeriodMode === 'month') {
+          key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+          label = `${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+        } else {
+          const mon = mondayOf(d);
+          const sun = new Date(mon); sun.setDate(sun.getDate() + 6);
+          key = mon.toISOString().slice(0, 10);
+          label = `${mon.getDate()} ${MONTHS[mon.getMonth()]} – ${sun.getDate()} ${MONTHS[sun.getMonth()]}`;
+        }
+        if (!buckets[key]) buckets[key] = { label, total: 0, count: 0 };
+        buckets[key].total += (r.pretFinal || 0);
+        buckets[key].count += 1;
+      });
+
+      const sorted = Object.entries(buckets).sort((a, b) => a[0] < b[0] ? -1 : 1);
+      const max = Math.max(...sorted.map(([, v]) => v.total));
+      const grand = sorted.reduce((a, [, v]) => a + v.total, 0);
+      const sub = el('rev-period-sub');
+      if (sub) sub.textContent = `Total ${grand.toFixed(2)} RON · ${sorted.length} ${revenuePeriodMode === 'month' ? 'luni' : 'săptămâni'}`;
+
+      container.innerHTML = sorted.map(([, v]) => {
+        const pct = Math.max(4, Math.round((v.total / max) * 100));
+        return `<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <div style="width:150px;font-size:12.5px;color:var(--text2);white-space:nowrap;flex-shrink:0">${esc(v.label)}<br><span style="font-size:10.5px;color:var(--text4)">${v.count} bilete</span></div>
+          <div style="flex:1;background:var(--bg4);border-radius:3px;height:22px;overflow:hidden">
+            <div style="width:${pct}%;height:100%;background:var(--green);border-radius:3px;transition:width .4s ease"></div>
+          </div>
+          <div style="width:100px;text-align:right;font-size:12.5px;font-weight:600;color:var(--text);flex-shrink:0">${v.total.toFixed(2)} RON</div>
+        </div>`;
+      }).join('');
+    }
+
+    // ─── REVENUE CHART ───
+    function renderRevenueChart() {
+      const container = el('revenue-chart');
+      if (!container) return;
+      const active = REZERVARI.filter(r => !r.anulata);
+      if (!active.length) { container.innerHTML = '<div style="color:var(--text4);font-size:13px">Nu există rezervări active.</div>'; return; }
+      const byFilm = {};
+      active.forEach(r => { byFilm[r.titluFilm] = (byFilm[r.titluFilm] || 0) + (r.pretFinal || 0); });
+      const sorted = Object.entries(byFilm).sort((a, b) => b[1] - a[1]);
+      const max = sorted[0][1];
+      const colors = ['var(--red)', 'var(--blue)', 'var(--green)', 'var(--amber)', 'var(--gold)'];
+      container.innerHTML = sorted.map(([titlu, ven], i) => {
+        const pct = Math.max(4, Math.round((ven / max) * 100));
+        const col = colors[i % colors.length];
+        return `<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <div style="width:160px;font-size:12.5px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:0" title="${esc(titlu)}">${esc(titlu)}</div>
+          <div style="flex:1;background:var(--bg4);border-radius:3px;height:22px;overflow:hidden">
+            <div style="width:${pct}%;height:100%;background:${col};border-radius:3px;transition:width .4s ease"></div>
+          </div>
+          <div style="width:90px;text-align:right;font-size:12.5px;font-weight:600;color:var(--text);flex-shrink:0">${ven.toFixed(2)} RON</div>
+        </div>`;
+      }).join('');
+    }
+
+    // ─── CLIENT HISTORY ───
+    function showClientHistory(username) {
+      el('ch-title').textContent = `Istoric — ${username}`;
+      const modal = el('modal-client-history');
+      modal.style.display = 'flex';
+      const rez = REZERVARI.filter(r => r.usernameClient === username);
+      const body = el('ch-body');
+      if (!rez.length) {
+        body.innerHTML = '<div style="padding:12px 0;color:var(--text3);font-size:13px">Nicio rezervare pentru acest client.</div>';
+        return;
+      }
+      body.innerHTML = `<table style="width:100%;font-size:12.5px;margin-top:4px">
+        <thead><tr><th>ID</th><th>Film</th><th>Data</th><th>Loc</th><th>Bilet</th><th>Preț</th><th>Status</th></tr></thead>
+        <tbody>${rez.map(r => `<tr>
+          <td class="tdm">${esc(r.id || '-')}</td>
+          <td class="tdp">${esc(r.titluFilm || '-')}</td>
+          <td style="color:var(--text2)">${esc(r.dataOra || '-')}</td>
+          <td>R${r.rand}/L${r.loc}</td>
+          <td><span class="badge bb" style="font-size:10px">${esc(r.tipBilet || '-')}</span></td>
+          <td style="font-weight:500">${(r.pretFinal || 0).toFixed(2)} RON</td>
+          <td><span class="badge ${r.anulata ? 'br' : 'bg'}" style="font-size:10px">${r.anulata ? 'Anulată' : 'Activă'}</span></td>
+        </tr>`).join('')}</tbody>
+      </table>
+      <div style="margin-top:10px;padding:8px 12px;background:var(--bg3);border-radius:5px;font-size:12px;color:var(--text3)">
+        Total plătit: <strong style="color:var(--text)">${rez.filter(r => !r.anulata).reduce((a, r) => a + (r.pretFinal || 0), 0).toFixed(2)} RON</strong>
+        &nbsp;·&nbsp; ${rez.filter(r => !r.anulata).length} active / ${rez.length} total
+      </div>`;
+    }
+    function closeClientHistory() { el('modal-client-history').style.display = 'none'; }
+    el('modal-client-history').addEventListener('click', e => { if (e.target === e.currentTarget) closeClientHistory(); });
+
+    function confirmAnulare(idRez, username) {
+      showConfirm('Anulare Rezervare',
+        `Anulezi rezervarea <strong>${idRez}</strong> a clientului <strong>${username}</strong>?`,
+        async () => {
+          try {
+            const res = await fetch(`${API}/admin/anuleaza`, {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ idRezervare: idRez, username: 'admin', rol: 'Admin' })
+            });
+            if (res.ok) { showToast(`Rezervare ${idRez} anulată!`, 'success'); await loadAll(); return; }
+            const d = await res.json(); showToast(d.mesaj || 'Eroare', 'error');
+          } catch {
+            // local fallback
+            const idx = REZERVARI.findIndex(r => (r.id || r.idRezervare) === idRez);
+            if (idx !== -1) REZERVARI[idx].anulata = true;
+            renderRezervari(); updateRezStats();
+            showToast(`${idRez} anulată local (endpoint absent)`, 'info');
+          }
+        }
+      );
+    }
+
+    // ─── RENDER SNACKS ───
+    function renderSnacks() {
+      el('snacks-tbody').innerHTML = SNACKS.map(s => `<tr>
     <td class="tdp">${s.emoji} ${esc(s.name)}</td>
     <td style="color:var(--text3)">${esc(s.desc)}</td>
     <td style="font-weight:500;color:var(--text)">${s.price.toFixed(2)} RON</td>
-    <td><span style="font-weight:500;color:${s.stock===0?'var(--red)':s.stock<=5?'var(--amber)':'var(--text)'}">${s.stock}</span>${s.stock<=5&&s.stock>0?' <span class="badge ba" style="font-size:9px">Stoc mic</span>':''}${s.stock===0?' <span class="badge br" style="font-size:9px">Epuizat</span>':''}</td>
-    <td><span class="badge ${s.stock>0?'bg':'bgray'}">${s.stock>0?'Da':'Nu'}</span></td>
+    <td><span style="font-weight:500;color:${s.stock === 0 ? 'var(--red)' : s.stock <= 5 ? 'var(--amber)' : 'var(--text)'}">${s.stock}</span>${s.stock <= 5 && s.stock > 0 ? ' <span class="badge ba" style="font-size:9px">Stoc mic</span>' : ''}${s.stock === 0 ? ' <span class="badge br" style="font-size:9px">Epuizat</span>' : ''}</td>
+    <td><span class="badge ${s.stock > 0 ? 'bg' : 'bgray'}">${s.stock > 0 ? 'Da' : 'Nu'}</span></td>
     <td><button class="btn btn-ghost btn-sm" onclick="refillSnack(${s.id},'${esc(s.name)}',${s.stock})">+ Stoc</button></td>
   </tr>`).join('');
-}
+    }
 
-function refillSnack(id, name, currentStock) {
-  el('c-title').textContent = `Reîncarcă stoc — ${name}`;
-  el('c-body').innerHTML = `
+    function refillSnack(id, name, currentStock) {
+      el('c-title').textContent = `Reîncarcă stoc — ${name}`;
+      el('c-body').innerHTML = `
     Stoc curent: <strong style="color:var(--text)">${currentStock}</strong><br><br>
     <label style="font-size:12px;color:var(--text3);font-weight:600;letter-spacing:.06em;text-transform:uppercase">Cantitate de adăugat</label>
     <input type="number" id="refill-qty" min="1" max="9999" value="50"
       style="width:100%;margin-top:8px;padding:9px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-size:14px;font-family:var(--fb);outline:none">
   `;
-  confirmCb = async () => {
-    const qty = parseInt(el('refill-qty')?.value || 0);
-    if (!qty || qty < 1) { showToast('Introdu o cantitate validă.','error'); return; }
-    try {
-      const res = await fetch(`${API}/admin/snacks/refill`, {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({id, cantitate: qty})
-      });
-      if (res.ok) {
-        const d = await res.json();
-        showToast(`Stoc actualizat: ${d.stocNou} buc.`, 'success');
-        await loadAll();
-      } else {
-        showToast('Eroare la actualizare stoc.', 'error');
-      }
-    } catch {
-      const s = SNACKS.find(s=>s.id===id);
-      if (s) s.stock += qty;
-      renderSnacks(); renderPOSGrid();
-      showToast(`Stoc actualizat local: ${SNACKS.find(s=>s.id===id)?.stock} buc.`, 'info');
+      confirmCb = async () => {
+        const qty = parseInt(el('refill-qty')?.value || 0);
+        if (!qty || qty < 1) { showToast('Introdu o cantitate validă.', 'error'); return; }
+        try {
+          const res = await fetch(`${API}/admin/snacks/refill`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id, cantitate: qty })
+          });
+          if (res.ok) {
+            const d = await res.json();
+            showToast(`Stoc actualizat: ${d.stocNou} buc.`, 'success');
+            await loadAll();
+          } else {
+            showToast('Eroare la actualizare stoc.', 'error');
+          }
+        } catch {
+          const s = SNACKS.find(s => s.id === id);
+          if (s) s.stock += qty;
+          renderSnacks(); renderPOSGrid();
+          showToast(`Stoc actualizat local: ${SNACKS.find(s => s.id === id)?.stock} buc.`, 'info');
+        }
+      };
+      el('modal-confirm').classList.add('open');
+      el('c-ok').onclick = () => { closeConfirm(); if (confirmCb) confirmCb(); };
+      setTimeout(() => el('refill-qty')?.select(), 50);
     }
-  };
-  el('modal-confirm').classList.add('open');
-  el('c-ok').onclick = () => { closeConfirm(); if(confirmCb) confirmCb(); };
-  setTimeout(()=>el('refill-qty')?.select(), 50);
-}
 
-// ─── RENDER USERS ───
-function renderUsers() {
-  const tbody = el('users-tbody');
-  if (!USERS.length) { tbody.innerHTML='<tr><td colspan="4"><div class="empty-state"><p>Niciun utilizator</p></div></td></tr>'; return; }
-  tbody.innerHTML = USERS.map(u=>{
-    const init = (u.username||'?').substring(0,2).toLowerCase();
-    const hasCard = u.areCardFidelitate||u.card||false;
-    return `<tr>
-      <td><div style="display:flex;align-items:center;gap:9px"><div class="uavatar">${init}</div><span class="tdp">${esc(u.username||u.user)}</span></div></td>
-      <td><span class="badge bgray">${esc(u.rol)}</span></td>
-      <td><div class="toggle ${hasCard?'on':''}" onclick="toggleCard(this,'${esc(u.username||u.user)}',${hasCard})" title="Togglează card fidelitate"></div></td>
-      <td>${hasCard?'<span class="badge bg">−10%</span>':'<span style="color:var(--text4)">—</span>'}</td>
+    // ─── RENDER USERS ───
+    function renderUsers() {
+      const tbody = el('users-tbody');
+      if (!USERS.length) { tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><p>Niciun utilizator</p></div></td></tr>'; return; }
+      tbody.innerHTML = USERS.map(u => {
+        const init = (u.username || '?').substring(0, 2).toLowerCase();
+        const hasCard = u.cardFidelitate || u.areCardFidelitate || u.card || false;
+        const username = u.username || u.user;
+        const isAdmin = (u.rol || '').toLowerCase() === 'admin';
+        const nrRez = REZERVARI.filter(r => r.usernameClient === username).length;
+        return `<tr style="${isAdmin ? 'opacity:.55' : ''}">
+      <td><div style="display:flex;align-items:center;gap:9px"><div class="uavatar">${init}</div><span class="tdp">${esc(username)}</span></div></td>
+      <td><span class="badge ${isAdmin ? 'br' : 'bgray'}">${esc(u.rol)}</span></td>
+      <td style="color:var(--text2)">${isAdmin ? '—' : nrRez + ' rezervări'}</td>
+      <td>${isAdmin
+            ? '<span style="color:var(--text4);font-size:12px">N/A</span>'
+            : `<div class="toggle ${hasCard ? 'on' : ''}" onclick="toggleCard(this,'${esc(username)}',${hasCard})" title="Togglează card fidelitate"></div>`
+          }</td>
+      <td>${isAdmin ? '<span style="color:var(--text4)">—</span>' : hasCard ? '<span class="badge bg">−10%</span>' : '<span style="color:var(--text4)">—</span>'}</td>
+      <td>${isAdmin ? '' : `<button class="btn btn-ghost btn-sm" onclick="showClientHistory('${esc(username)}')">Istoric</button>`}</td>
     </tr>`;
-  }).join('');
-}
+      }).join('');
+    }
 
-async function toggleCard(toggleEl, username, curVal) {
-  const newVal = !curVal;
-  toggleEl.classList.toggle('on');
-  const row = toggleEl.closest('tr');
-  row.cells[3].innerHTML = newVal ? '<span class="badge bg">−10%</span>' : '<span style="color:var(--text4)">—</span>';
-  const u = USERS.find(u=>(u.username||u.user)===username);
-  if (u) { u.areCardFidelitate=newVal; u.card=newVal; }
-  toggleEl.setAttribute('onclick',`toggleCard(this,'${username}',${newVal})`);
+    async function toggleCard(toggleEl, username, curVal) {
+      const newVal = !curVal;
+      toggleEl.classList.toggle('on');
+      const row = toggleEl.closest('tr');
+      row.cells[4].innerHTML = newVal ? '<span class="badge bg">−10%</span>' : '<span style="color:var(--text4)">—</span>';
+      const u = USERS.find(u => (u.username || u.user) === username);
+      if (u) { u.cardFidelitate = newVal; u.areCardFidelitate = newVal; u.card = newVal; }
+      toggleEl.setAttribute('onclick', `toggleCard(this,'${username}',${newVal})`);
 
-  try {
-    const res = await fetch(`${API}/admin/card-fidelitate`,{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({username,areCardFidelitate:newVal})
-    });
-    showToast(res.ok ? `Card ${newVal?'activat':'dezactivat'} pentru ${username}` : `Salvat local (endpoint absent)`, res.ok?'success':'info');
-  } catch {
-    showToast(`Card ${newVal?'activat':'dezactivat'} local pentru ${username}`,'info');
-  }
-}
+      try {
+        const res = await fetch(`${API}/admin/card-fidelitate`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, areCardFidelitate: newVal })
+        });
+        showToast(res.ok ? `Card ${newVal ? 'activat' : 'dezactivat'} pentru ${username}` : `Salvat local (endpoint absent)`, res.ok ? 'success' : 'info');
+      } catch {
+        showToast(`Card ${newVal ? 'activat' : 'dezactivat'} local pentru ${username}`, 'info');
+      }
+    }
 
-// ─── POS BAR ───
-function renderPOSGrid() {
-  const grid = el('pos-grid');
-  const items = posFilter==='toate' ? SNACKS : SNACKS.filter(s=>s.cat===posFilter);
-  if (!items.length) { grid.innerHTML='<div style="grid-column:1/-1;color:var(--text4);font-size:13px;padding:20px">Niciun produs.</div>'; return; }
-  grid.innerHTML = items.map(s=>`
-    <div class="snack-card ${s.stock===0?'oos':''}" onclick="addToCart(${s.id})">
-      <div class="s-stoc ${s.stock<5&&s.stock>0?'low':''}">${s.stock>0?s.stock:'✕'}</div>
+    // ─── POS BAR ───
+    function renderPOSGrid() {
+      const grid = el('pos-grid');
+      const items = posFilter === 'toate' ? SNACKS : SNACKS.filter(s => s.cat === posFilter);
+      if (!items.length) { grid.innerHTML = '<div style="grid-column:1/-1;color:var(--text4);font-size:13px;padding:20px">Niciun produs.</div>'; return; }
+      grid.innerHTML = items.map(s => `
+    <div class="snack-card ${s.stock === 0 ? 'oos' : ''}" onclick="addToCart(${s.id})">
+      <div class="s-stoc ${s.stock < 5 && s.stock > 0 ? 'low' : ''}">${s.stock > 0 ? s.stock : '✕'}</div>
       <div class="s-emoji">${s.emoji}</div>
       <div class="s-name">${esc(s.name)}</div>
       <div class="s-price">${s.price.toFixed(2)} RON</div>
     </div>`).join('');
-}
+    }
 
-function filterPOS(cat,btn) {
-  posFilter=cat;
-  document.querySelectorAll('.pos-tab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active'); renderPOSGrid();
-}
+    function filterPOS(cat, btn) {
+      posFilter = cat;
+      document.querySelectorAll('.pos-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active'); renderPOSGrid();
+    }
 
-function addToCart(id) {
-  const item = SNACKS.find(s=>s.id===id);
-  if (!item||item.stock===0) return;
-  if (!cart[id]) cart[id]={item,qty:0};
-  cart[id].qty++; item.stock--;
-  updateReceipt(); renderPOSGrid();
-}
-function removeFromCart(id) {
-  if (!cart[id]) return;
-  const item = SNACKS.find(s=>s.id===parseInt(id));
-  if (item) item.stock+=cart[id].qty;
-  delete cart[id]; updateReceipt(); renderPOSGrid();
-}
-function updateReceipt() {
-  const keys=Object.keys(cart);
-  const emptyEl=el('r-empty'), itemsEl=el('r-items'), cbtn=el('checkout-btn'), clrbtn=el('clear-btn');
-  itemsEl.querySelectorAll('.r-item').forEach(e=>e.remove());
-  if (!keys.length) {
-    emptyEl.style.display=''; cbtn.disabled=true; clrbtn.disabled=true;
-    el('r-sub').textContent='0.00 RON'; el('r-tva').textContent='0.00 RON'; el('r-tot').textContent='0.00 RON';
-    return;
-  }
-  emptyEl.style.display='none'; cbtn.disabled=false; clrbtn.disabled=false;
-  keys.forEach(id=>{
-    const {item,qty}=cart[id];
-    const div=document.createElement('div'); div.className='r-item';
-    div.innerHTML=`<div class="rqty">${qty}</div><div class="rname">${esc(item.name)}</div><div class="rprice">${(item.price*qty).toFixed(2)} RON</div><button class="rrem" onclick="removeFromCart(${id})" title="Elimină">✕</button>`;
-    itemsEl.appendChild(div);
-  });
-  const sub=keys.reduce((a,id)=>a+cart[id].item.price*cart[id].qty,0);
-  const tva=sub*0.19;
-  el('r-sub').textContent=sub.toFixed(2)+' RON';
-  el('r-tva').textContent=tva.toFixed(2)+' RON';
-  el('r-tot').textContent=(sub+tva).toFixed(2)+' RON';
-}
-function clearCart() {
-  Object.keys(cart).forEach(id=>{ const item=SNACKS.find(s=>s.id===parseInt(id)); if(item)item.stock+=cart[id].qty; delete cart[id]; });
-  updateReceipt(); renderPOSGrid();
-}
-async function finalizeBon() {
-  const keys=Object.keys(cart);
-  if (!keys.length) return;
-  const sub=keys.reduce((a,id)=>a+cart[id].item.price*cart[id].qty,0);
-  const snacksPayload=keys.map(id=>({id:parseInt(id),qty:cart[id].qty}));
-  keys.forEach(id=>delete cart[id]); updateReceipt(); renderPOSGrid();
-  try {
-    await fetch(`${API}/comanda-snacks`,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({idRezervare:`POS-${Date.now()}`,snacks:snacksPayload})});
-  } catch {}
-  showToast(`Bon finalizat! Total: ${(sub*1.19).toFixed(2)} RON`,'success');
-}
+    function addToCart(id) {
+      const item = SNACKS.find(s => s.id === id);
+      if (!item || item.stock === 0) return;
+      if (!cart[id]) cart[id] = { item, qty: 0 };
+      cart[id].qty++; item.stock--;
+      updateReceipt(); renderPOSGrid();
+    }
+    function removeFromCart(id) {
+      if (!cart[id]) return;
+      const item = SNACKS.find(s => s.id === parseInt(id));
+      if (item) item.stock += cart[id].qty;
+      delete cart[id]; updateReceipt(); renderPOSGrid();
+    }
+    function updateReceipt() {
+      const keys = Object.keys(cart);
+      const emptyEl = el('r-empty'), itemsEl = el('r-items'), cbtn = el('checkout-btn'), clrbtn = el('clear-btn');
+      itemsEl.querySelectorAll('.r-item').forEach(e => e.remove());
+      if (!keys.length) {
+        emptyEl.style.display = ''; cbtn.disabled = true; clrbtn.disabled = true;
+        el('r-sub').textContent = '0.00 RON'; el('r-tva').textContent = '0.00 RON'; el('r-tot').textContent = '0.00 RON';
+        return;
+      }
+      emptyEl.style.display = 'none'; cbtn.disabled = false; clrbtn.disabled = false;
+      keys.forEach(id => {
+        const { item, qty } = cart[id];
+        const div = document.createElement('div'); div.className = 'r-item';
+        div.innerHTML = `<div class="rqty">${qty}</div><div class="rname">${esc(item.name)}</div><div class="rprice">${(item.price * qty).toFixed(2)} RON</div><button class="rrem" onclick="removeFromCart(${id})" title="Elimină">✕</button>`;
+        itemsEl.appendChild(div);
+      });
+      const sub = keys.reduce((a, id) => a + cart[id].item.price * cart[id].qty, 0);
+      const tva = sub * 0.19;
+      el('r-sub').textContent = sub.toFixed(2) + ' RON';
+      el('r-tva').textContent = tva.toFixed(2) + ' RON';
+      el('r-tot').textContent = (sub + tva).toFixed(2) + ' RON';
+    }
+    function clearCart() {
+      Object.keys(cart).forEach(id => { const item = SNACKS.find(s => s.id === parseInt(id)); if (item) item.stock += cart[id].qty; delete cart[id]; });
+      updateReceipt(); renderPOSGrid();
+    }
+    async function finalizeBon() {
+      const keys = Object.keys(cart);
+      if (!keys.length) return;
+      const sub = keys.reduce((a, id) => a + cart[id].item.price * cart[id].qty, 0);
+      const snacksPayload = keys.map(id => ({ id: parseInt(id), qty: cart[id].qty }));
+      keys.forEach(id => delete cart[id]); updateReceipt(); renderPOSGrid();
+      try {
+        await fetch(`${API}/comanda-snacks`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idRezervare: `POS-${Date.now()}`, snacks: snacksPayload })
+        });
+      } catch { }
+      showToast(`Bon finalizat! Total: ${(sub * 1.19).toFixed(2)} RON`, 'success');
+    }
 
-// ─── ADD FILM ───
-function updatePrev() {
-  const pret=parseFloat(el('f-pret').value)||0;
-  el('prev-pb').textContent = pret ? pret.toFixed(2)+' RON' : '— RON';
-  const tbody=el('prev-tbody');
-  if (!pret) { tbody.innerHTML='<tr><td colspan="5" style="color:var(--text4);padding:12px 16px">Introduceți preț bază</td></tr>'; return; }
-  const bilete=[{n:'Adult',m:1.00,c:'bgray'},{n:'Student',m:0.70,c:'bb'},{n:'Elev',m:0.60,c:'bg'},{n:'Pensionar',m:0.50,c:'ba'},{n:'VIP',m:1.00,c:'bgold',vip:true},{n:'Personal',m:0.30,c:'br'}];
-  tbody.innerHTML=bilete.map(b=>`<tr>
+    // ─── ADD FILM ───
+    function updatePrev() {
+      const pret = parseFloat(el('f-pret').value) || 0;
+      el('prev-pb').textContent = pret ? pret.toFixed(2) + ' RON' : '— RON';
+      const tbody = el('prev-tbody');
+      if (!pret) { tbody.innerHTML = '<tr><td colspan="5" style="color:var(--text4);padding:12px 16px">Introduceți preț bază</td></tr>'; return; }
+      const bilete = [{ n: 'Adult', m: 1.00, c: 'bgray' }, { n: 'Student', m: 0.70, c: 'bb' }, { n: 'Elev', m: 0.60, c: 'bg' }, { n: 'Pensionar', m: 0.50, c: 'ba' }, { n: 'VIP', m: 1.00, c: 'bgold', vip: true }, { n: 'Personal', m: 0.30, c: 'br' }];
+      tbody.innerHTML = bilete.map(b => `<tr>
     <td><span class="badge ${b.c}">${b.n}</span></td>
     <td style="font-family:monospace;color:var(--text3)">×${b.m.toFixed(2)}</td>
-    <td>${b.vip?'—':(pret*b.m*1.00).toFixed(2)+' RON'}</td>
-    <td>${b.vip?'—':(pret*b.m*1.50).toFixed(2)+' RON'}</td>
-    <td>${(b.vip||b.n==='Personal')?(pret*b.m*2.00).toFixed(2)+' RON':'—'}</td>
+    <td>${b.vip ? '—' : (pret * b.m * 1.00).toFixed(2) + ' RON'}</td>
+    <td>${b.vip ? '—' : (pret * b.m * 1.50).toFixed(2) + ' RON'}</td>
+    <td>${(b.vip || b.n === 'Personal') ? (pret * b.m * 2.00).toFixed(2) + ' RON' : '—'}</td>
   </tr>`).join('');
-}
+    }
 
-async function submitFilm() {
-  const showErr=(m)=>{const e=el('ferr-film');e.textContent=m;e.className='ferr show'};
-  const showOk=(m)=>{const e=el('fok-film');e.textContent=m;e.className='fok show'};
-  el('ferr-film').className='ferr'; el('fok-film').className='fok';
+    async function submitFilm() {
+      const showErr = (m) => { const e = el('ferr-film'); e.textContent = m; e.className = 'ferr show' };
+      const showOk = (m) => { const e = el('fok-film'); e.textContent = m; e.className = 'fok show' };
+      el('ferr-film').className = 'ferr'; el('fok-film').className = 'fok';
 
-  const titlu=el('f-titlu').value.trim(), gen=el('f-gen').value;
-  const durata=parseInt(el('f-durata').value), pret=parseFloat(el('f-pret').value);
-  const tipEl=document.querySelector('#f-tip-g .opill.sel input');
-  const tip=tipEl?tipEl.value:'2D';
+      const titlu = el('f-titlu').value.trim(), gen = el('f-gen').value;
+      const durata = parseInt(el('f-durata').value), pret = parseFloat(el('f-pret').value);
+      const tipEl = document.querySelector('#f-tip-g .opill.sel input');
+      const tip = tipEl ? tipEl.value : '2D';
 
-  if (!titlu) return showErr('Titlul este obligatoriu.');
-  if (!gen) return showErr('Selectează un gen.');
-  if (!durata||durata<1) return showErr('Durata trebuie să fie ≥ 1 minut.');
-  if (!pret||pret<=0) return showErr('Prețul bază trebuie să fie pozitiv.');
+      if (!titlu) return showErr('Titlul este obligatoriu.');
+      if (!gen) return showErr('Selectează un gen.');
+      if (!durata || durata < 1) return showErr('Durata trebuie să fie ≥ 1 minut.');
+      if (!pret || pret <= 0) return showErr('Prețul bază trebuie să fie pozitiv.');
 
-  const btn=el('btn-add-film'); btn.disabled=true;
-  btn.innerHTML='<div class="spinner"></div> Se salvează...';
+      const btn = el('btn-add-film'); btn.disabled = true;
+      btn.innerHTML = '<div class="spinner"></div> Se salvează...';
 
-  try {
-    const res=await fetch(`${API}/admin/filme`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({titlu,gen,durata,pretBaza:pret,tip})});
-    if (res.ok) { showOk(`"${titlu}" adăugat!`); clearFilmForm(); await loadAll(); showToast(`Film "${titlu}" adăugat!`,'success'); }
-    else { const d=await res.json(); showErr(d.mesaj||'Eroare server.'); }
-  } catch {
-    FILME.push({titlu,gen,durata,pretBaza:pret,pret,tip});
-    renderFilme(); cnt('cnt-filme',FILME.length); el('s-filme').textContent=FILME.length; populateFilmSelect();
-    showOk(`"${titlu}" adăugat local (POST /api/admin/filme absent în C++).`);
-    showToast(`Film adăugat local!`,'info'); clearFilmForm();
-  } finally { btn.disabled=false; btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:13px;height:13px"><polyline points="20 6 9 17 4 12"/></svg> Salvează Film'; }
-}
+      try {
+        const res = await fetch(`${API}/admin/filme`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ titlu, gen, durata, pretBaza: pret, tip }) });
+        if (res.ok) { showOk(`"${titlu}" adăugat!`); clearFilmForm(); await loadAll(); showToast(`Film "${titlu}" adăugat!`, 'success'); }
+        else { const d = await res.json(); showErr(d.mesaj || 'Eroare server.'); }
+      } catch {
+        FILME.push({ titlu, gen, durata, pretBaza: pret, pret, tip });
+        renderFilme(); cnt('cnt-filme', FILME.length); el('s-filme').textContent = FILME.length; populateFilmSelect();
+        showOk(`"${titlu}" adăugat local (POST /api/admin/filme absent în C++).`);
+        showToast(`Film adăugat local!`, 'info'); clearFilmForm();
+      } finally { btn.disabled = false; btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:13px;height:13px"><polyline points="20 6 9 17 4 12"/></svg> Salvează Film'; }
+    }
 
-function clearFilmForm() {
-  ['f-titlu','f-gen','f-durata','f-pret'].forEach(id=>el(id).value='');
-  document.querySelector('#f-tip-g .opill.sel')?.classList.remove('sel');
-  document.querySelector('#f-tip-g .opill:first-child')?.classList.add('sel');
-  updatePrev();
-}
+    function clearFilmForm() {
+      ['f-titlu', 'f-gen', 'f-durata', 'f-pret'].forEach(id => el(id).value = '');
+      document.querySelector('#f-tip-g .opill.sel')?.classList.remove('sel');
+      document.querySelector('#f-tip-g .opill:first-child')?.classList.add('sel');
+      updatePrev();
+    }
 
-// ─── ADD PROIECTIE ───
-function populateFilmSelect() {
-  const sel=el('p-film'); const cur=sel.value;
-  sel.innerHTML='<option value="">— Selectează film —</option>';
-  FILME.forEach(f=>{ const o=document.createElement('option'); o.value=f.titlu; o.textContent=`${f.titlu} (${f.tip})`; if(f.titlu===cur)o.selected=true; sel.appendChild(o); });
-}
+    // ─── ADD PROIECTIE ───
+    function populateFilmSelect() {
+      const sel = el('p-film'); const cur = sel.value;
+      sel.innerHTML = '<option value="">— Selectează film —</option>';
+      FILME.forEach(f => { const o = document.createElement('option'); o.value = f.titlu; o.textContent = `${f.titlu} (${f.tip})`; if (f.titlu === cur) o.selected = true; sel.appendChild(o); });
+    }
 
-// Set min date
-(function(){ const e=el('p-data'); if(e) e.min=new Date().toISOString().split('T')[0]; })();
+    // Set min date
+    (function () { const e = el('p-data'); if (e) e.min = new Date().toISOString().split('T')[0]; })();
 
-async function submitProiectie() {
-  const showErr=(m)=>{const e=el('ferr-proj');e.textContent=m;e.className='ferr show'};
-  const showOk=(m)=>{const e=el('fok-proj');e.textContent=m;e.className='fok show'};
-  el('ferr-proj').className='ferr'; el('fok-proj').className='fok';
+    async function submitProiectie() {
+      const showErr = (m) => { const e = el('ferr-proj'); e.textContent = m; e.className = 'ferr show' };
+      const showOk = (m) => { const e = el('fok-proj'); e.textContent = m; e.className = 'fok show' };
+      el('ferr-proj').className = 'ferr'; el('fok-proj').className = 'fok';
 
-  const film=el('p-film').value, sala=el('p-sala').value;
-  const data=el('p-data').value, ora=el('p-ora').value;
-  const audioEl=document.querySelector('#p-audio-g .opill.sel input');
-  const audio=audioEl?audioEl.value:'Subtitrat';
+      const film = el('p-film').value, sala = el('p-sala').value;
+      const data = el('p-data').value, ora = el('p-ora').value;
+      const audioEl = document.querySelector('#p-audio-g .opill.sel input');
+      const audio = audioEl ? audioEl.value : 'Subtitrat';
 
-  if (!film) return showErr('Selectează un film.');
-  if (!sala) return showErr('Selectează o sală.');
-  if (!data) return showErr('Selectează data.');
-  if (!ora) return showErr('Selectează ora.');
-  if (new Date(`${data}T${ora}`)<=new Date()) return showErr('Data și ora trebuie să fie în viitor.');
+      if (!film) return showErr('Selectează un film.');
+      if (!sala) return showErr('Selectează o sală.');
+      if (!data) return showErr('Selectează data.');
+      if (!ora) return showErr('Selectează ora.');
+      if (new Date(`${data}T${ora}`) <= new Date()) return showErr('Data și ora trebuie să fie în viitor.');
 
-  const btn=el('btn-add-proj'); btn.disabled=true;
-  btn.innerHTML='<div class="spinner"></div> Se adaugă...';
+      const btn = el('btn-add-proj'); btn.disabled = true;
+      btn.innerHTML = '<div class="spinner"></div> Se adaugă...';
 
-  try {
-    const res=await fetch(`${API}/admin/proiectii`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({titluFilm:film,numeSala:sala,dataOra:`${data} ${ora}`,formatAudio:audio})});
-    if (res.ok) { showOk('Proiecție adăugată!'); clearProiectieForm(); await loadAll(); showToast('Proiecție adăugată!','success'); }
-    else { const d=await res.json(); showErr(d.mesaj||'Eroare server.'); }
-  } catch {
-    showOk(`Adăugat local (POST /api/admin/proiectii absent în C++).`);
-    showToast('Proiecție adăugată local!','info'); clearProiectieForm();
-  } finally { btn.disabled=false; btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:13px;height:13px"><polyline points="20 6 9 17 4 12"/></svg> Adaugă Proiecție'; }
-}
+      try {
+        const res = await fetch(`${API}/admin/proiectii`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ titluFilm: film, numeSala: sala, dataOra: `${data} ${ora}`, formatAudio: audio }) });
+        if (res.ok) { showOk('Proiecție adăugată și salvată!'); clearProiectieForm(); await loadAll(); showToast('Proiecție adăugată!', 'success'); }
+        else { const d = await res.json(); showErr(d.mesaj || 'Eroare server.'); showToast(d.mesaj || 'Eroare la adăugare.', 'error'); }
+      } catch {
+        showErr('Serverul nu răspunde — proiecția NU a fost salvată. Pornește CinemaServer.');
+        showToast('Server offline — proiecția nu a fost salvată.', 'error');
+      } finally { btn.disabled = false; btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:13px;height:13px"><polyline points="20 6 9 17 4 12"/></svg> Adaugă Proiecție'; }
+    }
 
-function clearProiectieForm() {
-  ['p-film','p-sala','p-data','p-ora'].forEach(id=>el(id).value='');
-}
+    function clearProiectieForm() {
+      ['p-film', 'p-sala', 'p-data', 'p-ora'].forEach(id => el(id).value = '');
+    }
 
-// ─── SEARCH ───
-function handleSearch(q) {
-  if (currentView==='filme') renderFilme(q?FILME.filter(f=>f.titlu.toLowerCase().includes(q.toLowerCase())||f.gen.toLowerCase().includes(q.toLowerCase())):null);
-  else if (currentView==='rezervari') renderRezervari(q?REZERVARI.filter(r=>(r.id||r.idRezervare||'').includes(q)||(r.usernameClient||'').includes(q)||(r.titluFilm||'').toLowerCase().includes(q.toLowerCase())):null);
-  else if (currentView==='proiectii') renderProiectii(q?PROIECTII.filter(p=>(p.film?.titlu||'').toLowerCase().includes(q.toLowerCase())||(p.sala?.nume||'').toLowerCase().includes(q.toLowerCase())):null);
-}
+    // ─── SEARCH ───
+    function handleSearch(q) {
+      if (currentView === 'filme') renderFilme(q ? FILME.filter(f => f.titlu.toLowerCase().includes(q.toLowerCase()) || f.gen.toLowerCase().includes(q.toLowerCase())) : null);
+      else if (currentView === 'rezervari') renderRezervari(q ? REZERVARI.filter(r => (r.id || r.idRezervare || '').includes(q) || (r.usernameClient || '').includes(q) || (r.titluFilm || '').toLowerCase().includes(q.toLowerCase())) : null);
+      else if (currentView === 'proiectii') renderProiectii(q ? PROIECTII.filter(p => (p.film?.titlu || '').toLowerCase().includes(q.toLowerCase()) || (p.sala?.nume || '').toLowerCase().includes(q.toLowerCase())) : null);
+    }
 
-// ─── VIEW SWITCHING ───
-const META = {
-  filme:         {title:'FILME',          sub:'Gestionează catalogul de filme',                 search:true},
-  sali:          {title:'SĂLI',           sub:'Configurație și multiplicatori de preț',         search:false},
-  proiectii:     {title:'PROIECȚII',      sub:'Proiecții viitoare din backend',                 search:true},
-  rezervari:     {title:'REZERVĂRI',      sub:'Toate rezervările clienților',                   search:true},
-  snacks:        {title:'SNACKS',         sub:'Stoc produse bar (date live)',                   search:false},
-  pos:           {title:'POS BAR',        sub:'Vânzare rapidă — click pe produs pentru bon',   search:false},
-  clienti:       {title:'CLIENȚI',        sub:'Card fidelitate → reducere automată −10%',      search:false},
-  'add-film':    {title:'FILM NOU',       sub:'Adaugă un titlu nou în catalog',                search:false},
-  'add-proiectie':{title:'PROIECȚIE NOUĂ',sub:'Programează o nouă proiecție',                  search:false},
-};
+    // ─── RENDER VOUCHERE ───
+    function renderVouchere(data) {
+      data = data || VOUCHERE;
+      const tbody = el('vouchere-tbody');
+      if (!data.length) { tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><p>Niciun voucher — apasă "+ Voucher nou" pentru a adăuga.</p></div></td></tr>'; return; }
+      tbody.innerHTML = data.map(v => {
+        const excl = v.tipuriExcluse?.length ? v.tipuriExcluse.map(t => `<span class="badge br" style="font-size:10px">${esc(t)}</span>`).join(' ') : '<span style="color:var(--text4)">—</span>';
+        return `<tr>
+      <td class="tdp" style="font-family:monospace;letter-spacing:.06em">${esc(v.cod)}</td>
+      <td style="font-weight:600;color:var(--green)">−${v.reducere}%</td>
+      <td>${esc(v.ziuaValida || 'Oricând')}</td>
+      <td>${excl}</td>
+      <td><div class="toggle ${v.activ ? 'on' : ''}" onclick="toggleVoucher('${esc(v.cod)}',${v.activ})" title="${v.activ ? 'Dezactivează' : 'Activează'}"></div></td>
+      <td><button class="btn btn-danger btn-sm" onclick="deleteVoucher('${esc(v.cod)}')">Șterge</button></td>
+    </tr>`;
+      }).join('');
+      el('vouchere-sub').textContent = data.length + ' vouchere · ' + data.filter(v => v.activ).length + ' active';
+      cnt('cnt-vouchere', data.length);
+    }
 
-function switchView(id, navEl) {
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  const v=el('view-'+id); if(v) v.classList.add('active');
-  if (navEl) { document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); navEl.classList.add('active'); }
-  currentView=id;
-  const m=META[id]||{};
-  el('topbar-title').textContent=m.title||id.toUpperCase();
-  el('topbar-sub').textContent=m.sub||'';
-  el('search-wrap').style.display=m.search?'':'none';
-  el('search-input').value=''; handleSearch('');
-  if (id==='add-proiectie') populateFilmSelect();
-}
+    // ─── VOUCHER CRUD ───
+    function openAddVoucher() {
+      el('vadd-cod').value = ''; el('vadd-reducere').value = '';
+      el('vadd-ziua').value = '-1';
+      ['vex-vip', 'vex-personal', 'vex-student', 'vex-elev', 'vex-pensionar'].forEach(id => { const e = el(id); if (e) e.checked = false; });
+      el('vadd-err').style.display = 'none';
+      el('modal-add-voucher').style.display = 'flex';
+      setTimeout(() => el('vadd-cod')?.focus(), 50);
+    }
+    function closeAddVoucher() { el('modal-add-voucher').style.display = 'none'; }
+    el('modal-add-voucher').addEventListener('click', e => { if (e.target === e.currentTarget) closeAddVoucher(); });
 
-// ─── OPTION PILLS ───
-function selPill(el, groupId) {
-  document.querySelectorAll(`#${groupId} .opill`).forEach(p=>p.classList.remove('sel'));
-  el.classList.add('sel');
-}
+    async function submitVoucher() {
+      const errEl = el('vadd-err');
+      errEl.style.display = 'none';
+      const cod = el('vadd-cod').value.trim().toUpperCase();
+      const reducere = parseFloat(el('vadd-reducere').value);
+      const ziua = parseInt(el('vadd-ziua').value);
+      if (!cod) { errEl.textContent = 'Codul este obligatoriu.'; errEl.style.display = ''; return; }
+      if (!reducere || reducere < 1 || reducere > 100) { errEl.textContent = 'Reducerea trebuie să fie între 1 și 100%.'; errEl.style.display = ''; return; }
+      const tipuriExcluse = ['vex-vip', 'vex-personal', 'vex-student', 'vex-elev', 'vex-pensionar']
+        .filter(id => el(id)?.checked).map(id => el(id).value);
+      const btn = el('btn-vadd'); btn.disabled = true;
+      try {
+        const res = await fetch(`${API}/admin/vouchere/add`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cod, reducere, ziua, tipuriExcluse, activ: true })
+        });
+        if (res.ok) { closeAddVoucher(); showToast(`Voucher "${cod}" adăugat!`, 'success'); await loadAll(); }
+        else { const d = await res.json(); errEl.textContent = d.mesaj || 'Eroare server.'; errEl.style.display = ''; }
+      } catch {
+        VOUCHERE.push({ cod, reducere, ziuaValida: 'Toate zilele', tipuriExcluse, activ: true });
+        renderVouchere(); closeAddVoucher();
+        showToast(`"${cod}" adăugat local.`, 'info');
+      } finally { btn.disabled = false; }
+    }
 
-// ─── CONFIRM ───
-function showConfirm(title, body, onOk) {
-  el('c-title').textContent=title; el('c-body').innerHTML=body; confirmCb=onOk;
-  el('modal-confirm').classList.add('open');
-  el('c-ok').onclick=()=>{ closeConfirm(); if(confirmCb)confirmCb(); };
-}
-function closeConfirm() { el('modal-confirm').classList.remove('open'); }
-el('modal-confirm').addEventListener('click',e=>{ if(e.target===e.currentTarget)closeConfirm(); });
+    async function toggleVoucher(cod, curActiv) {
+      const newVal = !curActiv;
+      try {
+        const res = await fetch(`${API}/admin/vouchere/toggle`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cod, activ: newVal })
+        });
+        if (res.ok) { showToast(`Voucher ${newVal ? 'activat' : 'dezactivat'}!`, 'success'); await loadAll(); }
+        else showToast('Eroare server.', 'error');
+      } catch {
+        const v = VOUCHERE.find(v => v.cod === cod);
+        if (v) v.activ = newVal;
+        renderVouchere();
+        showToast(`Voucher ${newVal ? 'activat' : 'dezactivat'} local.`, 'info');
+      }
+    }
 
-// ─── TOAST ───
-function showToast(msg, type='success') {
-  const area=el('toast-area'), t=document.createElement('div');
-  t.className=`toast ${type}`;
-  const icons={success:'<polyline points="20 6 9 17 4 12"/>',error:'<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',info:'<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>'};
-  t.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${icons[type]||icons.info}</svg><span>${esc(msg)}</span>`;
-  area.appendChild(t);
-  setTimeout(()=>{ t.style.animation='toastOut .25s ease forwards'; setTimeout(()=>t.remove(),250); },3200);
-}
+    function deleteVoucher(cod) {
+      showConfirm('Ștergere Voucher',
+        `Ștergi definitiv voucher-ul <strong style="font-family:monospace">${esc(cod)}</strong>?`,
+        async () => {
+          try {
+            const res = await fetch(`${API}/admin/vouchere/${encodeURIComponent(cod)}`, { method: 'DELETE' });
+            if (res.ok) { showToast(`Voucher "${cod}" șters!`, 'success'); await loadAll(); }
+            else { const d = await res.json(); showToast(d.mesaj || 'Eroare.', 'error'); }
+          } catch {
+            const idx = VOUCHERE.findIndex(v => v.cod === cod);
+            if (idx !== -1) VOUCHERE.splice(idx, 1);
+            renderVouchere(); showToast(`"${cod}" șters local.`, 'info');
+          }
+        }
+      );
+    }
 
-// ─── INIT ───
-loadAll();
-</script>
+    // ─── DELETE FILM ───
+    function deleteFilm(titlu) {
+      showConfirm('Ștergere Film',
+        `Ești sigur că vrei să ștergi filmul <strong>${esc(titlu)}</strong>? Această acțiune nu poate fi anulată.`,
+        async () => {
+          try {
+            const res = await fetch(`${API}/admin/filme/${encodeURIComponent(titlu)}`, { method: 'DELETE' });
+            if (res.ok) { showToast(`Filmul "${titlu}" a fost șters!`, 'success'); await loadAll(); }
+            else { const d = await res.json(); showToast(d.mesaj || 'Eroare la ștergere.', 'error'); }
+          } catch {
+            const idx = FILME.findIndex(f => f.titlu === titlu);
+            if (idx !== -1) FILME.splice(idx, 1);
+            renderFilme(); cnt('cnt-filme', FILME.length); el('s-filme').textContent = FILME.length;
+            showToast(`"${titlu}" șters local.`, 'info');
+          }
+        }
+      );
+    }
+
+    // ─── SEAT MAP ───
+    async function showSeatMap(idProiectie, titlu, numeSala, randuri, locuriPerRand) {
+      el('seat-modal-title').textContent = `${titlu} — ${numeSala}`;
+      el('seat-grid').innerHTML = '<div class="loading-row"><div class="spinner"></div>Se încarcă locurile...</div>';
+      el('seat-stats').textContent = '';
+      el('modal-seats').style.display = 'flex';
+
+      let ocupate = [];
+      try {
+        const res = await fetch(`${API}/proiectii/${idProiectie}/locuri`);
+        ocupate = await res.json();
+      } catch { }
+
+      const ocupateSet = new Set(ocupate.map(o => `${o.rand}-${o.loc}`));
+      const totalLocuri = randuri * locuriPerRand;
+      const nrOcupate = ocupateSet.size;
+      const isVip = numeSala.toUpperCase().includes('VIP');
+
+      const grid = el('seat-grid');
+      grid.innerHTML = '';
+      grid.style.display = 'grid';
+      grid.style.gap = '3px';
+      grid.style.overflowY = 'auto';
+      grid.style.maxHeight = '360px';
+      grid.style.alignContent = 'start';
+
+      function tierColor(r, total) {
+        const pct = r / total;
+        if (pct <= 0.30) return 'rgba(34,197,94,.55)';
+        if (pct <= 0.70) return 'var(--bg5)';
+        return 'rgba(245,158,11,.55)';
+      }
+
+      if (isVip) {
+        const numPairs = Math.ceil(locuriPerRand / 2);
+        const tplParts = [];
+        for (let i = 0; i < numPairs; i++) { if (i > 0) tplParts.push('10px'); tplParts.push('22px', '22px'); }
+        grid.style.gridTemplateColumns = `26px ${tplParts.join(' ')}`;
+
+        for (let r = 1; r <= randuri; r++) {
+          const lbl = document.createElement('div');
+          lbl.textContent = String.fromCharCode(64 + r);
+          lbl.style.cssText = 'font-size:10px;color:var(--text3);text-align:right;line-height:22px;padding-right:4px';
+          grid.appendChild(lbl);
+          for (let pair = 0; pair < numPairs; pair++) {
+            if (pair > 0) { const g = document.createElement('div'); grid.appendChild(g); }
+            for (let k = 0; k < 2; k++) {
+              const c = pair * 2 + k + 1;
+              const cell = document.createElement('div');
+              if (c <= locuriPerRand) {
+                const isOc = ocupateSet.has(`${r}-${c}`);
+                cell.title = `Rând ${String.fromCharCode(64 + r)}, Loc ${c}`;
+                cell.style.cssText = `width:22px;height:22px;border-radius:3px;background:${isOc ? 'var(--red)' : 'var(--gold)'};opacity:${isOc ? '1' : '.45'};border:1px solid ${isOc ? 'transparent' : 'rgba(245,197,24,.4)'};cursor:default`;
+              }
+              grid.appendChild(cell);
+            }
+          }
+        }
+      } else {
+        const halfL = Math.floor(locuriPerRand / 2);
+        const halfR = locuriPerRand - halfL;
+        grid.style.gridTemplateColumns = `26px repeat(${halfL}, 20px) 14px repeat(${halfR}, 20px)`;
+
+        for (let r = 1; r <= randuri; r++) {
+          const bg = tierColor(r, randuri);
+          const lbl = document.createElement('div');
+          lbl.textContent = String.fromCharCode(64 + r);
+          lbl.style.cssText = `font-size:10px;color:var(--text3);text-align:right;line-height:20px;padding-right:4px`;
+          grid.appendChild(lbl);
+          for (let c = 1; c <= halfL; c++) {
+            const isOc = ocupateSet.has(`${r}-${c}`);
+            const cell = document.createElement('div');
+            cell.title = `Rând ${String.fromCharCode(64 + r)}, Loc ${c}`;
+            cell.style.cssText = `width:20px;height:20px;border-radius:3px;background:${isOc ? 'var(--red)' : bg};opacity:${isOc ? '1' : '.6'};border:1px solid ${isOc ? 'transparent' : 'var(--border2)'};cursor:default`;
+            grid.appendChild(cell);
+          }
+          const gap = document.createElement('div');
+          gap.style.cssText = 'width:14px';
+          grid.appendChild(gap);
+          for (let c = halfL + 1; c <= locuriPerRand; c++) {
+            const isOc = ocupateSet.has(`${r}-${c}`);
+            const cell = document.createElement('div');
+            cell.title = `Rând ${String.fromCharCode(64 + r)}, Loc ${c}`;
+            cell.style.cssText = `width:20px;height:20px;border-radius:3px;background:${isOc ? 'var(--red)' : bg};opacity:${isOc ? '1' : '.6'};border:1px solid ${isOc ? 'transparent' : 'var(--border2)'};cursor:default`;
+            grid.appendChild(cell);
+          }
+        }
+      }
+
+      el('seat-stats').textContent = `${nrOcupate} ocupate · ${totalLocuri - nrOcupate} libere · ${totalLocuri} total`;
+
+      // Legend
+      let legend = el('seat-legend');
+      if (!legend) {
+        legend = document.createElement('div');
+        legend.id = 'seat-legend';
+        legend.style.cssText = 'display:flex;gap:14px;margin-top:12px;flex-wrap:wrap;font-size:11px;color:var(--text2)';
+        el('seat-stats').insertAdjacentElement('afterend', legend);
+      }
+      legend.innerHTML = isVip
+        ? `<span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:2px;background:rgba(245,197,24,.45);display:inline-block"></span>Liber VIP</span>
+           <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:2px;background:var(--red);display:inline-block"></span>Ocupat</span>`
+        : `<span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:2px;background:rgba(34,197,94,.55);display:inline-block"></span>Față −15%</span>
+           <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:2px;background:var(--bg5);display:inline-block"></span>Mijloc</span>
+           <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:2px;background:rgba(245,158,11,.55);display:inline-block"></span>Spate +20%</span>
+           <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:2px;background:var(--red);display:inline-block"></span>Ocupat</span>`;
+    }
+
+    function closeSeatMap() { el('modal-seats').style.display = 'none'; }
+    document.getElementById('modal-seats').addEventListener('click', e => { if (e.target === e.currentTarget) closeSeatMap(); });
+
+    // ─── VIEW SWITCHING ───
+    const META = {
+      filme: { title: 'FILME', sub: 'Gestionează catalogul de filme', search: true },
+      sali: { title: 'SĂLI', sub: 'Configurație și multiplicatori de preț', search: false },
+      proiectii: { title: 'PROIECȚII', sub: 'Proiecții viitoare din backend', search: true },
+      rezervari: { title: 'REZERVĂRI', sub: 'Toate rezervările clienților', search: true },
+      snacks: { title: 'SNACKS', sub: 'Stoc produse bar (date live)', search: false },
+      pos: { title: 'POS BAR', sub: 'Vânzare rapidă — click pe produs pentru bon', search: false },
+      clienti: { title: 'CLIENȚI', sub: 'Card fidelitate → reducere automată −10%', search: false },
+      vouchere: { title: 'VOUCHERE', sub: 'Coduri de reducere și condiții de validitate', search: false },
+      'add-film': { title: 'FILM NOU', sub: 'Adaugă un titlu nou în catalog', search: false },
+      'add-proiectie': { title: 'PROIECȚIE NOUĂ', sub: 'Programează o nouă proiecție', search: false },
+    };
+
+    function switchView(id, navEl) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      const v = el('view-' + id); if (v) v.classList.add('active');
+      if (navEl) { document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active')); navEl.classList.add('active'); }
+      currentView = id;
+      const m = META[id] || {};
+      el('topbar-title').textContent = m.title || id.toUpperCase();
+      el('topbar-sub').textContent = m.sub || '';
+      el('search-wrap').style.display = m.search ? '' : 'none';
+      el('search-input').value = ''; handleSearch('');
+      if (id === 'add-proiectie') populateFilmSelect();
+    }
+
+    // ─── OPTION PILLS ───
+    function selPill(el, groupId) {
+      document.querySelectorAll(`#${groupId} .opill`).forEach(p => p.classList.remove('sel'));
+      el.classList.add('sel');
+    }
+
+    // ─── CONFIRM ───
+    function showConfirm(title, body, onOk) {
+      el('c-title').textContent = title; el('c-body').innerHTML = body; confirmCb = onOk;
+      el('modal-confirm').classList.add('open');
+      el('c-ok').onclick = () => { closeConfirm(); if (confirmCb) confirmCb(); };
+    }
+    function closeConfirm() { el('modal-confirm').classList.remove('open'); }
+    el('modal-confirm').addEventListener('click', e => { if (e.target === e.currentTarget) closeConfirm(); });
+
+    // ─── TOAST ───
+    function showToast(msg, type = 'success') {
+      const area = el('toast-area'), t = document.createElement('div');
+      t.className = `toast ${type}`;
+      const icons = { success: '<polyline points="20 6 9 17 4 12"/>', error: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>', info: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>' };
+      t.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${icons[type] || icons.info}</svg><span>${esc(msg)}</span>`;
+      area.appendChild(t);
+      setTimeout(() => { t.style.animation = 'toastOut .25s ease forwards'; setTimeout(() => t.remove(), 250); }, 3200);
+    }
+
+    // ─── INIT ───
+    loadAll();
+    setInterval(loadAll, 30000); // auto-refresh every 30s
+  </script>
 </body>
+
 </html>

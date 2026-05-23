@@ -28,6 +28,7 @@ public:
   ZiuaSaptamanii getZiuaValida() const;
   const std::vector<std::string> &getTipuriExcluse() const;
   bool esteActiv() const;
+  void setActiv(bool val);
   bool esteValid(const std::string &tipBilet) const;
   double aplicaReducere(double pret) const;
   std::string descriereZiua() const;

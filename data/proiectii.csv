@@ -1,19 +1,233 @@
-1,Dune: Part Two,Sala 1,2026-05-18 14:00,Subtitrat
-2,Dune: Part Two,Sala 2,2026-05-18 14:30,Dublat
-3,Dune: Part Two,Sala IMAX,2026-05-18 17:30,Subtitrat
-4,Dune: Part Two,Sala VIP,2026-05-18 20:45,Subtitrat
-5,Dune: Part Two,Sala 1,2026-05-18 21:00,Dublat
-6,Dune: Part Two,Sala 1,2026-05-19 15:00,Subtitrat
-7,Dune: Part Two,Sala IMAX,2026-05-19 19:00,Subtitrat
-8,Dune: Part Two,Sala VIP,2026-05-20 20:00,Subtitrat
-9,Inside Out 2,Sala 3,2026-05-18 10:00,Dublat
-10,Inside Out 2,Sala 3,2026-05-18 12:30,Dublat
-11,Inside Out 2,Sala VIP,2026-05-18 15:00,Subtitrat
-12,Inside Out 2,Sala 2,2026-05-19 11:00,Dublat
-13,Inception,Sala 2,2026-05-19 18:00,Subtitrat
-14,The Batman,Sala 1,2026-05-19 20:00,Subtitrat
-15,Avatar: The Way of Water,Sala IMAX,2026-05-20 14:00,Subtitrat
-16,Oppenheimer,Sala VIP,2026-05-20 18:00,Subtitrat
-17,Poor Things,Sala 2,2026-05-20 17:00,Subtitrat
-18,Spider-Man: Beyond the Spider-Verse,Sala 3,2026-05-21 11:00,Dublat
-19,Spider-Man: Beyond the Spider-Verse,Sala 3,2026-05-21 14:00,Subtitrat
+1,Dune: Part Two,Sala 1,2026-05-27 10:00,Subtitrat
+2,Dune: Part Two,Sala 2,2026-05-28 12:30,Subtitrat
+3,Dune: Part Two,Sala IMAX,2026-05-29 15:00,Subtitrat
+4,Dune: Part Two,Sala VIP,2026-05-27 17:30,Subtitrat
+5,Dune: Part Two,Sala 1,2026-05-28 20:00,Subtitrat
+6,Dune: Part Two,Sala 1,2026-05-29 21:15,Subtitrat
+7,Dune: Part Two,Sala IMAX,2026-05-27 10:00,Subtitrat
+8,Dune: Part Two,Sala VIP,2026-05-28 12:30,Subtitrat
+9,Inside Out 2,Sala 3,2026-05-29 15:00,Dublat
+10,Inside Out 2,Sala 3,2026-05-27 17:30,Dublat
+11,Inside Out 2,Sala VIP,2026-05-28 20:00,Dublat
+12,Inside Out 2,Sala 2,2026-05-29 21:15,Dublat
+13,Inception,Sala 2,2026-05-27 10:00,Subtitrat
+14,The Batman,Sala 1,2026-05-28 12:30,Subtitrat
+15,Avatar: The Way of Water,Sala IMAX,2026-05-29 15:00,Subtitrat
+16,Oppenheimer,Sala VIP,2026-05-27 17:30,Subtitrat
+17,Poor Things,Sala 2,2026-05-28 20:00,Subtitrat
+18,Spider-Man: Beyond the Spider-Verse,Sala 3,2026-05-29 21:15,Dublat
+19,Spider-Man: Beyond the Spider-Verse,Sala 3,2026-05-27 10:00,Dublat
+20,Dune: Part Two,Sala 1,2026-05-27 11:00,Subtitrat
+21,Inside Out 2,Sala 1,2026-05-27 16:00,Dublat
+22,Inception,Sala 1,2026-05-27 20:30,Dublat
+23,The Batman,Sala 2,2026-05-27 10:30,Subtitrat
+24,Avatar: The Way of Water,Sala 2,2026-05-27 14:00,Subtitrat
+25,Oppenheimer,Sala 2,2026-05-27 18:30,Dublat
+26,Poor Things,Sala 2,2026-05-27 21:30,Subtitrat
+27,Spider-Man: Beyond the Spider-Verse,Sala 3,2026-05-27 12:00,Dublat
+28,Interstellar,Sala 3,2026-05-27 17:00,Dublat
+29,The Dark Knight,Sala 3,2026-05-27 19:30,Subtitrat
+30,Joker,Sala 4,2026-05-27 11:00,Subtitrat
+31,Barbie,Sala 4,2026-05-27 16:00,Dublat
+32,The Godfather,Sala 4,2026-05-27 20:30,Subtitrat
+33,Pulp Fiction,Sala 5,2026-05-27 10:30,Subtitrat
+34,La La Land,Sala 5,2026-05-27 14:00,Dublat
+35,Whiplash,Sala 5,2026-05-27 18:30,Subtitrat
+36,Parasite,Sala 5,2026-05-27 21:30,Subtitrat
+37,The Conjuring,Sala IMAX,2026-05-27 12:00,Dublat
+38,A Quiet Place,Sala IMAX,2026-05-27 17:00,Subtitrat
+39,Coco,Sala IMAX,2026-05-27 19:30,Dublat
+40,Frozen II,Sala IMAX 2,2026-05-27 11:00,Dublat
+41,Top Gun: Maverick,Sala IMAX 2,2026-05-27 16:00,Subtitrat
+42,Gladiator,Sala IMAX 2,2026-05-27 20:30,Subtitrat
+43,Forrest Gump,Sala VIP,2026-05-27 10:30,Dublat
+44,The Matrix,Sala VIP,2026-05-27 14:00,Subtitrat
+45,Mad Max: Fury Road,Sala VIP,2026-05-27 18:30,Subtitrat
+46,Everything Everywhere All at Once,Sala VIP,2026-05-27 21:30,Dublat
+47,Knives Out,Sala VIP 2,2026-05-27 12:00,Subtitrat
+48,1917,Sala VIP 2,2026-05-27 17:00,Subtitrat
+49,Soul,Sala VIP 2,2026-05-27 19:30,Dublat
+50,The Wild Robot,Sala 1,2026-05-28 10:30,Dublat
+51,Dune: Part Two,Sala 1,2026-05-28 14:00,Subtitrat
+52,Inside Out 2,Sala 1,2026-05-28 18:30,Dublat
+53,Inception,Sala 1,2026-05-28 21:30,Subtitrat
+54,The Batman,Sala 2,2026-05-28 12:00,Subtitrat
+55,Avatar: The Way of Water,Sala 2,2026-05-28 17:00,Dublat
+56,Oppenheimer,Sala 2,2026-05-28 19:30,Subtitrat
+57,Poor Things,Sala 3,2026-05-28 11:00,Subtitrat
+58,Spider-Man: Beyond the Spider-Verse,Sala 3,2026-05-28 16:00,Dublat
+59,Interstellar,Sala 3,2026-05-28 20:30,Subtitrat
+60,The Dark Knight,Sala 4,2026-05-28 10:30,Subtitrat
+61,Joker,Sala 4,2026-05-28 14:00,Dublat
+62,Barbie,Sala 4,2026-05-28 18:30,Subtitrat
+63,The Godfather,Sala 4,2026-05-28 21:30,Subtitrat
+64,Pulp Fiction,Sala 5,2026-05-28 12:00,Dublat
+65,La La Land,Sala 5,2026-05-28 17:00,Subtitrat
+66,Whiplash,Sala 5,2026-05-28 19:30,Subtitrat
+67,Parasite,Sala IMAX,2026-05-28 11:00,Dublat
+68,The Conjuring,Sala IMAX,2026-05-28 16:00,Subtitrat
+69,A Quiet Place,Sala IMAX,2026-05-28 20:30,Subtitrat
+70,Coco,Sala IMAX 2,2026-05-28 10:30,Dublat
+71,Frozen II,Sala IMAX 2,2026-05-28 14:00,Dublat
+72,Top Gun: Maverick,Sala IMAX 2,2026-05-28 18:30,Subtitrat
+73,Gladiator,Sala IMAX 2,2026-05-28 21:30,Dublat
+74,Forrest Gump,Sala VIP,2026-05-28 12:00,Subtitrat
+75,The Matrix,Sala VIP,2026-05-28 17:00,Subtitrat
+76,Mad Max: Fury Road,Sala VIP,2026-05-28 19:30,Dublat
+77,Everything Everywhere All at Once,Sala VIP 2,2026-05-28 11:00,Subtitrat
+78,Knives Out,Sala VIP 2,2026-05-28 16:00,Subtitrat
+79,1917,Sala VIP 2,2026-05-28 20:30,Dublat
+80,Soul,Sala 1,2026-05-29 12:00,Dublat
+81,The Wild Robot,Sala 1,2026-05-29 17:00,Dublat
+82,Dune: Part Two,Sala 1,2026-05-29 19:30,Dublat
+83,Inside Out 2,Sala 2,2026-05-29 11:00,Dublat
+84,Inception,Sala 2,2026-05-29 16:00,Subtitrat
+85,The Batman,Sala 2,2026-05-29 20:30,Dublat
+86,Avatar: The Way of Water,Sala 3,2026-05-29 10:30,Subtitrat
+87,Oppenheimer,Sala 3,2026-05-29 14:00,Subtitrat
+88,Poor Things,Sala 3,2026-05-29 18:30,Dublat
+89,Spider-Man: Beyond the Spider-Verse,Sala 3,2026-05-29 21:30,Dublat
+90,Interstellar,Sala 4,2026-05-29 12:00,Subtitrat
+91,The Dark Knight,Sala 4,2026-05-29 17:00,Dublat
+92,Joker,Sala 4,2026-05-29 19:30,Subtitrat
+93,Barbie,Sala 5,2026-05-29 11:00,Subtitrat
+94,The Godfather,Sala 5,2026-05-29 16:00,Dublat
+95,Pulp Fiction,Sala 5,2026-05-29 20:30,Subtitrat
+96,La La Land,Sala IMAX,2026-05-29 10:30,Subtitrat
+97,Whiplash,Sala IMAX,2026-05-29 14:00,Dublat
+98,Parasite,Sala IMAX,2026-05-29 18:30,Subtitrat
+99,The Conjuring,Sala IMAX,2026-05-29 21:30,Subtitrat
+100,A Quiet Place,Sala IMAX 2,2026-05-29 12:00,Dublat
+101,Coco,Sala IMAX 2,2026-05-29 17:00,Dublat
+102,Frozen II,Sala IMAX 2,2026-05-29 19:30,Dublat
+103,Top Gun: Maverick,Sala VIP,2026-05-29 11:00,Dublat
+104,Gladiator,Sala VIP,2026-05-29 16:00,Subtitrat
+105,Forrest Gump,Sala VIP,2026-05-29 20:30,Subtitrat
+106,The Matrix,Sala VIP 2,2026-05-29 10:30,Dublat
+107,Mad Max: Fury Road,Sala VIP 2,2026-05-29 14:00,Subtitrat
+108,Everything Everywhere All at Once,Sala VIP 2,2026-05-29 18:30,Subtitrat
+109,Knives Out,Sala VIP 2,2026-05-29 21:30,Dublat
+110,1917,Sala 1,2026-05-30 11:00,Subtitrat
+111,Soul,Sala 1,2026-05-30 16:00,Dublat
+112,The Wild Robot,Sala 1,2026-05-30 20:30,Dublat
+113,Dune: Part Two,Sala 2,2026-05-30 10:30,Subtitrat
+114,Inside Out 2,Sala 2,2026-05-30 14:00,Dublat
+115,Inception,Sala 2,2026-05-30 18:30,Dublat
+116,The Batman,Sala 2,2026-05-30 21:30,Subtitrat
+117,Avatar: The Way of Water,Sala 3,2026-05-30 12:00,Subtitrat
+118,Oppenheimer,Sala 3,2026-05-30 17:00,Dublat
+119,Poor Things,Sala 3,2026-05-30 19:30,Subtitrat
+120,Spider-Man: Beyond the Spider-Verse,Sala 4,2026-05-30 11:00,Dublat
+121,Interstellar,Sala 4,2026-05-30 16:00,Dublat
+122,The Dark Knight,Sala 4,2026-05-30 20:30,Subtitrat
+123,Joker,Sala 5,2026-05-30 10:30,Subtitrat
+124,Barbie,Sala 5,2026-05-30 14:00,Dublat
+125,The Godfather,Sala 5,2026-05-30 18:30,Subtitrat
+126,Pulp Fiction,Sala 5,2026-05-30 21:30,Subtitrat
+127,La La Land,Sala IMAX,2026-05-30 12:00,Dublat
+128,Whiplash,Sala IMAX,2026-05-30 17:00,Subtitrat
+129,Parasite,Sala IMAX,2026-05-30 19:30,Subtitrat
+130,The Conjuring,Sala IMAX 2,2026-05-30 11:00,Dublat
+131,A Quiet Place,Sala IMAX 2,2026-05-30 16:00,Subtitrat
+132,Coco,Sala IMAX 2,2026-05-30 20:30,Dublat
+133,Frozen II,Sala VIP,2026-05-30 10:30,Dublat
+134,Top Gun: Maverick,Sala VIP,2026-05-30 14:00,Subtitrat
+135,Gladiator,Sala VIP,2026-05-30 18:30,Subtitrat
+136,Forrest Gump,Sala VIP,2026-05-30 21:30,Dublat
+137,The Matrix,Sala VIP 2,2026-05-30 12:00,Subtitrat
+138,Mad Max: Fury Road,Sala VIP 2,2026-05-30 17:00,Subtitrat
+139,Everything Everywhere All at Once,Sala VIP 2,2026-05-30 19:30,Dublat
+140,Knives Out,Sala 1,2026-05-31 10:30,Subtitrat
+141,1917,Sala 1,2026-05-31 14:00,Subtitrat
+142,Soul,Sala 1,2026-05-31 18:30,Dublat
+143,The Wild Robot,Sala 1,2026-05-31 21:30,Dublat
+144,Dune: Part Two,Sala 2,2026-05-31 12:00,Subtitrat
+145,Inside Out 2,Sala 2,2026-05-31 17:00,Dublat
+146,Inception,Sala 2,2026-05-31 19:30,Subtitrat
+147,The Batman,Sala 3,2026-05-31 11:00,Subtitrat
+148,Avatar: The Way of Water,Sala 3,2026-05-31 16:00,Dublat
+149,Oppenheimer,Sala 3,2026-05-31 20:30,Subtitrat
+150,Poor Things,Sala 4,2026-05-31 10:30,Subtitrat
+151,Spider-Man: Beyond the Spider-Verse,Sala 4,2026-05-31 14:00,Dublat
+152,Interstellar,Sala 4,2026-05-31 18:30,Subtitrat
+153,The Dark Knight,Sala 4,2026-05-31 21:30,Subtitrat
+154,Joker,Sala 5,2026-05-31 12:00,Dublat
+155,Barbie,Sala 5,2026-05-31 17:00,Subtitrat
+156,The Godfather,Sala 5,2026-05-31 19:30,Subtitrat
+157,Pulp Fiction,Sala IMAX,2026-05-31 11:00,Dublat
+158,La La Land,Sala IMAX,2026-05-31 16:00,Subtitrat
+159,Whiplash,Sala IMAX,2026-05-31 20:30,Subtitrat
+160,Parasite,Sala IMAX 2,2026-05-31 10:30,Dublat
+161,The Conjuring,Sala IMAX 2,2026-05-31 14:00,Subtitrat
+162,A Quiet Place,Sala IMAX 2,2026-05-31 18:30,Subtitrat
+163,Coco,Sala IMAX 2,2026-05-31 21:30,Dublat
+164,Frozen II,Sala VIP,2026-05-31 12:00,Dublat
+165,Top Gun: Maverick,Sala VIP,2026-05-31 17:00,Subtitrat
+166,Gladiator,Sala VIP,2026-05-31 19:30,Dublat
+167,Forrest Gump,Sala VIP 2,2026-05-31 11:00,Subtitrat
+168,The Matrix,Sala VIP 2,2026-05-31 16:00,Subtitrat
+169,Mad Max: Fury Road,Sala VIP 2,2026-05-31 20:30,Dublat
+170,Everything Everywhere All at Once,Sala 1,2026-06-01 12:00,Subtitrat
+171,Knives Out,Sala 1,2026-06-01 17:00,Subtitrat
+172,1917,Sala 1,2026-06-01 19:30,Dublat
+173,Soul,Sala 2,2026-06-01 11:00,Dublat
+174,The Wild Robot,Sala 2,2026-06-01 16:00,Dublat
+175,Dune: Part Two,Sala 2,2026-06-01 20:30,Dublat
+176,Inside Out 2,Sala 3,2026-06-01 10:30,Dublat
+177,Inception,Sala 3,2026-06-01 14:00,Subtitrat
+178,The Batman,Sala 3,2026-06-01 18:30,Dublat
+179,Avatar: The Way of Water,Sala 3,2026-06-01 21:30,Subtitrat
+180,Oppenheimer,Sala 4,2026-06-01 12:00,Subtitrat
+181,Poor Things,Sala 4,2026-06-01 17:00,Dublat
+182,Spider-Man: Beyond the Spider-Verse,Sala 4,2026-06-01 19:30,Dublat
+183,Interstellar,Sala 5,2026-06-01 11:00,Subtitrat
+184,The Dark Knight,Sala 5,2026-06-01 16:00,Dublat
+185,Joker,Sala 5,2026-06-01 20:30,Subtitrat
+186,Barbie,Sala IMAX,2026-06-01 10:30,Subtitrat
+187,The Godfather,Sala IMAX,2026-06-01 14:00,Dublat
+188,Pulp Fiction,Sala IMAX,2026-06-01 18:30,Subtitrat
+189,La La Land,Sala IMAX,2026-06-01 21:30,Subtitrat
+190,Whiplash,Sala IMAX 2,2026-06-01 12:00,Dublat
+191,Parasite,Sala IMAX 2,2026-06-01 17:00,Subtitrat
+192,The Conjuring,Sala IMAX 2,2026-06-01 19:30,Subtitrat
+193,A Quiet Place,Sala VIP,2026-06-01 11:00,Dublat
+194,Coco,Sala VIP,2026-06-01 16:00,Dublat
+195,Frozen II,Sala VIP,2026-06-01 20:30,Dublat
+196,Top Gun: Maverick,Sala VIP 2,2026-06-01 10:30,Dublat
+197,Gladiator,Sala VIP 2,2026-06-01 14:00,Subtitrat
+198,Forrest Gump,Sala VIP 2,2026-06-01 18:30,Subtitrat
+199,The Matrix,Sala VIP 2,2026-06-01 21:30,Dublat
+200,Mad Max: Fury Road,Sala 1,2026-06-02 11:00,Subtitrat
+201,Everything Everywhere All at Once,Sala 1,2026-06-02 16:00,Subtitrat
+202,Knives Out,Sala 1,2026-06-02 20:30,Dublat
+203,1917,Sala 2,2026-06-02 10:30,Subtitrat
+204,Soul,Sala 2,2026-06-02 14:00,Dublat
+205,The Wild Robot,Sala 2,2026-06-02 18:30,Dublat
+206,Dune: Part Two,Sala 2,2026-06-02 21:30,Subtitrat
+207,Inside Out 2,Sala 3,2026-06-02 12:00,Dublat
+208,Inception,Sala 3,2026-06-02 17:00,Dublat
+209,The Batman,Sala 3,2026-06-02 19:30,Subtitrat
+210,Avatar: The Way of Water,Sala 4,2026-06-02 11:00,Subtitrat
+211,Oppenheimer,Sala 4,2026-06-02 16:00,Dublat
+212,Poor Things,Sala 4,2026-06-02 20:30,Subtitrat
+213,Spider-Man: Beyond the Spider-Verse,Sala 5,2026-06-02 10:30,Dublat
+214,Interstellar,Sala 5,2026-06-02 14:00,Dublat
+215,The Dark Knight,Sala 5,2026-06-02 18:30,Subtitrat
+216,Joker,Sala 5,2026-06-02 21:30,Subtitrat
+217,Barbie,Sala IMAX,2026-06-02 12:00,Dublat
+218,The Godfather,Sala IMAX,2026-06-02 17:00,Subtitrat
+219,Pulp Fiction,Sala IMAX,2026-06-02 19:30,Subtitrat
+220,La La Land,Sala IMAX 2,2026-06-02 11:00,Dublat
+221,Whiplash,Sala IMAX 2,2026-06-02 16:00,Subtitrat
+222,Parasite,Sala IMAX 2,2026-06-02 20:30,Subtitrat
+223,The Conjuring,Sala VIP,2026-06-02 10:30,Dublat
+224,A Quiet Place,Sala VIP,2026-06-02 14:00,Subtitrat
+225,Coco,Sala VIP,2026-06-02 18:30,Dublat
+226,Frozen II,Sala VIP,2026-06-02 21:30,Dublat
+227,Top Gun: Maverick,Sala VIP 2,2026-06-02 12:00,Subtitrat
+228,Gladiator,Sala VIP 2,2026-06-02 17:00,Subtitrat
+229,Forrest Gump,Sala VIP 2,2026-06-02 19:30,Dublat
+230,The Dark Knight,Sala IMAX,2026-05-10 19:00,Subtitrat
+231,Interstellar,Sala 1,2026-05-15 20:00,Subtitrat
+232,Barbie,Sala 2,2026-05-05 17:00,Dublat
+233,Oppenheimer,Sala VIP,2026-04-28 21:00,Subtitrat

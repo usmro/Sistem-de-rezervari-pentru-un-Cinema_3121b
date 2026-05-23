@@ -329,6 +329,30 @@ body {
 }
 .back-link:hover { color: var(--text); }
 
+/* ── Cont client: card "modal" cu lista scrollabila in interior ───────────── */
+/* Cardul nu mai depaseste niciodata viewport-ul si nu trece sub navbar;       */
+/* doar #acc-rezervari scrolleaza, deci "Inapoi" si butoanele de jos raman      */
+/* mereu vizibile si clickabile.                                                */
+#screen-account.screen-form {
+    align-items: center;
+    justify-content: flex-start;
+    padding: 84px 1rem 24px;
+}
+#screen-account .form-wrap {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 108px);
+    margin-top: auto;
+    margin-bottom: auto;
+}
+#screen-account .form-wrap > *:not(#acc-rezervari) { flex-shrink: 0; }
+#acc-rezervari {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
 .form-header { margin-bottom: 1.75rem; }
 .form-header h2 {
     font-family: 'Bebas Neue', sans-serif;

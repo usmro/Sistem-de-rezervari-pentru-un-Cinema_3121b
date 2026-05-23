@@ -21,6 +21,7 @@ void salveazaLaIesire() {
 }
 
 int main() {
+  // Datele din CSV sunt încărcate în CrowServer::ruleaza() (vezi CrowServer.cpp)
   Cinematograf::getInstance();
 
   std::atexit(salveazaLaIesire);

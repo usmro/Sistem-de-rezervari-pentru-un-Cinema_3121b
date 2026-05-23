@@ -693,6 +693,298 @@
       color: rgba(0, 0, 0, .6)
     }
 
+    /* ── ROW TIER COLORS ── */
+    .seat.tier-front.available {
+      background: rgba(34, 197, 94, .07);
+      border-color: rgba(34, 197, 94, .22)
+    }
+
+    .seat.tier-front.available:hover {
+      background: rgba(34, 197, 94, .22);
+      border-color: rgba(34, 197, 94, .6)
+    }
+
+    .seat.tier-back.available {
+      background: rgba(245, 158, 11, .07);
+      border-color: rgba(245, 158, 11, .22)
+    }
+
+    .seat.tier-back.available:hover {
+      background: rgba(245, 158, 11, .22);
+      border-color: rgba(245, 158, 11, .6)
+    }
+
+    .legend-seat.tier-front {
+      background: rgba(34, 197, 94, .15);
+      border: 1px solid rgba(34, 197, 94, .4)
+    }
+
+    .legend-seat.tier-back {
+      background: rgba(245, 158, 11, .15);
+      border: 1px solid rgba(245, 158, 11, .4)
+    }
+
+    .seat-gap {
+      pointer-events: none
+    }
+
+    .seat-count-badge {
+      text-align: center;
+      font-size: 12.5px;
+      color: var(--text3);
+      padding: 8px 0 0;
+      font-weight: 500;
+      letter-spacing: .04em
+    }
+
+    .seat-count-badge strong {
+      color: var(--red)
+    }
+
+    /* ── TICKET COMPOSITION MODAL ── */
+    .tc-modal .modal-box {
+      max-width: 440px;
+      padding: 0
+    }
+
+    .tc-modal .modal-top {
+      padding: 28px 28px 16px
+    }
+
+    .tc-body {
+      padding: 0 28px
+    }
+
+    .tc-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .tc-row:last-child {
+      border-bottom: none
+    }
+
+    .tc-name {
+      font-weight: 600;
+      font-size: 14px
+    }
+
+    .tc-price {
+      font-size: 12px;
+      color: var(--text3);
+      margin-top: 2px
+    }
+
+    .tc-spinner {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .tc-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid var(--border2);
+      background: var(--bg4);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .15s
+    }
+
+    .tc-btn:hover:not(:disabled) {
+      background: var(--bg5);
+      border-color: var(--border2)
+    }
+
+    .tc-btn:disabled {
+      opacity: .3;
+      cursor: not-allowed
+    }
+
+    .tc-cnt {
+      font-size: 16px;
+      font-weight: 700;
+      min-width: 24px;
+      text-align: center
+    }
+
+    .tc-footer {
+      padding: 16px 28px 24px;
+      border-top: 1px solid var(--border);
+      margin-top: 4px
+    }
+
+    .tc-total {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      font-size: 13px
+    }
+
+    .tc-total-count {
+      color: var(--text3)
+    }
+
+    .tc-total-price {
+      font-weight: 700;
+      color: var(--text);
+      font-size: 15px
+    }
+
+    .tc-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end
+    }
+
+    .tc-confirm-btn {
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      padding: 10px 20px;
+      cursor: pointer;
+      font-family: var(--fb);
+      font-size: 13.5px;
+      font-weight: 600;
+      transition: all .15s
+    }
+
+    .tc-confirm-btn:hover:not(:disabled) {
+      background: #c8070f
+    }
+
+    .tc-confirm-btn:disabled {
+      opacity: .4;
+      cursor: not-allowed
+    }
+
+    .tc-ghost {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text3);
+      border-radius: var(--radius);
+      padding: 10px 16px;
+      cursor: pointer;
+      font-family: var(--fb);
+      font-size: 13px;
+      transition: all .15s
+    }
+
+    /* ── VIP FOOD ── */
+    .vip-food-section {
+      padding: 0 0 32px
+    }
+
+    .vf-hdr {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 0 12px
+    }
+
+    .vf-title {
+      font-family: var(--fd);
+      font-size: 1.4rem;
+      letter-spacing: .08em
+    }
+
+    .vf-badge {
+      background: rgba(245, 197, 24, .12);
+      border: 1px solid rgba(245, 197, 24, .3);
+      color: var(--gold);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-weight: 600
+    }
+
+    .vf-sub {
+      font-size: 13px;
+      color: var(--text3);
+      margin-bottom: 20px
+    }
+
+    .vf-section-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-weight: 600;
+      color: var(--text3);
+      margin: 16px 0 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .vf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px
+    }
+
+    .vf-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative
+    }
+
+    .vf-card.inclus {
+      border-color: rgba(34, 197, 94, .2);
+      background: rgba(34, 197, 94, .03)
+    }
+
+    .vf-emoji {
+      font-size: 26px
+    }
+
+    .vf-name {
+      font-weight: 600;
+      font-size: 13.5px
+    }
+
+    .vf-desc {
+      font-size: 11.5px;
+      color: var(--text3)
+    }
+
+    .vf-price {
+      font-size: 12px;
+      color: var(--green);
+      font-weight: 600
+    }
+
+    .vf-price.premium {
+      color: var(--gold)
+    }
+
+    .vf-inclus-tag {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      font-size: 9px;
+      font-weight: 700;
+      background: rgba(34, 197, 94, .15);
+      color: var(--green);
+      padding: 2px 6px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em
+    }
+
     .row-labels {
       display: flex;
       flex-direction: column;
@@ -1501,7 +1793,10 @@
         <div class="seat-grid" id="seat-grid"></div>
       </div>
     </div>
-    <div class="legend">
+    <div class="seat-count-badge" id="seat-count-badge" style="display:none">
+      Selectat <strong id="seat-count-cur">0</strong> din <strong id="seat-count-total">0</strong> locuri
+    </div>
+    <div class="legend" id="seat-legend">
       <div class="legend-item">
         <div class="legend-seat available"></div> Disponibil
       </div>
@@ -1513,6 +1808,12 @@
       </div>
       <div class="legend-item" id="legend-vip" style="display:none">
         <div class="legend-seat vip"></div> VIP
+      </div>
+      <div class="legend-item" id="legend-front" style="display:none">
+        <div class="legend-seat tier-front"></div> Față (−15%)
+      </div>
+      <div class="legend-item" id="legend-back" style="display:none">
+        <div class="legend-seat tier-back"></div> Spate (+20%)
       </div>
     </div>
   </div>
@@ -1544,10 +1845,7 @@
       <div class="bar-seat" id="bar-seat">—</div>
       <div class="bar-film" id="bar-film"></div>
     </div>
-    <div class="bar-ticket">
-      <label>Tip bilet</label>
-      <select class="ticket-select" id="ticket-select" onchange="aplicaVoucher()"></select>
-    </div>
+    <select id="ticket-select" style="display:none"></select>
     <div class="bar-voucher">
       <label>Voucher (opțional)</label>
       <div style="display:flex;gap:5px;align-items:center;height:30px">
@@ -1566,26 +1864,170 @@
     </button>
   </div>
 
-  <div class="modal-bg" id="modal-success">
-    <div class="modal-box">
-      <div class="modal-top">
-        <div class="modal-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
+  <!-- TICKET COMPOSITION MODAL -->
+  <div class="modal-bg tc-modal" id="modal-tickets">
+    <div class="modal-box" style="max-width:440px;padding:0;overflow:hidden">
+      <div class="modal-top" style="padding:24px 28px 14px">
+        <div class="modal-title" style="font-size:1.25rem;margin-bottom:6px">Alege biletele</div>
+        <div class="modal-sub" id="tc-movie-info" style="font-size:12px"></div>
+      </div>
+      <div class="tc-body">
+        <div class="tc-row">
+          <div>
+            <div class="tc-name">Adult</div>
+            <div class="tc-price" id="tc-pr-adult">— RON</div>
+          </div>
+          <div class="tc-spinner">
+            <button class="tc-btn" onclick="adjTc('adult',-1)" id="tc-minus-adult" disabled>−</button>
+            <span class="tc-cnt" id="tc-cnt-adult">0</span>
+            <button class="tc-btn" onclick="adjTc('adult',1)">+</button>
+          </div>
         </div>
-        <div class="modal-title">REZERVARE CONFIRMATĂ</div>
-        <div class="modal-sub">Rezervarea ta a fost înregistrată cu succes.<br>Ne vedem la cinema!</div>
-        <div class="modal-id" id="modal-rez-id"></div>
-
-        <div id="modal-snacks-msg"
-          style="display:none; margin-top: 15px; font-size: 13px; color: var(--amber); background: rgba(245,158,11,0.1); padding: 10px; border-radius: var(--radius); border: 1px solid rgba(245,158,11,0.2);">
-          Ai adăugat snacks în valoare de <strong id="modal-snacks-val"></strong>.<br>Mergi la casa
-          <strong>"Pre-Comenzi"</strong> și prezintă ID-ul de mai sus pentru a ridica produsele.
+        <div class="tc-row" id="tc-row-student">
+          <div>
+            <div class="tc-name">Student</div>
+            <div class="tc-price" id="tc-pr-student">— RON</div>
+          </div>
+          <div class="tc-spinner">
+            <button class="tc-btn" onclick="adjTc('student',-1)" id="tc-minus-student" disabled>−</button>
+            <span class="tc-cnt" id="tc-cnt-student">0</span>
+            <button class="tc-btn" onclick="adjTc('student',1)">+</button>
+          </div>
+        </div>
+        <div class="tc-row" id="tc-row-copil">
+          <div>
+            <div class="tc-name">Copil</div>
+            <div class="tc-price" id="tc-pr-copil">— RON</div>
+          </div>
+          <div class="tc-spinner">
+            <button class="tc-btn" onclick="adjTc('copil',-1)" id="tc-minus-copil" disabled>−</button>
+            <span class="tc-cnt" id="tc-cnt-copil">0</span>
+            <button class="tc-btn" onclick="adjTc('copil',1)">+</button>
+          </div>
+        </div>
+        <div class="tc-row" id="tc-row-pensionar">
+          <div>
+            <div class="tc-name">Pensionar</div>
+            <div class="tc-price" id="tc-pr-pensionar">— RON</div>
+          </div>
+          <div class="tc-spinner">
+            <button class="tc-btn" onclick="adjTc('pensionar',-1)" id="tc-minus-pensionar" disabled>−</button>
+            <span class="tc-cnt" id="tc-cnt-pensionar">0</span>
+            <button class="tc-btn" onclick="adjTc('pensionar',1)">+</button>
+          </div>
+        </div>
+        <div class="tc-row" id="tc-row-vip" style="display:none">
+          <div>
+            <div class="tc-name">VIP</div>
+            <div class="tc-price" id="tc-pr-vip">— RON</div>
+          </div>
+          <div class="tc-spinner">
+            <button class="tc-btn" onclick="adjTc('vip',-1)" id="tc-minus-vip" disabled>−</button>
+            <span class="tc-cnt" id="tc-cnt-vip">0</span>
+            <button class="tc-btn" onclick="adjTc('vip',1)">+</button>
+          </div>
         </div>
       </div>
-      <div class="modal-foot">
-        <button class="modal-btn" onclick="afterBooking()">Rezervă alt bilet</button>
+      <div class="tc-footer">
+        <div class="tc-total">
+          <span class="tc-total-count" id="tc-total-cnt">0 bilete selectate</span>
+          <span class="tc-total-price" id="tc-total-price">0.00 RON</span>
+        </div>
+        <div class="tc-actions">
+          <button class="tc-ghost" onclick="closeModal('modal-tickets')">Anulează</button>
+          <button class="tc-confirm-btn" id="tc-confirm-btn" onclick="confirmTicketComposition()" disabled>Alege
+            locurile →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIRMARE DETALIATĂ -->
+  <div class="modal-bg" id="modal-confirm-booking">
+    <div class="modal-box" style="max-width:500px;padding:0;overflow:hidden">
+      <div style="padding:24px 28px 16px;border-bottom:1px solid var(--border)">
+        <div class="modal-title" style="font-size:1.3rem;margin-bottom:4px">Confirmă rezervarea</div>
+        <div class="modal-sub" id="cb-movie-sub" style="font-size:12px"></div>
+      </div>
+      <div style="padding:16px 28px;max-height:55vh;overflow-y:auto">
+        <div id="cb-seats-list" style="margin-bottom:16px"></div>
+        <div id="cb-vip-list" style="margin-bottom:14px;display:none">
+          <div
+            style="font-size:11px;font-weight:600;letter-spacing:.07em;color:var(--gold);text-transform:uppercase;margin-bottom:8px">
+            Extras VIP</div>
+          <div id="cb-vip-items"></div>
+        </div>
+        <div id="cb-voucher-row"
+          style="display:none;padding:8px 12px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:6px;font-size:12.5px;margin-bottom:10px;color:var(--green)">
+        </div>
+        <div id="cb-card-row"
+          style="display:none;padding:8px 12px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:6px;font-size:12.5px;margin-bottom:10px;color:var(--blue)">
+          Card Fidelitate activ — reducere 10% aplicată</div>
+        <div
+          style="border-top:1px solid var(--border);padding-top:14px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:13px;color:var(--text2)">Total de plată</span>
+          <span id="cb-total" style="font-size:1.4rem;font-weight:700;color:var(--text)">0.00 RON</span>
+        </div>
+      </div>
+      <div style="padding:16px 28px;border-top:1px solid var(--border);display:flex;gap:10px">
+        <button onclick="closeModal('modal-confirm-booking')"
+          style="flex:1;padding:11px;border:1px solid var(--border2);background:var(--bg4);color:var(--text2);border-radius:var(--radius);cursor:pointer;font-family:var(--fb);font-size:13px">Înapoi</button>
+        <button id="cb-confirm-btn" onclick="confirmBooking()"
+          style="flex:2;padding:11px;background:var(--red);color:#fff;border:none;border-radius:var(--radius);cursor:pointer;font-family:var(--fb);font-size:13px;font-weight:600">
+          Confirmă și plătește
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BILET SUCCESS -->
+  <div class="modal-bg" id="modal-success">
+    <div class="modal-box" style="max-width:440px;padding:0;overflow:hidden">
+      <!-- Ticket header -->
+      <div style="background:var(--red);padding:24px 28px 20px;text-align:center">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"
+          style="width:32px;height:32px;margin-bottom:8px">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+        <div style="font-family:var(--fd);font-size:1.5rem;letter-spacing:.1em;color:#fff">REZERVARE CONFIRMATĂ</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.75);margin-top:4px">Ne vedem la cinema!</div>
+      </div>
+      <!-- Ticket perforation -->
+      <div style="display:flex;align-items:center;background:var(--bg2)">
+        <div style="width:18px;height:18px;border-radius:50%;background:var(--bg);margin-left:-9px;flex-shrink:0"></div>
+        <div style="flex:1;border-top:2px dashed var(--border);margin:0 4px"></div>
+        <div style="width:18px;height:18px;border-radius:50%;background:var(--bg);margin-right:-9px;flex-shrink:0">
+        </div>
+      </div>
+      <!-- Ticket body -->
+      <div style="padding:20px 28px;background:var(--bg2)">
+        <div style="margin-bottom:16px">
+          <div
+            style="font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--text3);text-transform:uppercase;margin-bottom:4px">
+            ID Rezervare</div>
+          <div id="modal-rez-id" style="font-family:var(--fd);font-size:1.6rem;letter-spacing:.12em;color:var(--text)">
+          </div>
+        </div>
+        <div id="ticket-details"
+          style="font-size:12.5px;color:var(--text2);line-height:2;border-top:1px solid var(--border);padding-top:14px;margin-bottom:14px">
+        </div>
+        <div id="modal-snacks-msg"
+          style="display:none;padding:10px 12px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:6px;font-size:12px;color:var(--amber);margin-bottom:14px">
+          🍿 Snacks în valoare de <strong id="modal-snacks-val"></strong> — prezintă ID-ul la casa
+          <strong>"Pre-Comenzi"</strong>.
+        </div>
+        <!-- Barcode visual -->
+        <div style="text-align:center;padding:12px 0 6px">
+          <div id="ticket-barcode" style="display:inline-flex;gap:2px;height:40px;align-items:flex-end"></div>
+          <div style="font-size:9px;color:var(--text4);letter-spacing:.15em;margin-top:4px" id="ticket-barcode-txt">
+          </div>
+        </div>
+      </div>
+      <!-- Ticket footer -->
+      <div style="padding:16px 28px;border-top:1px solid var(--border);background:var(--bg3);display:flex;gap:10px">
+        <button class="modal-btn" style="flex:1" onclick="afterBooking()">Rezervă alt bilet</button>
+        <button class="modal-btn" style="flex:1;background:var(--bg4)"
+          onclick="window.location.href='index.html'">Acasă</button>
       </div>
     </div>
   </div>
@@ -1637,8 +2079,13 @@
     let selectedFilm = null;
     let selectedDate = null;
     let selectedProiectie = null;
-    let selectedSeat = null;
+    let selectedSeats = [];       // [{rand, loc}, ...]
+    let ticketComposition = [];   // [{name, mult, count}, ...]
+    let totalTickets = 0;
+    let tcCounts = { adult: 0, student: 0, copil: 0, pensionar: 0, vip: 0 };
+    let occupiedSeatsCache = [];
     let cart = {};
+    let vipFoodCart = {};
     let currentStep = 1;
     let activeVoucherPercent = 0;
 
@@ -1660,19 +2107,41 @@
 
     // ── TICKET TYPES ──
     const TICKET_STANDARD = [
-      { name: 'Adult', mult: 1.00 },
-      { name: 'Student', mult: 0.70 },
-      { name: 'Elev', mult: 0.60 },
-      { name: 'Pensionar', mult: 0.50 },
+      { key: 'adult', name: 'Adult', mult: 1.00 },
+      { key: 'student', name: 'Student', mult: 0.70 },
+      { key: 'copil', name: 'Copil', mult: 0.50 },
+      { key: 'pensionar', name: 'Pensionar', mult: 0.50 },
     ];
     const TICKET_VIP = [
-      { name: 'VIP', mult: 1.00 },
-      { name: 'Personal', mult: 0.30 },
-      { name: 'Adult', mult: 1.00 },
+      { key: 'vip', name: 'VIP', mult: 1.00 },
+      { key: 'adult', name: 'Adult', mult: 1.00 },
     ];
     function getTicketTypes(salaTip) {
       return salaTip === 'VIP' ? TICKET_VIP : TICKET_STANDARD;
     }
+
+    // ── ROW TIER ──
+    function getRowTier(row, totalRows) {
+      const pct = row / totalRows;
+      if (pct <= 0.30) return { cls: 'tier-front', mult: 0.85, label: 'Față −15%' };
+      if (pct <= 0.70) return { cls: 'tier-mid', mult: 1.00, label: 'Mijloc' };
+      return { cls: 'tier-back', mult: 1.20, label: 'Spate +20%' };
+    }
+
+    // ── VIP FOOD DATA ──
+    const VIP_FOOD_INCLUS = [
+      { emoji: '🥤', name: 'Pepsi', desc: 'Nelimitat' },
+      { emoji: '🍿', name: 'Popcorn', desc: 'Nelimitat' },
+      { emoji: '🧀', name: 'Nachos', desc: 'Nelimitat' },
+    ];
+    const VIP_FOOD_PREMIUM = [
+      { id: 'vf1', emoji: '🍷', name: 'Vin roșu', desc: 'Pahar 150 ml, selecție premium', pret: 35 },
+      { id: 'vf2', emoji: '🍾', name: 'Șampanie', desc: 'Pahar 150 ml, Prosecco DOC', pret: 45 },
+      { id: 'vf3', emoji: '🧀', name: 'Platou brânzeturi', desc: 'Selecție de brânzeturi + crackers', pret: 65 },
+      { id: 'vf4', emoji: '🐟', name: 'Somon afumat', desc: '150 g + pâine prăjită', pret: 75 },
+      { id: 'vf5', emoji: '🍽️', name: 'Meniu șnițel', desc: 'Șnițel + garnitură la alegere', pret: 55 },
+      { id: 'vf6', emoji: '🍰', name: 'Tort de ciocolată', desc: 'Felie 150 g, garnisit', pret: 40 },
+    ];
 
     // ── HELPERS ──
     function esc(s) {
@@ -1701,7 +2170,7 @@
     function getSnackEmoji(nume) {
       let n = nume.toLowerCase();
       if (n.includes('popcorn')) return '🍿';
-      if (n.includes('cola') || n.includes('apa') || n.includes('suc') || n.includes('fanta') || n.includes('sprite')) return '🥤';
+      if (n.includes('pepsi') || n.includes('cola') || n.includes('apa') || n.includes('suc') || n.includes('fanta') || n.includes('sprite')) return '🥤';
       if (n.includes('nachos')) return '🧀';
       if (n.includes('hot dog') || n.includes('hotdog')) return '🌭';
       return '🍫';
@@ -1717,7 +2186,10 @@
       });
       if (n < 3) {
         el('booking-bar').classList.remove('visible');
-        selectedSeat = null;
+        selectedSeats = [];
+        ticketComposition = [];
+        totalTickets = 0;
+        tcCounts = { adult: 0, student: 0, copil: 0, pensionar: 0, vip: 0 };
       } else {
         updatePrice();
       }
@@ -1725,8 +2197,10 @@
         try {
           const r = await fetch(`${API}/snacks`);
           SNACKS = await r.json();
-        } catch {}
-        renderSnacks();
+        } catch { }
+        const isVip = selectedProiectie?.sala?.tip === 'VIP';
+        if (isVip) renderVIPFood();
+        else renderSnacks();
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -1874,7 +2348,7 @@
         </div>
         <div class="times-row">
           ${projs.map(p => `
-            <button class="time-btn" onclick="selectProiectie(${p.id})">
+            <button class="time-btn" onclick="selectProiectie(${p.id}, this)">
               <span>${esc(timeOf(p.dataOra))}</span>
               <span class="time-format">${esc(p.formatAudio)}</span>
             </button>`).join('')}
@@ -1887,33 +2361,92 @@
     // STEP 3 – seat map
     // ─────────────────────────────────────────────
 
+    function updateSeatCounter() {
+      const sel = selectedSeats.length;
+      const badge = el('seat-count-badge');
+      badge.innerHTML = `Selectat <strong>${sel}</strong> din <strong>${totalTickets}</strong> loc${totalTickets !== 1 ? 'uri' : ''}`;
+    }
+
     function toggleSeat(seatEl, rand, loc) {
       if (seatEl.classList.contains('occupied')) return;
-      if (selectedSeat) {
-        const prev = el('seat-grid').querySelector(`[data-rand="${selectedSeat.rand}"][data-loc="${selectedSeat.loc}"]`);
-        if (prev) prev.classList.replace('selected', 'available');
+      const idx = selectedSeats.findIndex(s => s.rand === rand && s.loc === loc);
+      if (idx !== -1) {
+        selectedSeats.splice(idx, 1);
+        seatEl.classList.replace('selected', 'available');
+      } else {
+        if (selectedSeats.length >= totalTickets) {
+          showToast(`Poți selecta maxim ${totalTickets} loc${totalTickets !== 1 ? 'uri' : ''}.`, 'error');
+          return;
+        }
+        selectedSeats.push({ rand, loc });
+        seatEl.classList.replace('available', 'selected');
       }
-
-      if (selectedSeat?.rand === rand && selectedSeat?.loc === loc) {
-        selectedSeat = null;
-        el('booking-bar').classList.remove('visible');
-        return;
-      }
-
-      seatEl.classList.replace('available', 'selected');
-      selectedSeat = { rand, loc };
-
-      const p = selectedProiectie;
-      const sala = p.sala;
-      el('bar-seat').textContent = `Rând ${String.fromCharCode(64 + rand)}, Loc ${loc}`;
-      el('bar-film').textContent = `${p.film.titlu} · ${p.dataOra} · ${sala.nume}`;
-      el('booking-bar').classList.add('visible');
+      updateSeatCounter();
       updatePrice();
+      if (selectedSeats.length > 0) {
+        const p = selectedProiectie;
+        el('bar-film').textContent = `${p.film.titlu} · ${p.dataOra} · ${p.sala.nume}`;
+        el('bar-seat').textContent = `${selectedSeats.length}/${totalTickets} loc${totalTickets !== 1 ? 'uri' : ''}`;
+        el('booking-bar').classList.add('visible');
+      } else {
+        el('booking-bar').classList.remove('visible');
+      }
     }
 
     // ─────────────────────────────────────────────
     // STEP 4 – snacks grid
     // ─────────────────────────────────────────────
+    function renderVIPFood() {
+      const container = el('client-snacks-grid');
+      container.innerHTML = `
+        <div style="display:grid;grid-template-columns:200px 1fr;gap:20px;align-items:start">
+
+          <!-- LEFT: included -->
+          <div>
+            <div style="font-family:var(--fd);letter-spacing:.08em;font-size:.9rem;color:var(--gold);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(245,197,24,.2)">Inclus în VIP</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              ${VIP_FOOD_INCLUS.map(f => `
+                <div class="snack-card" style="flex-direction:row;align-items:center;gap:12px;padding:10px 14px;text-align:left">
+                  <span style="font-size:1.6rem;line-height:1">${f.emoji}</span>
+                  <div style="flex:1;min-width:0">
+                    <div class="snack-name" style="margin:0">${esc(f.name)}</div>
+                    <div class="snack-price" style="color:var(--green);font-size:11px;margin:0">Gratuit ∞</div>
+                  </div>
+                  <div class="snack-stock-tag" style="position:static;background:rgba(34,197,94,.12);color:var(--green);border-color:rgba(34,197,94,.25);flex-shrink:0">Inclus</div>
+                </div>`).join('')}
+            </div>
+          </div>
+
+          <!-- RIGHT: premium -->
+          <div>
+            <div style="font-family:var(--fd);letter-spacing:.08em;font-size:.9rem;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)">Premium — cu cost</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+              ${VIP_FOOD_PREMIUM.map(f => {
+        const inCart = !!vipFoodCart[f.id];
+        return `
+                <div class="snack-card ${inCart ? 'has-qty' : ''}" style="cursor:pointer" onclick="toggleVipFood('${f.id}',${f.pret},'${esc(f.name)}')">
+                  <div class="snack-emoji">${f.emoji}</div>
+                  <div class="snack-name">${esc(f.name)}</div>
+                  <div class="snack-desc">${esc(f.desc)}</div>
+                  <div class="snack-price">${f.pret.toFixed(2)} RON</div>
+                  <div style="margin-top:8px;padding:5px 10px;border-radius:4px;font-size:11px;text-align:center;${inCart ? 'background:var(--red);color:#fff' : 'background:var(--bg4);border:1px solid var(--border2);color:var(--text2)'}">
+                    ${inCart ? '✓ Adăugat' : '+ Adaugă'}
+                  </div>
+                </div>`;
+      }).join('')}
+            </div>
+          </div>
+
+        </div>`;
+    }
+
+    function toggleVipFood(id, pret, name) {
+      if (vipFoodCart[id]) delete vipFoodCart[id];
+      else vipFoodCart[id] = { pret, name };
+      renderVIPFood();
+      updatePrice();
+    }
+
     function renderSnacks() {
       const container = el('client-snacks-grid');
       container.innerHTML = SNACKS.map((s, index) => {
@@ -1967,7 +2500,7 @@
         updatePrice(); return;
       }
 
-      const tip = el('ticket-select').value;
+      const tip = ticketComposition[0]?.name || 'Adult';
       try {
         const res = await fetch(`${API}/verifica-voucher`, {
           method: 'POST',
@@ -1992,24 +2525,37 @@
     }
 
     function updatePrice() {
-      if (!selectedSeat || !selectedProiectie) return;
+      if (!selectedProiectie) return;
       const p = selectedProiectie;
-      const sel = el('ticket-select');
-      const opt = sel.options[sel.selectedIndex];
-      const mult = parseFloat(opt?.dataset.mult || 1);
+      const isVip = p.sala.tip === 'VIP';
       const multSala = p.sala.multiplicatorPret;
 
-      let pretBilet = p.film.pretBaza * mult * multSala;
+      // Flatten ticketComposition to per-seat type list
+      const seatTypes = [];
+      ticketComposition.forEach(t => { for (let i = 0; i < t.count; i++) seatTypes.push(t); });
 
-      if (currentUser?.cardFidelitate) {
-        pretBilet *= 0.90;
-      }
-      if (activeVoucherPercent > 0) {
-        pretBilet = pretBilet - (pretBilet * (activeVoucherPercent / 100));
+      let pretBilet = 0;
+      if (selectedSeats.length > 0) {
+        selectedSeats.forEach((seat, i) => {
+          const ticket = seatTypes[i] || seatTypes[0] || { mult: 1.0 };
+          const tier = isVip ? { mult: 1.0 } : getRowTier(seat.rand, p.sala.randuri);
+          let price = p.film.pretBaza * ticket.mult * multSala * tier.mult;
+          if (currentUser?.cardFidelitate) price *= 0.90;
+          if (activeVoucherPercent > 0) price *= (1 - activeVoucherPercent / 100);
+          pretBilet += price;
+        });
+      } else if (seatTypes.length > 0) {
+        // Estimate (mid-tier) before seats chosen
+        seatTypes.forEach(t => {
+          let price = p.film.pretBaza * t.mult * multSala;
+          if (currentUser?.cardFidelitate) price *= 0.90;
+          pretBilet += price;
+        });
       }
 
       let pretSnacks = 0;
       Object.values(cart).forEach(c => { pretSnacks += c.item.pret * c.qty; });
+      Object.values(vipFoodCart).forEach(item => { pretSnacks += item.pret; });
 
       const total = pretBilet + pretSnacks;
       el('price-val').innerHTML = `${total.toFixed(2)}&nbsp;<span>RON</span>`;
@@ -2018,15 +2564,22 @@
       if (currentStep === 3) {
         btn.innerHTML = 'Continuă la Snacks ›';
         btn.onclick = () => goToStep(4);
+        btn.disabled = selectedSeats.length < totalTickets;
       } else {
-        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Confirmă Rezervarea';
-        btn.onclick = () => confirmBooking();
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Verifică și confirmă';
+        btn.onclick = () => showConfirmDetails();
+        btn.disabled = false;
       }
     }
 
     function afterBooking() {
       closeModal('modal-success');
       cart = {};
+      vipFoodCart = {};
+      selectedSeats = [];
+      ticketComposition = [];
+      totalTickets = 0;
+      tcCounts = { adult: 0, student: 0, copil: 0, pensionar: 0, vip: 0 };
       activeVoucherPercent = 0;
       const vInput = el('voucher-input');
       if (vInput) vInput.value = '';
@@ -2063,8 +2616,59 @@
       }
     }
 
+    function showConfirmDetails() {
+      if (selectedSeats.length === 0 || !selectedProiectie) return;
+      const p = selectedProiectie;
+      const isVip = p.sala.tip === 'VIP';
+      const seatTypes = [];
+      ticketComposition.forEach(t => { for (let i = 0; i < t.count; i++) seatTypes.push(t); });
+
+      el('cb-movie-sub').textContent = `${p.film.titlu} · ${p.sala.nume} · ${p.dataOra}`;
+
+      let seatsHtml = `<div style="font-size:11px;font-weight:600;letter-spacing:.07em;color:var(--text3);text-transform:uppercase;margin-bottom:8px">Locuri selectate</div>`;
+      let totalBilete = 0;
+      selectedSeats.forEach((seat, i) => {
+        const ticket = seatTypes[i] || seatTypes[0];
+        const tier = isVip ? { mult: 1.0, label: 'VIP' } : getRowTier(seat.rand, p.sala.randuri);
+        let price = p.film.pretBaza * ticket.mult * p.sala.multiplicatorPret * tier.mult;
+        if (currentUser?.cardFidelitate) price *= 0.90;
+        if (activeVoucherPercent > 0) price *= (1 - activeVoucherPercent / 100);
+        totalBilete += price;
+        const rowLetter = String.fromCharCode(64 + seat.rand);
+        const tierColor = tier.label === 'Față' ? 'var(--green)' : tier.label === 'Spate' ? 'var(--amber)' : tier.label === 'VIP' ? 'var(--gold)' : 'var(--text3)';
+        seatsHtml += `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)">
+          <div><span style="font-weight:600">Rând ${rowLetter}, Loc ${seat.loc}</span><span style="margin-left:8px;font-size:11px;color:${tierColor}">${tier.label}</span></div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="font-size:11px;padding:2px 8px;background:var(--bg4);border-radius:3px;border:1px solid var(--border2)">${ticket.name}</span>
+            <span style="font-weight:600;min-width:70px;text-align:right">${price.toFixed(2)} RON</span>
+          </div>
+        </div>`;
+      });
+      el('cb-seats-list').innerHTML = seatsHtml;
+
+      const vipKeys = Object.keys(vipFoodCart);
+      if (vipKeys.length > 0) {
+        el('cb-vip-list').style.display = '';
+        el('cb-vip-items').innerHTML = vipKeys.map(k => {
+          const item = vipFoodCart[k];
+          return `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:12.5px"><span>${esc(item.name)}</span><span style="font-weight:600">${item.pret.toFixed(2)} RON</span></div>`;
+        }).join('');
+      } else { el('cb-vip-list').style.display = 'none'; }
+
+      el('cb-voucher-row').style.display = activeVoucherPercent > 0 ? '' : 'none';
+      if (activeVoucherPercent > 0) el('cb-voucher-row').textContent = `Voucher aplicat — reducere ${activeVoucherPercent}%`;
+      el('cb-card-row').style.display = currentUser?.cardFidelitate ? '' : 'none';
+
+      let pretSnacks = 0;
+      Object.values(cart).forEach(c => { pretSnacks += c.item.pret * c.qty; });
+      vipKeys.forEach(k => { pretSnacks += vipFoodCart[k].pret; });
+      el('cb-total').textContent = (totalBilete + pretSnacks).toFixed(2) + ' RON';
+      el('modal-confirm-booking').classList.add('open');
+    }
+
     async function confirmBooking() {
-      if (!selectedSeat || !selectedProiectie) return;
+      closeModal('modal-confirm-booking');
+      if (selectedSeats.length === 0 || !selectedProiectie) return;
       if (!currentUser) {
         showToast('Trebuie să fii autentificat pentru a rezerva.', 'error');
         setTimeout(() => window.location.href = 'index.html', 1500);
@@ -2075,63 +2679,115 @@
       btn.disabled = true;
       btn.innerHTML = '<div class="spinner"></div> Se procesează...';
 
-      const payload = {
-        idProiectie: selectedProiectie.id,
-        rand: selectedSeat.rand,
-        loc: selectedSeat.loc,
-        tipBilet: el('ticket-select').value,
-        username: currentUser.username,
-        codVoucher: el('voucher-input').value.trim()
-      };
+      // Flatten composition to per-seat types
+      const seatTypes = [];
+      ticketComposition.forEach(t => { for (let i = 0; i < t.count; i++) seatTypes.push(t); });
+
+      const isVip = selectedProiectie.sala.tip === 'VIP';
+      const codVoucher = el('voucher-input').value.trim();
+      const rezervariIds = [];
 
       try {
-        const res = await fetch(`${API}/rezerva`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json();
+        for (let i = 0; i < selectedSeats.length; i++) {
+          const seat = selectedSeats[i];
+          const ticket = seatTypes[i] || seatTypes[0];
+          const payload = {
+            idProiectie: selectedProiectie.id,
+            rand: seat.rand,
+            loc: seat.loc,
+            tipBilet: ticket.name,
+            username: currentUser.username,
+            codVoucher
+          };
 
-        if (res.ok && data.status === 'ok') {
-          const idRez = data.idRezervare || '—';
-          el('modal-rez-id').textContent = idRez;
+          const res = await fetch(`${API}/rezerva`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const data = await res.json();
 
-          const cartKeys = Object.keys(cart);
-          if (cartKeys.length > 0) {
-            let snacksTotalVal = 0;
-            const snacksPayload = cartKeys.map(id => {
-              snacksTotalVal += cart[id].item.pret * cart[id].qty;
-              return { id: parseInt(id), qty: cart[id].qty };
-            });
-            el('modal-snacks-val').textContent = `${snacksTotalVal.toFixed(2)} RON`;
-            el('modal-snacks-msg').style.display = 'block';
-            try {
-              await fetch(`${API}/comanda-snacks`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ idRezervare: idRez, snacks: snacksPayload })
-              });
-            } catch (e) { console.log('Eroare trimitere snacks'); }
+          if (res.ok && data.status === 'ok') {
+            rezervariIds.push(data.idRezervare || '—');
+            const seatEl = el('seat-grid').querySelector(`[data-rand="${seat.rand}"][data-loc="${seat.loc}"]`);
+            if (seatEl) { seatEl.classList.remove('selected', 'available'); seatEl.classList.add('occupied'); }
           } else {
-            el('modal-snacks-msg').style.display = 'none';
+            el('modal-err-msg').textContent = data.mesaj || `Rezervare eșuată pentru locul ${i + 1}.`;
+            el('modal-error').classList.add('open');
+            refreshSeatMap();
+            return;
           }
-
-          el('modal-success').classList.add('open');
-
-          const seatEl = el('seat-grid').querySelector(`[data-rand="${selectedSeat.rand}"][data-loc="${selectedSeat.loc}"]`);
-          if (seatEl) {
-            seatEl.classList.remove('selected', 'available');
-            seatEl.classList.add('occupied');
-          }
-          cart = {};
-          selectedSeat = null;
-          el('booking-bar').classList.remove('visible');
-
-        } else {
-          el('modal-err-msg').textContent = data.mesaj || 'Rezervarea a eșuat.';
-          el('modal-error').classList.add('open');
-          refreshSeatMap();
         }
+
+        // All succeeded — populate ticket
+        const firstId = rezervariIds[0] || '—';
+        el('modal-rez-id').textContent = rezervariIds.join(' · ');
+
+        // Ticket details block
+        const p = selectedProiectie;
+        const seatTypes2 = [];
+        ticketComposition.forEach(t => { for (let i = 0; i < t.count; i++) seatTypes2.push(t); });
+        let detailsHtml = `<div style="display:grid;grid-template-columns:auto 1fr;gap:4px 16px">
+          <span style="color:var(--text3)">Film</span><span style="font-weight:500">${esc(p.film.titlu)}</span>
+          <span style="color:var(--text3)">Sală</span><span>${esc(p.sala.nume)}</span>
+          <span style="color:var(--text3)">Data</span><span>${esc(p.dataOra)}</span>
+          <span style="color:var(--text3)">Locuri</span><span>${selectedSeats.map((s, i) => {
+          const t = seatTypes2[i] || seatTypes2[0];
+          return `${String.fromCharCode(64 + s.rand)}${s.loc} (${t?.name || ''})`;
+        }).join(', ')}</span>
+        </div>`;
+        el('ticket-details').innerHTML = detailsHtml;
+
+        // Barcode visual
+        const bc = el('ticket-barcode');
+        bc.innerHTML = '';
+        const seed = firstId.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+        for (let i = 0; i < 30; i++) {
+          const bar = document.createElement('div');
+          const h = 12 + ((seed * (i + 1) * 7) % 29);
+          bar.style.cssText = `width:${(i % 3 === 0) ? 3 : 2}px;height:${h}px;background:var(--text4);border-radius:1px`;
+          bc.appendChild(bar);
+        }
+        el('ticket-barcode-txt').textContent = firstId;
+
+        // Snacks
+        const cartKeys = Object.keys(cart);
+        const vipKeys = Object.keys(vipFoodCart);
+        if (cartKeys.length > 0) {
+          let snacksTotalVal = 0;
+          const snacksPayload = cartKeys.map(id => {
+            snacksTotalVal += cart[id].item.pret * cart[id].qty;
+            return { id: parseInt(id), qty: cart[id].qty };
+          });
+          el('modal-snacks-val').textContent = `${snacksTotalVal.toFixed(2)} RON`;
+          el('modal-snacks-msg').style.display = 'block';
+          try {
+            await fetch(`${API}/comanda-snacks`, {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ idRezervare: firstId, snacks: snacksPayload })
+            });
+          } catch (e) { console.log('Eroare trimitere snacks'); }
+        } else {
+          el('modal-snacks-msg').style.display = 'none';
+        }
+
+        // VIP extras
+        if (vipKeys.length > 0) {
+          try {
+            await fetch(`${API}/vip-extras`, {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                idRezervare: firstId,
+                extras: vipKeys.map(k => ({ name: vipFoodCart[k].name, pret: vipFoodCart[k].pret }))
+              })
+            });
+          } catch (e) { console.log('Eroare trimitere VIP extras'); }
+        }
+
+        el('modal-success').classList.add('open');
+        selectedSeats = [];
+        el('booking-bar').classList.remove('visible');
+
       } catch {
         el('modal-err-msg').textContent = 'Serverul nu răspunde.';
         el('modal-error').classList.add('open');
@@ -2141,24 +2797,99 @@
       }
     }
 
-    async function selectProiectie(id) {
+    async function selectProiectie(id, btn) {
       selectedProiectie = PROIECTII.find(p => p.id === id);
       if (!selectedProiectie) return;
 
       document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
-      if (window.event && window.event.currentTarget) {
-        window.event.currentTarget.classList.add('selected');
-      }
+      if (btn) btn.classList.add('selected');
 
-      let occupiedSeats = [];
+      occupiedSeatsCache = [];
       try {
         const res = await fetch(`${API}/proiectii/${id}/locuri`);
-        if (res.ok) occupiedSeats = await res.json();
-      } catch (err) {
-        // endpoint not yet implemented — treat all seats as available
-      }
-      renderSeatMap(occupiedSeats);
+        if (res.ok) occupiedSeatsCache = await res.json();
+      } catch { }
+
+      tcCounts = { adult: 0, student: 0, copil: 0, pensionar: 0, vip: 0 };
+      selectedSeats = [];
+      openTicketModal();
+    }
+
+    function openTicketModal() {
+      const p = selectedProiectie;
+      const isVip = p.sala.tip === 'VIP';
+      el('tc-movie-info').textContent = `${p.film.titlu} · ${p.dataOra} · ${p.sala.nume}`;
+      el('tc-row-vip').style.display = isVip ? '' : 'none';
+      el('tc-row-student').style.display = isVip ? 'none' : '';
+      el('tc-row-copil').style.display = isVip ? 'none' : '';
+      el('tc-row-pensionar').style.display = isVip ? 'none' : '';
+      ['adult', 'student', 'copil', 'pensionar', 'vip'].forEach(k => {
+        el('tc-cnt-' + k).textContent = 0;
+        const btn = el('tc-minus-' + k);
+        if (btn) btn.disabled = true;
+      });
+      tcCounts = { adult: 0, student: 0, copil: 0, pensionar: 0, vip: 0 };
+      updateTCPrices();
+      updateTCTotal();
+      el('modal-tickets').classList.add('open');
+    }
+
+    function updateTCPrices() {
+      const p = selectedProiectie;
+      const multSala = p.sala.multiplicatorPret;
+      const pretBaza = p.film.pretBaza;
+      const types = getTicketTypes(p.sala.tip);
+      const midMult = 1.00; // mid-row price for display
+      types.forEach(t => {
+        const prEl = el('tc-pr-' + t.key);
+        if (prEl) prEl.textContent = `de la ${(pretBaza * t.mult * multSala * 0.85).toFixed(0)}–${(pretBaza * t.mult * multSala * 1.20).toFixed(0)} RON`;
+      });
+    }
+
+    function adjTc(key, delta) {
+      tcCounts[key] = Math.max(0, (tcCounts[key] || 0) + delta);
+      el('tc-cnt-' + key).textContent = tcCounts[key];
+      el('tc-minus-' + key).disabled = tcCounts[key] === 0;
+      updateTCTotal();
+    }
+
+    function updateTCTotal() {
+      const total = Object.values(tcCounts).reduce((a, b) => a + b, 0);
+      el('tc-total-cnt').textContent = total + (total === 1 ? ' bilet' : ' bilete');
+      el('tc-confirm-btn').disabled = total === 0;
+      // Estimate min price
+      const p = selectedProiectie;
+      if (!p) return;
+      const types = getTicketTypes(p.sala.tip);
+      let est = 0;
+      types.forEach(t => { est += (tcCounts[t.key] || 0) * p.film.pretBaza * t.mult * p.sala.multiplicatorPret; });
+      el('tc-total-price').textContent = est > 0 ? `de la ${est.toFixed(2)} RON` : '0.00 RON';
+    }
+
+    function confirmTicketComposition() {
+      const types = getTicketTypes(selectedProiectie.sala.tip);
+      ticketComposition = types
+        .filter(t => (tcCounts[t.key] || 0) > 0)
+        .map(t => ({ ...t, count: tcCounts[t.key] }));
+      totalTickets = ticketComposition.reduce((a, t) => a + t.count, 0);
+      closeModal('modal-tickets');
+      renderSeatMap(occupiedSeatsCache);
       goToStep(3);
+    }
+
+    function makeSeatEl(r, c, occupiedSeats, isVip, tier) {
+      const isOcc = occupiedSeats.some(s => s.rand === r && s.loc === c);
+      const isSel = selectedSeats.some(s => s.rand === r && s.loc === c);
+      const seat = document.createElement('div');
+      const tierCls = isVip ? 'vip-seat' : tier.cls;
+      seat.className = `seat ${isOcc ? 'occupied' : isSel ? 'selected' : 'available'} ${tierCls}`;
+      seat.dataset.rand = r; seat.dataset.loc = c;
+      const rowLetter = String.fromCharCode(64 + r);
+      seat.title = isVip
+        ? `Rând ${rowLetter}, Loc ${c} — VIP`
+        : `Rând ${rowLetter}, Loc ${c} — ${tier.label}`;
+      if (!isOcc) seat.addEventListener('click', () => toggleSeat(seat, r, c));
+      return seat;
     }
 
     function renderSeatMap(occupiedSeats = []) {
@@ -2170,32 +2901,61 @@
 
       el('seat-title').textContent = p.film.titlu;
       el('seat-sub').textContent = `${sala.nume}  ·  ${p.dataOra}  ·  ${p.formatAudio}`;
-      el('legend-vip').style.display = isVip ? '' : 'none';
 
-      el('col-labels').innerHTML = Array.from({ length: cols }, (_, i) => `<div class="col-lbl">${i + 1}</div>`).join('');
-      el('row-labels').innerHTML = Array.from({ length: rows }, (_, i) => `<div class="row-lbl">${String.fromCharCode(65 + i)}</div>`).join('');
+      // Row labels with tier colours
+      el('row-labels').innerHTML = Array.from({ length: rows }, (_, i) => {
+        const tier = getRowTier(i + 1, rows);
+        const col = isVip ? 'var(--gold)' : tier.cls === 'tier-front' ? 'rgba(34,197,94,.7)' : tier.cls === 'tier-back' ? 'rgba(245,158,11,.7)' : 'var(--text4)';
+        return `<div class="row-lbl" style="color:${col}">${String.fromCharCode(65 + i)}</div>`;
+      }).join('');
 
       const grid = el('seat-grid');
-      grid.style.gridTemplateColumns = `repeat(${cols}, 28px)`;
       grid.innerHTML = '';
 
-      for (let r = 1; r <= rows; r++) {
-        for (let c = 1; c <= cols; c++) {
-          // Verifica daca locul curent (r, c) a venit in JSON-ul de la server
-          const isOccupied = occupiedSeats.some(s => s.rand === r && s.loc === c);
-
-          const seat = document.createElement('div');
-          seat.className = `seat ${isOccupied ? 'occupied' : 'available'}${isVip ? ' vip-seat' : ''}`;
-          seat.dataset.rand = r;
-          seat.dataset.loc = c;
-          seat.title = `Rând ${String.fromCharCode(64 + r)}, Loc ${c}`;
-
-          if (!isOccupied) {
-            seat.addEventListener('click', () => toggleSeat(seat, r, c));
+      if (isVip) {
+        // Groups of 2 — e.g. 6 cols → [1,2] | [3,4] | [5,6]
+        const numPairs = Math.ceil(cols / 2);
+        const tplParts = [];
+        for (let i = 0; i < numPairs; i++) { if (i > 0) tplParts.push('14px'); tplParts.push('30px', '30px'); }
+        grid.style.gridTemplateColumns = tplParts.join(' ');
+        el('col-labels').innerHTML = '';
+        for (let r = 1; r <= rows; r++) {
+          const tier = getRowTier(r, rows);
+          for (let pair = 0; pair < numPairs; pair++) {
+            if (pair > 0) { const g = document.createElement('div'); g.className = 'seat-gap'; grid.appendChild(g); }
+            for (let k = 0; k < 2; k++) {
+              const c = pair * 2 + k + 1;
+              if (c <= cols) grid.appendChild(makeSeatEl(r, c, occupiedSeats, true, tier));
+              else { const ph = document.createElement('div'); grid.appendChild(ph); }
+            }
           }
-          grid.appendChild(seat);
+        }
+      } else {
+        // Standard / IMAX — corridor in the middle
+        const halfL = Math.floor(cols / 2);
+        const halfR = cols - halfL;
+        grid.style.gridTemplateColumns = `repeat(${halfL}, 28px) 22px repeat(${halfR}, 28px)`;
+        // Col labels with corridor gap
+        el('col-labels').innerHTML =
+          Array.from({ length: halfL }, (_, i) => `<div class="col-lbl">${i + 1}</div>`).join('') +
+          '<div class="col-lbl" style="width:22px"></div>' +
+          Array.from({ length: halfR }, (_, i) => `<div class="col-lbl">${halfL + i + 1}</div>`).join('');
+        for (let r = 1; r <= rows; r++) {
+          const tier = getRowTier(r, rows);
+          for (let c = 1; c <= halfL; c++) grid.appendChild(makeSeatEl(r, c, occupiedSeats, false, tier));
+          const gap = document.createElement('div'); gap.className = 'seat-gap'; grid.appendChild(gap);
+          for (let c = halfL + 1; c <= cols; c++) grid.appendChild(makeSeatEl(r, c, occupiedSeats, false, tier));
         }
       }
+
+      // Legend visibility
+      el('legend-vip').style.display = isVip ? '' : 'none';
+      el('legend-front').style.display = isVip ? 'none' : '';
+      el('legend-back').style.display = isVip ? 'none' : '';
+
+      // Seat counter
+      el('seat-count-badge').style.display = '';
+      updateSeatCounter();
 
       const tickets = getTicketTypes(sala.tip);
       const sel = el('ticket-select');

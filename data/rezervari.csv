@@ -1,3 +1,10 @@
-REZ1,7,5,4,Student,22.680000,matei,0
+REZ1,7,5,4,Student,22.680000,matei,1
 REZ2,6,5,8,Student,18.900000,matei,0
 REZ3,4,3,6,VIP,43.200000,matei,0
+REZ4,14,7,7,Adult,24.300000,matei,0
+REZ5,101,7,14,Student,20.790000,matei,0
+REZ6,230,6,7,Adult,46.800000,matei,0
+REZ7,231,4,8,Student,19.600000,matei,0
+REZ8,232,5,6,Copil,11.500000,matei,0
+REZ9,233,2,4,VIP,60.000000,matei,0
+REZ10,1,5,7,Adult,30.000000,admin,0

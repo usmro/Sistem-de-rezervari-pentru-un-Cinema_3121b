@@ -16,6 +16,7 @@ const std::vector<std::string> &Voucher::getTipuriExcluse() const {
 }
 bool Voucher::esteActiv() const { return activ; }
 void Voucher::dezactiveaza() { activ = false; }
+void Voucher::setActiv(bool val) { activ = val; }
 bool Voucher::esteValid(const std::string &tipBilet) const {
   if (!activ)
     return false;

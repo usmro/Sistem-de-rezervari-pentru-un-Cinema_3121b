@@ -15,23 +15,21 @@
 
 <body>
 
-    <!-- ═══════════════════════════════════════════
-         NAVBAR
-    ════════════════════════════════════════════ -->
     <nav class="navbar" id="navbar">
         <a class="nav-logo" href="#" onclick="showScreen('screen-welcome'); return false;">CINEMA</a>
-        <div class="nav-links">
+        <div class="nav-links" id="nav-guest">
             <button class="nav-btn nav-btn-ghost" onclick="showScreen('screen-login')">Autentificare</button>
             <button class="nav-btn nav-btn-primary" onclick="showScreen('screen-register')">Cont nou</button>
         </div>
+        <div class="nav-links" id="nav-user" style="display:none">
+            <span id="nav-username" style="font-size:13px;color:#aaa;margin-right:4px"></span>
+            <button class="nav-btn nav-btn-ghost" onclick="showScreen('screen-account')">Contul meu</button>
+            <button class="nav-btn nav-btn-primary" onclick="logout()">Ieși din cont</button>
+        </div>
     </nav>
 
-    <!-- ═══════════════════════════════════════════
-         WELCOME / HERO
-    ════════════════════════════════════════════ -->
     <div id="screen-welcome" class="screen active">
 
-        <!-- Video background -->
         <div class="video-wrap">
             <video autoplay muted loop playsinline class="bg-video">
                 <source src="background.mp4" type="video/mp4">
@@ -39,7 +37,6 @@
             <div class="video-overlay"></div>
         </div>
 
-        <!-- Hero content -->
         <div class="hero">
             <div class="hero-content">
                 <span class="hero-eyebrow">Acum în cinematografe</span>
@@ -64,16 +61,12 @@
             </div>
         </div>
 
-        <!-- Scroll indicator -->
         <div class="scroll-hint">
             <span>Scroll</span>
             <div class="scroll-line"></div>
         </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════
-         LOGIN
-    ════════════════════════════════════════════ -->
     <div id="screen-login" class="screen screen-form">
         <div class="form-backdrop"></div>
         <div class="form-wrap">
@@ -115,9 +108,6 @@
         </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════
-         REGISTER
-    ════════════════════════════════════════════ -->
     <div id="screen-register" class="screen screen-form">
         <div class="form-backdrop"></div>
         <div class="form-wrap">
@@ -158,9 +148,63 @@
         </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════
-         PROGRAM
-    ════════════════════════════════════════════ -->
+    <div id="screen-account" class="screen screen-form">
+        <div class="form-backdrop"></div>
+        <div class="form-wrap" style="max-width:680px;width:100%">
+            <button class="back-link" onclick="showScreen('screen-welcome')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                Înapoi
+            </button>
+            <div class="form-header" style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div>
+                    <h2 id="acc-title">Contul meu</h2>
+                    <p id="acc-sub">Rezervările tale</p>
+                </div>
+                <div id="acc-card-badge"
+                    style="display:none;padding:6px 14px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);border-radius:20px;font-size:12px;font-weight:600;color:#22c55e;align-self:center">
+                    ✦ Card Fidelitate −10%
+                </div>
+            </div>
+            <div id="acc-summary" style="font-size:12px;color:#22c55e;margin:2px 0 10px"></div>
+            <div id="acc-filters" style="display:none;gap:8px;flex-wrap:wrap;margin:4px 0 14px">
+                <input id="acc-search" type="text" placeholder="🔍 Caută film..." oninput="renderAccount()"
+                    style="flex:1;min-width:160px;padding:9px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#fff;font-family:inherit;font-size:13px">
+                <select id="acc-status" onchange="renderAccount()"
+                    style="padding:9px 10px;background:#1a1a1a;border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#fff;font-family:inherit;font-size:13px">
+                    <option value="toate">Status: toate</option>
+                    <option value="active">Doar active</option>
+                    <option value="anulate">Doar anulate</option>
+                </select>
+                <select id="acc-period" onchange="renderAccount()"
+                    style="padding:9px 10px;background:#1a1a1a;border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#fff;font-family:inherit;font-size:13px">
+                    <option value="toate">Orice perioadă</option>
+                    <option value="viitoare">Viitoare</option>
+                    <option value="trecute">Istoric (trecute)</option>
+                </select>
+                <select id="acc-sort" onchange="renderAccount()"
+                    style="padding:9px 10px;background:#1a1a1a;border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#fff;font-family:inherit;font-size:13px">
+                    <option value="recent">Cele mai noi</option>
+                    <option value="vechi">Cele mai vechi</option>
+                    <option value="film">După film (A–Z)</option>
+                </select>
+            </div>
+            <div id="acc-rezervari" style="margin-top:4px">
+                <p style="color:#888;font-size:13px">Se încarcă...</p>
+            </div>
+            <div style="margin-top:24px;display:flex;gap:10px">
+                <a href="client.html"
+                    style="flex:1;display:block;padding:12px;background:#e50914;color:#fff;border-radius:6px;text-align:center;text-decoration:none;font-weight:600;font-size:13px">+
+                    Rezervare nouă</a>
+                <button onclick="logout()"
+                    style="padding:12px 20px;background:transparent;border:1px solid rgba(255,255,255,.15);color:#aaa;border-radius:6px;cursor:pointer;font-family:inherit;font-size:13px">Ieși
+                    din cont</button>
+            </div>
+        </div>
+    </div>
+
     <div id="screen-program" class="screen screen-program">
         <div class="prog-header">
             <button class="back-link" onclick="showScreen('screen-welcome')">
@@ -171,7 +215,26 @@
                 Înapoi
             </button>
             <h2>Program <span class="red">filme</span></h2>
-            <p>Toate proiecțiile disponibile în perioada următoare</p>
+            <p>Toate proiecțiile disponibile în perioada următoare <span id="prog-count"
+                    style="color:#e50914;font-weight:600"></span></p>
+        </div>
+        <div id="prog-filters" style="display:none;gap:8px;flex-wrap:wrap;max-width:1100px;margin:0 auto 22px">
+            <input id="prog-search" type="text" placeholder="🔍 Caută film..." oninput="renderProgram()"
+                style="flex:1;min-width:180px;padding:10px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:8px;color:#fff;font-family:inherit;font-size:14px">
+            <select id="prog-gen" onchange="renderProgram()"
+                style="padding:10px 12px;background:#1a1a1a;border:1px solid rgba(255,255,255,.12);border-radius:8px;color:#fff;font-family:inherit;font-size:14px">
+                <option value="">Toate genurile</option>
+            </select>
+            <select id="prog-format" onchange="renderProgram()"
+                style="padding:10px 12px;background:#1a1a1a;border:1px solid rgba(255,255,255,.12);border-radius:8px;color:#fff;font-family:inherit;font-size:14px">
+                <option value="">2D &amp; 3D</option>
+                <option value="2D">Doar 2D</option>
+                <option value="3D">Doar 3D</option>
+            </select>
+            <select id="prog-zi" onchange="renderProgram()"
+                style="padding:10px 12px;background:#1a1a1a;border:1px solid rgba(255,255,255,.12);border-radius:8px;color:#fff;font-family:inherit;font-size:14px">
+                <option value="">Toate zilele</option>
+            </select>
         </div>
         <div id="program-list" class="prog-grid">
             <p class="loading-text">Se încarcă...</p>

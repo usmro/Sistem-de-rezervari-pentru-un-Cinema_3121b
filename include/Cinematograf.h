@@ -20,6 +20,11 @@ private:
   std::vector<std::shared_ptr<User>> useri;
   std::vector<Voucher> vouchere;
   std::vector<ProdusConsumabil> produse;
+  struct VIPExtraOrder {
+    std::string idRezervare;
+    std::string extras; // JSON array string
+  };
+  std::vector<VIPExtraOrder> vipExtras;
   int nextIdProiectie;
   int nextIdRezervare;
   Cinematograf();
@@ -62,7 +67,9 @@ public:
   bool existaUser(const std::string &username) const;
   const std::vector<std::shared_ptr<User>> &getUseri() const;
   User *gasesteUser(const std::string &username);
+  void stergeFilm(const std::string &titlu);
   void adaugaVoucher(const Voucher &voucher);
+  void stergeVoucher(const std::string &cod);
   Voucher *gasesteVoucher(const std::string &cod);
   const std::vector<Voucher> &getVouchere() const;
   bool existaVoucher(const std::string &cod) const;
@@ -74,4 +81,7 @@ public:
                          const std::string &parola);
   User *autentificaClient(const std::string &username,
                           const std::string &parola);
+  void adaugaVIPExtras(const std::string &idRezervare,
+                       const std::string &extrasJson);
+  const std::vector<VIPExtraOrder> &getVIPExtras() const;
 };

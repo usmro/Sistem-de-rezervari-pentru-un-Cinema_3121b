@@ -19,6 +19,13 @@ void Cinematograf::adaugaFilm(std::shared_ptr<Film> film) {
 const std::vector<std::shared_ptr<Film>> &Cinematograf::getFilme() const {
   return filme;
 }
+void Cinematograf::stergeFilm(const std::string &titlu) {
+  filme.erase(std::remove_if(filme.begin(), filme.end(),
+                             [&](const std::shared_ptr<Film> &f) {
+                               return f->getTitlu() == titlu;
+                             }),
+              filme.end());
+}
 std::shared_ptr<Film>
 Cinematograf::gasesteFilm(const std::string &titlu) const {
   for (const auto &f : filme) {
@@ -167,6 +174,11 @@ Voucher *Cinematograf::gasesteVoucher(const std::string &cod) {
 const std::vector<Voucher> &Cinematograf::getVouchere() const {
   return vouchere;
 }
+void Cinematograf::stergeVoucher(const std::string &cod) {
+  vouchere.erase(std::remove_if(vouchere.begin(), vouchere.end(),
+                                [&](const Voucher &v) { return v.getCod() == cod; }),
+                 vouchere.end());
+}
 bool Cinematograf::existaVoucher(const std::string &cod) const {
   for (const auto &v : vouchere) {
     if (v.getCod() == cod)
@@ -222,4 +234,12 @@ User *Cinematograf::autentificaClient(const std::string &username,
       return u.get();
   }
   throw AutentificareEsuataExceptie();
+}
+void Cinematograf::adaugaVIPExtras(const std::string &idRezervare,
+                                   const std::string &extrasJson) {
+  vipExtras.push_back({idRezervare, extrasJson});
+}
+const std::vector<Cinematograf::VIPExtraOrder> &
+Cinematograf::getVIPExtras() const {
+  return vipExtras;
 }

@@ -1,5 +1,6 @@
 #include "CrowServer.h"
 #include "ApiSerializer.h"
+// jsonEscape is defined in ApiSerializer.h (inline function)
 #include "Cinematograf.h"
 #include "Film.h"
 #include "FormatAudio.h"
@@ -15,8 +16,10 @@ struct CORSMiddleware {
 
   void before_handle(crow::request &req, crow::response &res, context &) {
     res.add_header("Access-Control-Allow-Origin", "*");
-    res.add_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    res.add_header("Access-Control-Allow-Headers", "Content-Type");
+    res.add_header("Access-Control-Allow-Methods",
+                   "GET, POST, DELETE, PUT, OPTIONS");
+    res.add_header("Access-Control-Allow-Headers",
+                   "Content-Type, Authorization");
 
     if (req.method == crow::HTTPMethod::OPTIONS) {
       res.code = 204;
@@ -26,8 +29,10 @@ struct CORSMiddleware {
 
   void after_handle(crow::request &, crow::response &res, context &) {
     res.add_header("Access-Control-Allow-Origin", "*");
-    res.add_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    res.add_header("Access-Control-Allow-Headers", "Content-Type");
+    res.add_header("Access-Control-Allow-Methods",
+                   "GET, POST, DELETE, PUT, OPTIONS");
+    res.add_header("Access-Control-Allow-Headers",
+                   "Content-Type, Authorization");
   }
 };
 
@@ -66,6 +71,20 @@ void CrowServer::ruleaza() {
   auto snacks = StorageService::incarcaSnacks();
   for (auto &s : snacks)
     cinema.adaugaProdus(s);
+
+  // Incarca extrasele VIP persistate (format: idRezervare<TAB>extrasJson)
+  {
+    std::ifstream vf("data/vip_extras.csv");
+    std::string linie;
+    while (std::getline(vf, linie)) {
+      if (linie.empty())
+        continue;
+      auto tab = linie.find('\t');
+      if (tab == std::string::npos)
+        continue;
+      cinema.adaugaVIPExtras(linie.substr(0, tab), linie.substr(tab + 1));
+    }
+  }
 
   if (!cinema.existaUser("admin")) {
     cinema.adaugaUser(std::make_shared<User>(
@@ -161,6 +180,22 @@ void CrowServer::ruleaza() {
         crow::response res;
         res.add_header("Content-Type", "application/json");
         res.write(ApiSerializer::filmeToJson(cinema.getFilme()));
+        return res;
+      });
+
+  CROW_ROUTE(app, "/api/sali")
+      .methods(crow::HTTPMethod::GET)([&cinema](const crow::request &) {
+        crow::response res;
+        res.add_header("Content-Type", "application/json");
+        std::string json = "[";
+        const auto &sali = cinema.getSali();
+        for (size_t i = 0; i < sali.size(); ++i) {
+          if (i > 0)
+            json += ",";
+          json += ApiSerializer::salaToJson(*sali[i]);
+        }
+        json += "]";
+        res.write(json);
         return res;
       });
 
@@ -267,6 +302,32 @@ void CrowServer::ruleaza() {
           }
           // ===========================================
 
+          // Row tier price multiplier (not applied for VIP rooms)
+          {
+            const std::string &salaNume = proiectieDorita->getSala()->getNume();
+            bool isVip = (salaNume.find("VIP") != std::string::npos);
+            if (!isVip) {
+              int totalRanduri = proiectieDorita->getSala()->getNumarRanduri();
+              double pct = static_cast<double>(rand) / totalRanduri;
+              double multRand = (pct <= 0.30)   ? 0.85
+                                : (pct <= 0.70) ? 1.00
+                                                : 1.20;
+              if (multRand != 1.00) {
+                if (pretVoucher > 0.0) {
+                  pretVoucher *= multRand;
+                } else {
+                  double mSala =
+                      proiectieDorita->getSala()->getMultiplicatorPret();
+                  pretVoucher =
+                      BiletFactory::calculeazaPret(
+                          tipBilet, proiectieDorita->getFilm()->getPretBaza(),
+                          mSala) *
+                      multRand;
+                }
+              }
+            }
+          }
+
           Rezervare &nouaRezervare = cinema.creeazaRezervare(
               proiectieDorita, rand, loc, tipBilet, username, pretVoucher);
           StorageService::salveazaRezervari(cinema.getRezervari());
@@ -354,6 +415,93 @@ void CrowServer::ruleaza() {
           }
           std::string idRezervare = body["idRezervare"].s();
           cinema.anuleazaRezervare(idRezervare, "admin", RolUser::Admin);
+          StorageService::salveazaRezervari(cinema.getRezervari());
+          res.code = 200;
+          res.write(ApiSerializer::ok("Rezervare anulata!"));
+        } catch (const std::exception &e) {
+          res.code = 400;
+          res.write(ApiSerializer::eroare(e.what()));
+        }
+        return res;
+      });
+
+  // GET /api/rezervarile-mele?username=xxx  (client – own reservations)
+  CROW_ROUTE(app, "/api/rezervarile-mele")
+      .methods(crow::HTTPMethod::GET)([&cinema](const crow::request &req) {
+        crow::response res;
+        res.add_header("Content-Type", "application/json");
+        std::string username = req.url_params.get("username")
+                                   ? req.url_params.get("username")
+                                   : "";
+        if (username.empty()) {
+          res.code = 400;
+          res.write(ApiSerializer::eroare("username lipsa"));
+          return res;
+        }
+        std::string json = "[";
+        bool first = true;
+        for (const auto &r : cinema.getRezervari()) {
+          if (r.getUsernameClient() != username)
+            continue;
+          auto proj = r.getProiectie();
+          if (!first)
+            json += ",";
+          first = false;
+          json += "{";
+          json += "\"id\":\"" + r.getId() + "\",";
+          json += "\"titluFilm\":\"" +
+                  (proj ? proj->getFilm()->getTitlu() : "") + "\",";
+          json +=
+              "\"dataOra\":\"" + (proj ? proj->getDataOraString() : "") + "\",";
+          json += "\"salaNume\":\"" + (proj ? proj->getSala()->getNume() : "") +
+                  "\",";
+          json += "\"rand\":" + std::to_string(r.getRand()) + ",";
+          json += "\"loc\":" + std::to_string(r.getLoc()) + ",";
+          json += "\"tipBilet\":\"" + r.getTipBilet() + "\",";
+          json += "\"pretFinal\":" + std::to_string(r.getPretFinal()) + ",";
+          json +=
+              "\"anulata\":" + std::string(r.esteAnulata() ? "true" : "false");
+          json += "}";
+        }
+        json += "]";
+        res.code = 200;
+        res.write(json);
+        return res;
+      });
+
+  // POST /api/anuleaza  (client – cancel own reservation)
+  CROW_ROUTE(app, "/api/anuleaza")
+      .methods(crow::HTTPMethod::POST)([&cinema](const crow::request &req) {
+        crow::response res;
+        res.add_header("Content-Type", "application/json");
+        try {
+          auto body = crow::json::load(req.body);
+          if (!body) {
+            res.code = 400;
+            res.write(ApiSerializer::eroare("JSON invalid"));
+            return res;
+          }
+          std::string idRezervare = body["id"].s();
+          std::string username = body["username"].s();
+          // Verify the reservation belongs to this user
+          bool found = false;
+          for (const auto &r : cinema.getRezervari()) {
+            if (r.getId() == idRezervare) {
+              if (r.getUsernameClient() != username) {
+                res.code = 403;
+                res.write(ApiSerializer::eroare("Acces interzis"));
+                return res;
+              }
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            res.code = 404;
+            res.write(ApiSerializer::eroare("Rezervarea nu a fost gasita"));
+            return res;
+          }
+          cinema.anuleazaRezervare(idRezervare, username, RolUser::Client);
           StorageService::salveazaRezervari(cinema.getRezervari());
           res.code = 200;
           res.write(ApiSerializer::ok("Rezervare anulata!"));
@@ -462,6 +610,18 @@ void CrowServer::ruleaza() {
           auto dt = Proiectie::parseDataOra(dataOraStr);
           FormatAudio format = (formatStr == "Dublat") ? FormatAudio::Dublat
                                                        : FormatAudio::Subtitrat;
+
+          // Conflict: aceeasi sala ocupata la aceeasi data/ora
+          for (const auto &p : cinema.getProiectii()) {
+            if (p->getSala()->getNume() == numeSala &&
+                p->getDataOraString() == dataOraStr) {
+              res.code = 409;
+              res.write(ApiSerializer::eroare(
+                  "Sala este deja ocupata la aceasta data si ora."));
+              return res;
+            }
+          }
+
           cinema.adaugaProiectie(film, sala, dt, format);
           StorageService::salveazaProiectii(cinema.getProiectii());
           res.code = 201;
@@ -473,6 +633,154 @@ void CrowServer::ruleaza() {
         return res;
       });
 
+  // GET /api/admin/vouchere — lista tuturor voucherelor
+  CROW_ROUTE(app, "/api/admin/vouchere")
+      .methods(crow::HTTPMethod::GET)([&cinema](const crow::request &) {
+        crow::response res;
+        res.add_header("Content-Type", "application/json");
+        const auto &vouchere = cinema.getVouchere();
+        std::string json = "[";
+        for (size_t i = 0; i < vouchere.size(); ++i) {
+          const auto &v = vouchere[i];
+          const auto &tipuriExcluse = v.getTipuriExcluse();
+          std::string excl = "[";
+          for (size_t j = 0; j < tipuriExcluse.size(); ++j) {
+            excl += "\"" + tipuriExcluse[j] + "\"";
+            if (j < tipuriExcluse.size() - 1)
+              excl += ",";
+          }
+          excl += "]";
+          json += "{";
+          json += "\"cod\":\"" + v.getCod() + "\",";
+          json +=
+              "\"reducere\":" + std::to_string(v.getReducereProcent()) + ",";
+          json += "\"ziuaValida\":\"" + v.descriereZiua() + "\",";
+          json += "\"tipuriExcluse\":" + excl + ",";
+          json += "\"activ\":" + std::string(v.esteActiv() ? "true" : "false");
+          json += "}";
+          if (i < vouchere.size() - 1)
+            json += ",";
+        }
+        json += "]";
+        res.write(json);
+        return res;
+      });
+
+  // DELETE /api/admin/filme/<string> — sterge un film din catalog
+  CROW_ROUTE(app, "/api/admin/filme/<string>")
+      .methods(crow::HTTPMethod::DELETE)([&cinema](const std::string &titlu) {
+        crow::response res;
+        res.add_header("Content-Type", "application/json");
+        res.add_header("Access-Control-Allow-Methods",
+                       "GET, POST, DELETE, OPTIONS");
+        if (!cinema.gasesteFilm(titlu)) {
+          res.code = 404;
+          res.write(ApiSerializer::eroare("Film negasit"));
+          return res;
+        }
+        cinema.stergeFilm(titlu);
+        StorageService::salveazaFilme(cinema.getFilme());
+        res.code = 200;
+        res.write(ApiSerializer::ok("Film sters!"));
+        return res;
+      });
+
+  // POST /api/admin/vouchere/add — adauga un voucher nou
+  CROW_ROUTE(app, "/api/admin/vouchere/add")
+      .methods(crow::HTTPMethod::POST)([&cinema](const crow::request &req) {
+        crow::response res;
+        res.add_header("Content-Type", "application/json");
+        try {
+          auto body = crow::json::load(req.body);
+          if (!body) {
+            res.code = 400;
+            res.write(ApiSerializer::eroare("JSON invalid"));
+            return res;
+          }
+          std::string cod = body["cod"].s();
+          double reducere = body["reducere"].d();
+          int ziuaInt = body["ziua"].i();
+          bool activ = body.has("activ") ? body["activ"].b() : true;
+          if (cod.empty()) {
+            res.code = 400;
+            res.write(ApiSerializer::eroare("Codul este obligatoriu"));
+            return res;
+          }
+          if (cinema.existaVoucher(cod)) {
+            res.code = 409;
+            res.write(
+                ApiSerializer::eroare("Exista deja un voucher cu acest cod"));
+            return res;
+          }
+          std::vector<std::string> excl;
+          if (body.has("tipuriExcluse")) {
+            const auto &arr = body["tipuriExcluse"];
+            for (const auto &t : arr)
+              excl.push_back(t.s());
+          }
+          ZiuaSaptamanii ziua = Voucher::intToZiua(ziuaInt);
+          cinema.adaugaVoucher(Voucher(cod, reducere, ziua, excl, activ));
+          StorageService::salveazaVouchere(cinema.getVouchere());
+          res.code = 201;
+          res.write(ApiSerializer::ok("Voucher adaugat!"));
+        } catch (const std::exception &e) {
+          res.code = 400;
+          res.write(ApiSerializer::eroare(e.what()));
+        }
+        return res;
+      });
+
+  // POST /api/admin/vouchere/toggle — activeaza/dezactiveaza un voucher
+  CROW_ROUTE(app, "/api/admin/vouchere/toggle")
+      .methods(crow::HTTPMethod::POST)([&cinema](const crow::request &req) {
+        crow::response res;
+        res.add_header("Content-Type", "application/json");
+        try {
+          auto body = crow::json::load(req.body);
+          if (!body) {
+            res.code = 400;
+            res.write(ApiSerializer::eroare("JSON invalid"));
+            return res;
+          }
+          std::string cod = body["cod"].s();
+          bool activ = body["activ"].b();
+          Voucher *v = cinema.gasesteVoucher(cod);
+          if (!v) {
+            res.code = 404;
+            res.write(ApiSerializer::eroare("Voucher negasit"));
+            return res;
+          }
+          v->setActiv(activ);
+          StorageService::salveazaVouchere(cinema.getVouchere());
+          res.code = 200;
+          res.write(ApiSerializer::ok(activ ? "Voucher activat!"
+                                            : "Voucher dezactivat!"));
+        } catch (const std::exception &e) {
+          res.code = 400;
+          res.write(ApiSerializer::eroare(e.what()));
+        }
+        return res;
+      });
+
+  // DELETE /api/admin/vouchere/<cod> — sterge un voucher
+  CROW_ROUTE(app, "/api/admin/vouchere/<string>")
+      .methods(crow::HTTPMethod::DELETE)([&cinema](const std::string &cod) {
+        crow::response res;
+        res.add_header("Content-Type", "application/json");
+        res.add_header("Access-Control-Allow-Methods",
+                       "GET, POST, DELETE, OPTIONS");
+        if (!cinema.existaVoucher(cod)) {
+          res.code = 404;
+          res.write(ApiSerializer::eroare("Voucher negasit"));
+          return res;
+        }
+        cinema.stergeVoucher(cod);
+        StorageService::salveazaVouchere(cinema.getVouchere());
+        res.code = 200;
+        res.write(ApiSerializer::ok("Voucher sters!"));
+        return res;
+      });
+
   // POST /api/admin/snacks/refill — adauga stoc la un produs
   CROW_ROUTE(app, "/api/admin/snacks/refill")
       .methods(crow::HTTPMethod::POST)([&cinema](const crow::request &req) {
@@ -480,20 +788,32 @@ void CrowServer::ruleaza() {
         res.add_header("Content-Type", "application/json");
         try {
           auto body = crow::json::load(req.body);
-          if (!body) { res.code = 400; res.write(ApiSerializer::eroare("JSON invalid")); return res; }
+          if (!body) {
+            res.code = 400;
+            res.write(ApiSerializer::eroare("JSON invalid"));
+            return res;
+          }
           int idx = body["id"].i() - 1;
           int cantitate = body["cantitate"].i();
-          if (cantitate < 1) { res.code = 400; res.write(ApiSerializer::eroare("Cantitate invalida")); return res; }
+          if (cantitate < 1) {
+            res.code = 400;
+            res.write(ApiSerializer::eroare("Cantitate invalida"));
+            return res;
+          }
           if (idx < 0 || idx >= (int)cinema.getProduse().size()) {
-            res.code = 404; res.write(ApiSerializer::eroare("Produs negasit")); return res;
+            res.code = 404;
+            res.write(ApiSerializer::eroare("Produs negasit"));
+            return res;
           }
           auto &produs = cinema.getProdus(idx);
           produs.setStoc(produs.getStoc() + cantitate);
           StorageService::salveazaSnacks(cinema.getProduse());
           res.code = 200;
-          res.write("{\"status\":\"ok\",\"stocNou\":" + std::to_string(produs.getStoc()) + "}");
+          res.write("{\"status\":\"ok\",\"stocNou\":" +
+                    std::to_string(produs.getStoc()) + "}");
         } catch (...) {
-          res.code = 500; res.write(ApiSerializer::eroare("Eroare server"));
+          res.code = 500;
+          res.write(ApiSerializer::eroare("Eroare server"));
         }
         return res;
       });
@@ -518,7 +838,11 @@ void CrowServer::ruleaza() {
           auto snacks = body["snacks"];
 
           // Decrement stock and collect ordered items for the ticket
-          struct SnackLine { std::string nume; double pret; int qty; };
+          struct SnackLine {
+            std::string nume;
+            double pret;
+            int qty;
+          };
           std::vector<SnackLine> linii;
           double totalSnacks = 0.0;
 
@@ -548,15 +872,14 @@ void CrowServer::ruleaza() {
               fout << "--------------------------------------------\n";
               fout << std::fixed << std::setprecision(2);
               for (const auto &l : linii) {
-                fout << "  " << l.qty << "x  " << l.nume
-                     << "  @  " << l.pret << " RON"
+                fout << "  " << l.qty << "x  " << l.nume << "  @  " << l.pret
+                     << " RON"
                      << "  =  " << (l.pret * l.qty) << " RON\n";
               }
               fout << "--------------------------------------------\n";
               fout << "  Total snacks:  " << totalSnacks << " RON\n";
               fout << "--------------------------------------------\n";
-              fout << "  Prezinta ID-ul " << idRezervare
-                   << " la ghiseul\n";
+              fout << "  Prezinta ID-ul " << idRezervare << " la ghiseul\n";
               fout << "  \"Pre-Comenzi\" pentru a ridica comanda.\n";
               fout << "============================================\n";
             }
@@ -568,6 +891,81 @@ void CrowServer::ruleaza() {
           res.code = 500;
           res.write("{\"status\":\"eroare\"}");
         }
+        return res;
+      });
+
+  // POST /api/vip-extras — inregistreaza comenzile premium VIP
+  CROW_ROUTE(app, "/api/vip-extras")
+      .methods(crow::HTTPMethod::POST)([&cinema](const crow::request &req) {
+        crow::response res;
+        res.add_header("Content-Type", "application/json");
+        try {
+          auto body = crow::json::load(req.body);
+          if (!body) {
+            res.code = 400;
+            res.write("{\"status\":\"eroare\"}");
+            return res;
+          }
+          std::string idRez = body["idRezervare"].s();
+          // Rebuild extras JSON string
+          std::string extrasJson = "[";
+          bool first = true;
+          for (const auto &item : body["extras"]) {
+            if (!first)
+              extrasJson += ",";
+            extrasJson += "{\"name\":\"" + jsonEscape(item["name"].s()) +
+                          "\",\"pret\":" + std::to_string(item["pret"].d()) +
+                          "}";
+            first = false;
+          }
+          extrasJson += "]";
+          cinema.adaugaVIPExtras(idRez, extrasJson);
+          // Persista toate extrasele VIP (idRezervare<TAB>extrasJson)
+          {
+            std::ofstream vf("data/vip_extras.csv");
+            for (const auto &e : cinema.getVIPExtras())
+              vf << e.idRezervare << '\t' << e.extras << '\n';
+          }
+          // Append to bilet .txt file
+          if (!idRez.empty()) {
+            std::string numeFisier = "data/" + idRez + "_bilet.txt";
+            std::ofstream fout(numeFisier, std::ios::app);
+            if (fout.is_open()) {
+              fout << "\n--------------------------------------------\n";
+              fout << "  EXTRAS VIP (Premium)                        \n";
+              fout << "--------------------------------------------\n";
+              for (const auto &item : body["extras"]) {
+                fout << "  " << item["name"].s() << "  ............  "
+                     << std::fixed << std::setprecision(2) << item["pret"].d()
+                     << " RON\n";
+              }
+              fout << "============================================\n";
+            }
+          }
+          res.code = 200;
+          res.write("{\"status\":\"ok\"}");
+        } catch (...) {
+          res.code = 500;
+          res.write("{\"status\":\"eroare\"}");
+        }
+        return res;
+      });
+
+  // GET /api/admin/vip-extras — lista comenzilor VIP premium
+  CROW_ROUTE(app, "/api/admin/vip-extras")
+      .methods(crow::HTTPMethod::GET)([&cinema](const crow::request &) {
+        crow::response res;
+        res.add_header("Content-Type", "application/json");
+        std::string json = "[";
+        const auto &extras = cinema.getVIPExtras();
+        for (size_t i = 0; i < extras.size(); ++i) {
+          if (i > 0)
+            json += ",";
+          json += "{\"idRezervare\":\"" + extras[i].idRezervare +
+                  "\",\"extras\":" + extras[i].extras + "}";
+        }
+        json += "]";
+        res.write(json);
         return res;
       });
 
