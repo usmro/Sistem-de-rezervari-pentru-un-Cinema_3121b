@@ -89,6 +89,8 @@ async function handleLogin(e) {
 
         if (state.loginTip === 'admin' || state.user.rol === 'Admin') {
             window.location.href = 'admin.html';
+        } else if (state.loginTip === 'angajat' || state.user.rol === 'Angajat') {
+            window.location.href = 'angajat.html';
         } else {
             showScreen('screen-account');
         }

@@ -20,7 +20,8 @@ void BiletFactory::incarcaPreturi(const std::string &fisier) {
   std::ifstream fin(fisier);
   if (!fin.is_open()) {
     tipuriBilete = {{"Adult", 1.00},     {"Student", 0.70}, {"Elev", 0.60},
-                    {"Pensionar", 0.50}, {"VIP", 1.00},     {"Personal", 0.30}};
+                    {"Copil", 0.50},     {"Pensionar", 0.50}, {"VIP", 1.00},
+                    {"Personal", 0.30}};
     salveazaPreturi(fisier);
     incarcat = true;
     return;

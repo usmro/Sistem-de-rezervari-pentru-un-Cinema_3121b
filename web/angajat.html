@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema — Panou Angajat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@0,300;0,400;0,500;0,600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --red: #e50914; --bg: #080808; --bg2: #101010; --bg3: #181818; --bg4: #202020;
+            --border: rgba(255, 255, 255, .08); --text: #f2f2f2; --text2: #aaa; --text3: #777; --text4: #555;
+            --green: #22c55e; --amber: #f59e0b; --gold: #d4af37; --blue: #3b82f6;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+        .topbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 14px 32px; background: var(--bg2); border-bottom: 1px solid var(--border);
+        }
+        .logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: .12em; }
+        .logo .be { font-family: 'DM Sans', sans-serif; font-size: .6rem; letter-spacing: .1em; background: var(--red); padding: 3px 8px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
+        .emp-info { text-align: right; font-size: 13px; }
+        .emp-info .sub { color: var(--text3); font-size: 11px; }
+
+        .tabs { display: flex; gap: 4px; padding: 0 24px; background: var(--bg2); border-bottom: 1px solid var(--border); overflow-x: auto; }
+        .tab { background: none; border: none; border-bottom: 2px solid transparent; color: var(--text3); padding: 13px 16px; cursor: pointer; font-family: inherit; font-size: 13.5px; white-space: nowrap; }
+        .tab:hover { color: var(--text2); }
+        .tab.active { color: var(--text); border-bottom-color: var(--red); font-weight: 600; }
+
+        .wrap { max-width: 1080px; margin: 0 auto; padding: 24px; }
+        .section { display: none; }
+        .section.active { display: block; }
+
+        .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 18px; }
+        .card-head { padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .card-head h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: .04em; }
+        .card-head p { color: var(--text3); font-size: 12px; margin-top: 2px; }
+        .card-body { padding: 16px 20px; }
+
+        input, select { padding: 9px 12px; background: var(--bg3); border: 1px solid var(--border); border-radius: 7px; color: var(--text); font-family: inherit; font-size: 13.5px; outline: none; }
+        label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 6px; }
+
+        .btn { background: transparent; border: 1px solid rgba(255,255,255,.15); color: var(--text2); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px; transition: .15s; }
+        .btn:hover { border-color: var(--red); color: var(--text); }
+        .btn-primary { background: var(--red); border-color: var(--red); color: #fff; font-weight: 600; }
+        .btn-primary:hover { background: #c30810; }
+        .btn-danger { border-color: rgba(239,68,68,.4); color: #f87171; }
+        .btn-danger:hover { background: rgba(239,68,68,.12); }
+        .btn-sm { padding: 5px 11px; font-size: 12px; }
+        .btn:disabled { opacity: .4; cursor: not-allowed; }
+
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th { text-align: left; color: var(--text3); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+        td { padding: 11px 12px; border-bottom: 1px solid var(--border); color: var(--text2); }
+        tr:last-child td { border-bottom: none; }
+        .tdp { color: var(--text); font-weight: 500; }
+        .tdm { font-family: monospace; color: var(--text3); }
+        .tbl-wrap { overflow-x: auto; }
+
+        .badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+        .b-green { background: rgba(34,197,94,.13); color: var(--green); border: 1px solid rgba(34,197,94,.3); }
+        .b-red { background: rgba(239,68,68,.13); color: #f87171; border: 1px solid rgba(239,68,68,.3); }
+        .b-amber { background: rgba(245,158,11,.13); color: var(--amber); border: 1px solid rgba(245,158,11,.3); }
+        .b-gold { background: rgba(212,175,55,.13); color: var(--gold); border: 1px solid rgba(212,175,55,.3); }
+        .b-gray { background: var(--bg4); color: var(--text2); }
+        .muted { color: var(--text3); font-size: 13px; padding: 14px 0; }
+
+        /* Validare bilet */
+        .result { margin-top: 16px; border-radius: 8px; padding: 16px; border: 1px solid; }
+        .result.valid { background: rgba(34,197,94,.08); border-color: rgba(34,197,94,.35); }
+        .result.cancel { background: rgba(245,158,11,.08); border-color: rgba(245,158,11,.35); }
+        .result.bad { background: rgba(239,68,68,.08); border-color: rgba(239,68,68,.35); }
+        .result .hd { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: .04em; }
+        .result.valid .hd { color: var(--green); } .result.cancel .hd { color: var(--amber); } .result.bad .hd { color: #f87171; }
+        .result .row { font-size: 13px; color: var(--text2); margin-top: 6px; line-height: 1.7; }
+
+        /* Program */
+        .prog-row { display: flex; align-items: center; gap: 14px; padding: 11px 0; border-bottom: 1px solid var(--border); }
+        .prog-row:last-child { border-bottom: none; }
+        .prog-time { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; width: 56px; flex-shrink: 0; }
+        .prog-main { flex: 1; min-width: 0; }
+        .prog-main .t { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .prog-main .m { font-size: 12px; color: var(--text3); }
+        .occ { width: 120px; flex-shrink: 0; text-align: right; }
+        .occ .bar { background: var(--bg3); border-radius: 3px; height: 7px; overflow: hidden; margin-top: 4px; }
+        .occ .bar > div { height: 100%; }
+        .occ .txt { font-size: 11px; color: var(--text2); }
+
+        /* POS */
+        .pos-layout { display: grid; grid-template-columns: 1fr 320px; gap: 18px; align-items: start; }
+        @media (max-width: 820px) { .pos-layout { grid-template-columns: 1fr; } }
+        .pos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
+        .pos-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 9px; padding: 12px; text-align: center; cursor: pointer; position: relative; transition: .12s; }
+        .pos-card:hover { border-color: var(--red); transform: translateY(-2px); }
+        .pos-card.oos { opacity: .4; cursor: not-allowed; }
+        .pos-card .emoji { font-size: 1.7rem; }
+        .pos-card .nm { font-size: 12.5px; font-weight: 500; margin-top: 4px; }
+        .pos-card .pr { font-size: 12px; color: var(--text3); }
+        .pos-card .stk { position: absolute; top: 6px; right: 8px; font-size: 10px; color: var(--text3); }
+        .pos-card .stk.low { color: var(--amber); }
+        .pos-tabs { display: flex; gap: 6px; margin-bottom: 14px; }
+        .pos-tabs .pt { background: var(--bg3); border: 1px solid var(--border); color: var(--text2); padding: 5px 12px; border-radius: 20px; cursor: pointer; font-family: inherit; font-size: 12px; }
+        .pos-tabs .pt.active { background: var(--red); border-color: var(--red); color: #fff; }
+        .receipt { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; position: sticky; top: 16px; }
+        .r-items { padding: 8px 16px; min-height: 120px; max-height: 320px; overflow-y: auto; }
+        .r-item { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+        .r-item .q { background: var(--bg4); border-radius: 5px; padding: 1px 7px; font-size: 12px; font-weight: 600; }
+        .r-item .nm { flex: 1; }
+        .r-item .rm { background: none; border: none; color: #f87171; cursor: pointer; font-size: 13px; }
+        .r-foot { border-top: 1px solid var(--border); padding: 14px 16px; }
+        .r-line { display: flex; justify-content: space-between; font-size: 13px; color: var(--text2); margin-bottom: 5px; }
+        .r-line.tot { font-size: 16px; font-weight: 700; color: var(--text); margin-top: 8px; }
+    </style>
+</head>
+
+<body>
+    <div class="topbar">
+        <div class="logo">CINEMA <span class="be">ANGAJAT</span></div>
+        <div style="display:flex;align-items:center;gap:16px">
+            <div class="emp-info"><b id="emp-name">—</b><br><span class="sub">Angajat</span></div>
+            <button class="btn" onclick="logout()">Ieși din cont</button>
+        </div>
+    </div>
+
+    <div class="tabs" id="tabs">
+        <button class="tab active" onclick="showTab('validare',this)">🎫 Validare bilet</button>
+        <button class="tab" onclick="showTab('program',this)">📅 Programul zilei</button>
+        <button class="tab" onclick="showTab('rezervari',this)">📋 Rezervări</button>
+        <button class="tab" onclick="showTab('pos',this)">🛒 POS Bar</button>
+        <button class="tab" onclick="showTab('snacks',this)">📦 Stoc snacks</button>
+        <button class="tab" onclick="showTab('vip',this)">🍾 Comenzi VIP</button>
+    </div>
+
+    <div class="wrap">
+        <!-- VALIDARE -->
+        <div class="section active" id="sec-validare">
+            <div class="card" style="max-width:520px">
+                <div class="card-head"><div><h2>Validare bilet</h2><p>Introdu codul rezervării (ex: REZ12)</p></div></div>
+                <div class="card-body">
+                    <label>Cod rezervare</label>
+                    <input id="ticket-id" type="text" placeholder="REZ..." style="width:100%" onkeydown="if(event.key==='Enter')valideaza()">
+                    <button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="valideaza()">Verifică biletul</button>
+                    <div id="ticket-result"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROGRAM -->
+        <div class="section" id="sec-program">
+            <div class="card">
+                <div class="card-head">
+                    <div><h2>Programul zilei</h2><p id="prog-count">—</p></div>
+                    <div style="width:180px"><label>Ziua</label><select id="prog-day" style="width:100%" onchange="renderProgram()"></select></div>
+                </div>
+                <div class="card-body"><div id="prog-list"><p class="muted">Se încarcă...</p></div></div>
+            </div>
+        </div>
+
+        <!-- REZERVARI -->
+        <div class="section" id="sec-rezervari">
+            <div class="card">
+                <div class="card-head">
+                    <div><h2>Rezervări</h2><p id="rez-sub">—</p></div>
+                    <button class="btn btn-sm" onclick="exportRezervariCSV()">⬇ Export CSV</button>
+                </div>
+                <div class="card-body" style="display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--border)">
+                    <input id="rez-search" type="text" placeholder="🔍 Caută film / client / ID..." style="flex:1;min-width:180px" oninput="renderRezervari()">
+                    <select id="rez-status" onchange="renderRezervari()">
+                        <option value="toate">Toate statusurile</option>
+                        <option value="active">Doar active</option>
+                        <option value="anulate">Doar anulate</option>
+                    </select>
+                    <select id="rez-sort" onchange="renderRezervari()">
+                        <option value="newest">Cele mai noi</option>
+                        <option value="oldest">Cele mai vechi</option>
+                        <option value="price-desc">Preț ↓</option>
+                        <option value="price-asc">Preț ↑</option>
+                    </select>
+                </div>
+                <div class="tbl-wrap">
+                    <table>
+                        <thead><tr><th>ID</th><th>Client</th><th>Film</th><th>Proiecție</th><th>Loc</th><th>Bilet</th><th>Preț</th><th>Status</th><th></th></tr></thead>
+                        <tbody id="rez-tbody"><tr><td colspan="9" class="muted">Se încarcă...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- POS -->
+        <div class="section" id="sec-pos">
+            <div class="pos-layout">
+                <div>
+                    <div class="pos-tabs">
+                        <button class="pt active" onclick="filterPOS('toate',this)">Toate</button>
+                        <button class="pt" onclick="filterPOS('snacks',this)">Snacks</button>
+                        <button class="pt" onclick="filterPOS('bauturi',this)">Băuturi</button>
+                        <button class="pt" onclick="filterPOS('dulciuri',this)">Dulciuri</button>
+                    </div>
+                    <div class="pos-grid" id="pos-grid"><p class="muted">Se încarcă...</p></div>
+                </div>
+                <div class="receipt">
+                    <div class="card-head"><div><h2>Bon curent</h2></div><button class="btn btn-sm" id="clear-btn" onclick="clearCart()" disabled>Șterge</button></div>
+                    <div class="r-items" id="r-items"><p class="muted" id="r-empty" style="text-align:center">Bonul este gol</p></div>
+                    <div class="r-foot">
+                        <div class="r-line"><span>Subtotal</span><span id="r-sub">0.00 RON</span></div>
+                        <div class="r-line"><span>TVA (19%)</span><span id="r-tva">0.00 RON</span></div>
+                        <div class="r-line tot"><span>TOTAL</span><span id="r-tot">0.00 RON</span></div>
+                        <button class="btn btn-primary" style="width:100%;margin-top:12px" id="checkout-btn" onclick="finalizeBon()" disabled>Finalizare bon</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SNACKS STOC -->
+        <div class="section" id="sec-snacks">
+            <div class="card">
+                <div class="card-head"><div><h2>Stoc produse bar</h2><p>Reaprovizionare stoc</p></div></div>
+                <div class="tbl-wrap">
+                    <table>
+                        <thead><tr><th>Produs</th><th>Descriere</th><th>Preț</th><th>Stoc</th><th>Disponibil</th><th></th></tr></thead>
+                        <tbody id="snacks-tbody"><tr><td colspan="6" class="muted">Se încarcă...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIP -->
+        <div class="section" id="sec-vip">
+            <div class="card">
+                <div class="card-head"><div><h2>Comenzi VIP premium</h2><p>Extras comandate la rezervările din Sala VIP</p></div>
+                    <button class="btn btn-sm" onclick="loadVIP()">⟳ Actualizează</button></div>
+                <div class="tbl-wrap">
+                    <table>
+                        <thead><tr><th>ID Rezervare</th><th>Produs</th><th>Preț</th></tr></thead>
+                        <tbody id="vip-tbody"><tr><td colspan="3" class="muted">Se încarcă...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 20px;font-size:13px;display:none;z-index:50"></div>
+
+    <script>
+        const API = 'http://localhost:8080/api';
+        const user = JSON.parse(localStorage.getItem('cinema_user') || 'null');
+        let PROIECTII = [], REZERVARI = [], SNACKS = [];
+        const cart = {};
+        let posFilter = 'toate';
+
+        if (!user || user.rol !== 'Angajat') window.location.href = 'index.html';
+
+        function logout() { localStorage.removeItem('cinema_user'); window.location.href = 'index.html'; }
+        function esc(s) { return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+        function el(id) { return document.getElementById(id); }
+
+        let toastT;
+        function toast(msg, type) {
+            const t = el('toast'); t.textContent = msg;
+            t.style.borderColor = type === 'error' ? 'rgba(239,68,68,.5)' : type === 'success' ? 'rgba(34,197,94,.5)' : 'var(--border)';
+            t.style.display = 'block'; clearTimeout(toastT);
+            toastT = setTimeout(() => t.style.display = 'none', 2800);
+        }
+
+        function showTab(name, btn) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            el('sec-' + name).classList.add('active');
+            if (name === 'vip') loadVIP();
+        }
+
+        function snackEmoji(n) {
+            n = (n || '').toLowerCase();
+            if (n.includes('popcorn') || n.includes('floricele')) return '🍿';
+            if (n.includes('cola') || n.includes('pepsi') || n.includes('apa') || n.includes('suc') || n.includes('bere')) return '🥤';
+            if (n.includes('cafea')) return '☕';
+            if (n.includes('ciocolata') || n.includes('milka')) return '🍫';
+            if (n.includes('bomboane') || n.includes('haribo') || n.includes('m&m')) return '🍬';
+            if (n.includes('hot dog') || n.includes('hotdog')) return '🌭';
+            if (n.includes('pizza')) return '🍕';
+            if (n.includes('inghetata') || n.includes('cornetto')) return '🍦';
+            if (n.includes('nachos')) return '🧀';
+            return '🍿';
+        }
+        function snackCat(n) {
+            n = (n || '').toLowerCase();
+            if (n.includes('cola') || n.includes('pepsi') || n.includes('apa') || n.includes('suc') || n.includes('bere') || n.includes('cafea')) return 'bauturi';
+            if (n.includes('ciocolata') || n.includes('bomboane') || n.includes('haribo') || n.includes('inghetata') || n.includes('floricele') || n.includes('m&m')) return 'dulciuri';
+            return 'snacks';
+        }
+
+        // ── VALIDARE BILET ──
+        async function valideaza() {
+            const id = el('ticket-id').value.trim();
+            const box = el('ticket-result');
+            if (!id) { box.innerHTML = ''; return; }
+            box.innerHTML = '<p class="muted">Se verifică...</p>';
+            try {
+                const d = await (await fetch(`${API}/rezervare/${encodeURIComponent(id)}`)).json();
+                if (!d.found) { box.innerHTML = `<div class="result bad"><div class="hd">✗ Bilet inexistent</div><div class="row">Nu există rezervare cu codul <b>${esc(id)}</b>.</div></div>`; return; }
+                const cls = d.anulata ? 'cancel' : 'valid';
+                const hd = d.anulata ? '⚠ Bilet ANULAT' : '✓ Bilet valid';
+                box.innerHTML = `<div class="result ${cls}"><div class="hd">${hd}</div><div class="row">
+                    🎬 <b>${esc(d.titluFilm)}</b><br>📅 ${esc(d.dataOra)}<br>🏛️ ${esc(d.salaNume)} — Rând ${d.rand}, Loc ${d.loc}<br>
+                    🎫 ${esc(d.tipBilet)} · ${(d.pretFinal || 0).toFixed(2)} RON<br>👤 Client: ${esc(d.client)}</div></div>`;
+            } catch { box.innerHTML = `<div class="result bad"><div class="hd">Server offline</div></div>`; }
+        }
+
+        // ── PROGRAM ──
+        function occupied(projId) { return REZERVARI.filter(r => !r.anulata && r.proiectieId === projId).length; }
+        function renderProgram() {
+            const day = el('prog-day').value, list = el('prog-list');
+            const items = PROIECTII.filter(p => (p.dataOra || '').startsWith(day)).sort((a, b) => a.dataOra.localeCompare(b.dataOra));
+            el('prog-count').textContent = items.length + ' proiecții · ' + day;
+            if (!items.length) { list.innerHTML = '<p class="muted">Nicio proiecție în această zi.</p>'; return; }
+            list.innerHTML = items.map(p => {
+                const cap = p.sala.capacitate || (p.sala.randuri * p.sala.locuriPeRand);
+                const occ = occupied(p.id), pct = cap ? Math.round(occ / cap * 100) : 0;
+                const col = occ >= cap ? 'var(--red)' : pct >= 80 ? 'var(--amber)' : 'var(--green)';
+                const ora = (p.dataOra.split(' ')[1] || '').slice(0, 5);
+                const fmt = p.film.tip === '3D' ? '<span class="badge b-gray">3D</span>' : '';
+                const st = p.sala.tip !== 'Standard' ? `<span class="badge b-gray">${esc(p.sala.tip)}</span>` : '';
+                return `<div class="prog-row"><div class="prog-time">${ora}</div>
+                    <div class="prog-main"><div class="t">${esc(p.film.titlu)} ${fmt}</div><div class="m">🏛️ ${esc(p.sala.nume)} ${st} · 🔊 ${esc(p.formatAudio)}</div></div>
+                    <div class="occ"><div class="txt">${occ}/${cap} (${pct}%)</div><div class="bar"><div style="width:${Math.max(pct, 2)}%;background:${col}"></div></div></div></div>`;
+            }).join('');
+        }
+
+        // ── REZERVARI ──
+        function renderRezervari() {
+            const search = (el('rez-search').value || '').toLowerCase();
+            const status = el('rez-status').value, sort = el('rez-sort').value;
+            let data = [...REZERVARI];
+            if (search) data = data.filter(r => (r.titluFilm || '').toLowerCase().includes(search) || (r.usernameClient || '').toLowerCase().includes(search) || (r.id || '').toLowerCase().includes(search));
+            if (status === 'active') data = data.filter(r => !r.anulata);
+            if (status === 'anulate') data = data.filter(r => r.anulata);
+            if (sort === 'oldest') data.reverse();
+            if (sort === 'price-desc') data.sort((a, b) => (b.pretFinal || 0) - (a.pretFinal || 0));
+            if (sort === 'price-asc') data.sort((a, b) => (a.pretFinal || 0) - (b.pretFinal || 0));
+            el('rez-sub').textContent = REZERVARI.length + ' rezervări totale';
+            const tb = el('rez-tbody');
+            if (!data.length) { tb.innerHTML = '<tr><td colspan="9" class="muted">Nicio rezervare.</td></tr>'; return; }
+            tb.innerHTML = data.map(r => {
+                const id = r.id || '-', u = r.usernameClient || '-';
+                const tcls = (r.tipBilet || '').toLowerCase() === 'vip' ? 'b-gold' : 'b-gray';
+                return `<tr>
+                    <td class="tdm">${esc(id)}</td><td class="tdp">${esc(u)}</td><td>${esc(r.titluFilm || '-')}</td>
+                    <td>${esc(r.dataOra || '-')}</td><td>R${r.rand}/L${r.loc}</td>
+                    <td><span class="badge ${tcls}">${esc(r.tipBilet || '-')}</span></td>
+                    <td class="tdp">${(r.pretFinal || 0).toFixed(2)} RON</td>
+                    <td><span class="badge ${r.anulata ? 'b-red' : 'b-green'}">${r.anulata ? 'Anulată' : 'Activă'}</span></td>
+                    <td>${!r.anulata ? `<button class="btn btn-danger btn-sm" onclick="cancelRez('${esc(id)}','${esc(u)}')">Anulează</button>` : ''}</td>
+                </tr>`;
+            }).join('');
+        }
+        async function cancelRez(id, u) {
+            if (!confirm(`Anulezi rezervarea ${id} a clientului ${u}?`)) return;
+            try {
+                const res = await fetch(`${API}/admin/anuleaza`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ idRezervare: id }) });
+                if (res.ok) { toast('Rezervare anulată.', 'success'); await loadData(); }
+                else { const d = await res.json().catch(() => ({})); toast(d.mesaj || 'Eroare la anulare.', 'error'); }
+            } catch { toast('Server offline.', 'error'); }
+        }
+        function exportRezervariCSV() {
+            const rows = [['ID', 'Client', 'Film', 'Data', 'Rand', 'Loc', 'Bilet', 'Pret', 'Status']];
+            REZERVARI.forEach(r => rows.push([r.id || '', r.usernameClient || '', r.titluFilm || '', r.dataOra || '', r.rand || '', r.loc || '', r.tipBilet || '', (r.pretFinal || 0).toFixed(2), r.anulata ? 'Anulata' : 'Activa']));
+            const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' }));
+            a.download = `rezervari_${new Date().toISOString().slice(0, 10)}.csv`; a.click();
+        }
+
+        // ── POS ──
+        function renderPOS() {
+            const grid = el('pos-grid');
+            const items = posFilter === 'toate' ? SNACKS : SNACKS.filter(s => s.cat === posFilter);
+            if (!items.length) { grid.innerHTML = '<p class="muted">Niciun produs.</p>'; return; }
+            grid.innerHTML = items.map(s => `<div class="pos-card ${s.stock === 0 ? 'oos' : ''}" onclick="addToCart(${s.id})">
+                <div class="stk ${s.stock < 5 && s.stock > 0 ? 'low' : ''}">${s.stock > 0 ? s.stock : '✕'}</div>
+                <div class="emoji">${s.emoji}</div><div class="nm">${esc(s.name)}</div><div class="pr">${s.price.toFixed(2)} RON</div></div>`).join('');
+        }
+        function filterPOS(cat, btn) { posFilter = cat; document.querySelectorAll('.pos-tabs .pt').forEach(b => b.classList.remove('active')); btn.classList.add('active'); renderPOS(); }
+        function addToCart(id) {
+            const item = SNACKS.find(s => s.id === id);
+            if (!item || item.stock === 0) return;
+            if (!cart[id]) cart[id] = { item, qty: 0 };
+            cart[id].qty++; item.stock--; updateReceipt(); renderPOS();
+        }
+        function removeFromCart(id) {
+            if (!cart[id]) return;
+            const item = SNACKS.find(s => s.id === parseInt(id));
+            if (item) item.stock += cart[id].qty;
+            delete cart[id]; updateReceipt(); renderPOS();
+        }
+        function updateReceipt() {
+            const keys = Object.keys(cart), itemsEl = el('r-items');
+            el('checkout-btn').disabled = !keys.length; el('clear-btn').disabled = !keys.length;
+            if (!keys.length) {
+                itemsEl.innerHTML = '<p class="muted" id="r-empty" style="text-align:center">Bonul este gol</p>';
+                el('r-sub').textContent = el('r-tva').textContent = el('r-tot').textContent = '0.00 RON'; return;
+            }
+            itemsEl.innerHTML = keys.map(id => { const { item, qty } = cart[id];
+                return `<div class="r-item"><span class="q">${qty}</span><span class="nm">${esc(item.name)}</span><span>${(item.price * qty).toFixed(2)}</span><button class="rm" onclick="removeFromCart(${id})">✕</button></div>`;
+            }).join('');
+            const sub = keys.reduce((a, id) => a + cart[id].item.price * cart[id].qty, 0), tva = sub * 0.19;
+            el('r-sub').textContent = sub.toFixed(2) + ' RON'; el('r-tva').textContent = tva.toFixed(2) + ' RON'; el('r-tot').textContent = (sub + tva).toFixed(2) + ' RON';
+        }
+        function clearCart() { Object.keys(cart).forEach(id => { const s = SNACKS.find(s => s.id === parseInt(id)); if (s) s.stock += cart[id].qty; delete cart[id]; }); updateReceipt(); renderPOS(); }
+        async function finalizeBon() {
+            const keys = Object.keys(cart);
+            if (!keys.length) return;
+            const payload = keys.map(id => ({ id: parseInt(id), qty: cart[id].qty }));
+            keys.forEach(id => delete cart[id]); updateReceipt();
+            try {
+                await fetch(`${API}/comanda-snacks`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ idRezervare: `POS-${Date.now()}`, snacks: payload }) });
+                toast('Bon finalizat ✓', 'success');
+            } catch { toast('Bon finalizat (local)', 'info'); }
+            await loadData();
+        }
+
+        // ── SNACKS STOC ──
+        function renderSnacks() {
+            el('snacks-tbody').innerHTML = SNACKS.map(s => `<tr>
+                <td class="tdp">${s.emoji} ${esc(s.name)}</td><td style="color:var(--text3)">${esc(s.desc)}</td>
+                <td class="tdp">${s.price.toFixed(2)} RON</td>
+                <td><span style="color:${s.stock === 0 ? 'var(--red)' : s.stock <= 5 ? 'var(--amber)' : 'var(--text)'};font-weight:600">${s.stock}</span>${s.stock === 0 ? ' <span class="badge b-red">Epuizat</span>' : s.stock <= 5 ? ' <span class="badge b-amber">Stoc mic</span>' : ''}</td>
+                <td><span class="badge ${s.stock > 0 ? 'b-green' : 'b-gray'}">${s.stock > 0 ? 'Da' : 'Nu'}</span></td>
+                <td><button class="btn btn-sm" onclick="refillSnack(${s.id},'${esc(s.name)}')">+ Stoc</button></td></tr>`).join('');
+        }
+        async function refillSnack(id, name) {
+            const q = prompt(`Câte bucăți adaugi la "${name}"?`, '50');
+            if (q === null) return;
+            const qty = parseInt(q);
+            if (!qty || qty < 1) { toast('Cantitate invalidă.', 'error'); return; }
+            try {
+                const res = await fetch(`${API}/admin/snacks/refill`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, cantitate: qty }) });
+                if (res.ok) { const d = await res.json(); toast(`Stoc actualizat: ${d.stocNou ?? '?'} buc.`, 'success'); await loadData(); }
+                else toast('Eroare la actualizare.', 'error');
+            } catch { toast('Server offline.', 'error'); }
+        }
+
+        // ── VIP ──
+        async function loadVIP() {
+            const tb = el('vip-tbody'); tb.innerHTML = '<tr><td colspan="3" class="muted">Se încarcă...</td></tr>';
+            try {
+                const data = await (await fetch(`${API}/admin/vip-extras`)).json();
+                if (!data.length) { tb.innerHTML = '<tr><td colspan="3" class="muted">Nicio comandă VIP premium.</td></tr>'; return; }
+                let rows = '';
+                data.forEach(o => {
+                    const ex = typeof o.extras === 'string' ? JSON.parse(o.extras) : o.extras;
+                    ex.forEach((e, i) => { rows += `<tr>${i === 0 ? `<td class="tdm" rowspan="${ex.length}">${esc(o.idRezervare)}</td>` : ''}<td>${esc(e.name)}</td><td class="tdp">${(e.pret || 0).toFixed(2)} RON</td></tr>`; });
+                });
+                tb.innerHTML = rows;
+            } catch { tb.innerHTML = '<tr><td colspan="3" class="muted">Eroare la încărcare.</td></tr>'; }
+        }
+
+        // ── LOAD ──
+        async function loadData() {
+            const [pr, rz, sn] = await Promise.all([
+                fetch(`${API}/proiectii/viitoare`).then(r => r.json()),
+                fetch(`${API}/admin/rezervari`).then(r => r.json()),
+                fetch(`${API}/snacks`).then(r => r.json())
+            ]);
+            PROIECTII = pr; REZERVARI = rz;
+            SNACKS = sn.map((s, i) => ({ id: i + 1, emoji: snackEmoji(s.nume), name: s.nume, desc: s.descriere, price: s.pret, stock: s.stoc, cat: snackCat(s.nume) }));
+            // program day selector
+            const days = [...new Set(PROIECTII.map(p => (p.dataOra || '').slice(0, 10)))].sort();
+            const sel = el('prog-day'); const cur = sel.value;
+            sel.innerHTML = days.map(d => `<option value="${d}">${d}</option>`).join('');
+            if (cur && days.includes(cur)) sel.value = cur;
+            renderProgram(); renderRezervari(); renderPOS(); renderSnacks();
+        }
+
+        async function init() {
+            if (!user) return;
+            el('emp-name').textContent = user.username;
+            try { await loadData(); }
+            catch { toast('Serverul nu răspunde. Pornește CinemaServer.', 'error'); }
+        }
+        init();
+    </script>
+</body>
+
+</html>

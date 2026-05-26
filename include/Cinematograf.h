@@ -77,10 +77,14 @@ public:
   void setNextIdRezervare(int id);
   void setRezervari(const std::vector<Rezervare> &rez);
   void addProiectieDirect(std::shared_ptr<Proiectie> p);
+  void stergeProiectie(int idProiectie);
+  int numarRezervariActive(int idProiectie) const;
   User *autentificaAdmin(const std::string &username,
                          const std::string &parola);
   User *autentificaClient(const std::string &username,
                           const std::string &parola);
+  User *autentificaAngajat(const std::string &username,
+                           const std::string &parola);
   void adaugaVIPExtras(const std::string &idRezervare,
                        const std::string &extrasJson);
   const std::vector<VIPExtraOrder> &getVIPExtras() const;

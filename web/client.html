@@ -1708,6 +1708,8 @@
       }
     }
   </style>
+  <!-- Generator QR (cod scanabil pe bilet). Fallback la barcode dacă nu se încarcă. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 
 <body>
@@ -2016,9 +2018,11 @@
           🍿 Snacks în valoare de <strong id="modal-snacks-val"></strong> — prezintă ID-ul la casa
           <strong>"Pre-Comenzi"</strong>.
         </div>
-        <!-- Barcode visual -->
+        <!-- Cod QR scanabil (conține ID-ul rezervării) + barcode decorativ -->
         <div style="text-align:center;padding:12px 0 6px">
-          <div id="ticket-barcode" style="display:inline-flex;gap:2px;height:40px;align-items:flex-end"></div>
+          <div id="ticket-qr" style="display:none;padding:10px;background:#fff;border-radius:10px;margin:0 auto 12px;width:fit-content"></div>
+          <div style="font-size:10px;color:var(--text3);margin-bottom:10px">Scanează la intrare</div>
+          <div id="ticket-barcode" style="display:inline-flex;gap:2px;height:34px;align-items:flex-end"></div>
           <div style="font-size:9px;color:var(--text4);letter-spacing:.15em;margin-top:4px" id="ticket-barcode-txt">
           </div>
         </div>
@@ -2738,7 +2742,24 @@
         </div>`;
         el('ticket-details').innerHTML = detailsHtml;
 
-        // Barcode visual
+        // Cod QR scanabil — conține ID-ul rezervării (validabil de angajat)
+        const qrBox = el('ticket-qr');
+        qrBox.innerHTML = '';
+        if (typeof QRCode !== 'undefined') {
+          try {
+            new QRCode(qrBox, {
+              text: firstId,
+              width: 132, height: 132,
+              colorDark: '#0a0a0a', colorLight: '#ffffff',
+              correctLevel: QRCode.CorrectLevel.M
+            });
+            qrBox.style.display = 'block';
+          } catch (e) { qrBox.style.display = 'none'; }
+        } else {
+          qrBox.style.display = 'none'; // offline → rămâne barcode-ul
+        }
+
+        // Barcode decorativ (vizual de bilet)
         const bc = el('ticket-barcode');
         bc.innerHTML = '';
         const seed = firstId.split('').reduce((a, c) => a + c.charCodeAt(0), 0);

@@ -31,9 +31,12 @@
     <div id="screen-welcome" class="screen active">
 
         <div class="video-wrap">
-            <video autoplay muted loop playsinline class="bg-video">
-                <source src="background.mp4" type="video/mp4">
-            </video>
+            <div class="cine-beam"></div>
+            <div class="cine-screen"></div>
+            <div class="cine-dust"></div>
+            <div class="cine-lens"></div>
+            <div class="film-strip far"></div>
+            <div class="film-strip"></div>
             <div class="video-overlay"></div>
         </div>
 
@@ -52,7 +55,7 @@
                     </button>
                 </div>
                 <div class="hero-stats">
-                    <div class="stat"><span class="stat-n">3</span><span class="stat-l">Săli</span></div>
+                    <div class="stat"><span class="stat-n">9</span><span class="stat-l">Săli</span></div>
                     <div class="stat-div"></div>
                     <div class="stat"><span class="stat-n">HD</span><span class="stat-l">Sunet Dolby</span></div>
                     <div class="stat-div"></div>
@@ -85,6 +88,7 @@
 
             <div class="tab-row">
                 <button class="tab active" onclick="selectTab(this, 'client')">Client</button>
+                <button class="tab" onclick="selectTab(this, 'angajat')">Angajat</button>
                 <button class="tab" onclick="selectTab(this, 'admin')">Admin</button>
             </div>
 

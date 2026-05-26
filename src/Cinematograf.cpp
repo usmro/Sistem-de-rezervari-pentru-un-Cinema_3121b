@@ -194,6 +194,23 @@ void Cinematograf::setRezervari(const std::vector<Rezervare> &rez) {
 void Cinematograf::addProiectieDirect(std::shared_ptr<Proiectie> p) {
   proiectii.push_back(std::move(p));
 }
+void Cinematograf::stergeProiectie(int idProiectie) {
+  proiectii.erase(
+      std::remove_if(proiectii.begin(), proiectii.end(),
+                     [&](const std::shared_ptr<Proiectie> &p) {
+                       return p->getId() == idProiectie;
+                     }),
+      proiectii.end());
+}
+int Cinematograf::numarRezervariActive(int idProiectie) const {
+  int n = 0;
+  for (const auto &r : rezervari) {
+    auto p = r.getProiectie();
+    if (p && p->getId() == idProiectie && !r.esteAnulata())
+      ++n;
+  }
+  return n;
+}
 void Cinematograf::adaugaProdus(const ProdusConsumabil &produs) {
   produse.push_back(produs);
 }
@@ -231,6 +248,15 @@ User *Cinematograf::autentificaClient(const std::string &username,
   for (auto &u : useri) {
     if (u->getUsername() == username && u->verificaParola(parola) &&
         u->getRol() == RolUser::Client)
+      return u.get();
+  }
+  throw AutentificareEsuataExceptie();
+}
+User *Cinematograf::autentificaAngajat(const std::string &username,
+                                       const std::string &parola) {
+  for (auto &u : useri) {
+    if (u->getUsername() == username && u->verificaParola(parola) &&
+        u->getRol() == RolUser::Angajat)
       return u.get();
   }
   throw AutentificareEsuataExceptie();

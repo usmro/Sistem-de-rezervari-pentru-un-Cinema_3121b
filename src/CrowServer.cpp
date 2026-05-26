@@ -1,6 +1,7 @@
 #include "CrowServer.h"
 #include "ApiSerializer.h"
 // jsonEscape is defined in ApiSerializer.h (inline function)
+#include "Angajat.h"
 #include "Cinematograf.h"
 #include "Film.h"
 #include "FormatAudio.h"
@@ -9,7 +10,13 @@
 #include <crow.h>
 #include <fstream>
 #include <iomanip>
+#include <mutex>
+#include <sstream>
 #include <vector>
+
+// Mutex global care serializeaza accesul la starea partajata (Cinematograf).
+// Crow ruleaza multi-threaded; lock-ul previne curse de date si dubla-rezervare.
+static std::mutex g_cinemaMutex;
 
 struct CORSMiddleware {
   struct context {};
@@ -126,6 +133,8 @@ void CrowServer::ruleaza() {
           User *user = nullptr;
           if (tip == "admin") {
             user = cinema.autentificaAdmin(username, parola);
+          } else if (tip == "angajat") {
+            user = cinema.autentificaAngajat(username, parola);
           } else {
             user = cinema.autentificaClient(username, parola);
           }
@@ -142,6 +151,7 @@ void CrowServer::ruleaza() {
 
   CROW_ROUTE(app, "/api/register")
       .methods(crow::HTTPMethod::POST)([&cinema](const crow::request &req) {
+        std::lock_guard<std::mutex> lk(g_cinemaMutex);
         crow::response res;
         res.add_header("Content-Type", "application/json");
         try {
@@ -248,6 +258,7 @@ void CrowServer::ruleaza() {
 
   CROW_ROUTE(app, "/api/rezerva")
       .methods(crow::HTTPMethod::POST)([&cinema](const crow::request &req) {
+        std::lock_guard<std::mutex> lk(g_cinemaMutex);
         crow::response res;
         res.add_header("Content-Type", "application/json");
         try {
@@ -359,6 +370,15 @@ void CrowServer::ruleaza() {
           json +=
               "\"areCardFidelitate\":" +
               std::string(useri[i]->getAreCardFidelitate() ? "true" : "false");
+          if (auto *ang = dynamic_cast<Angajat *>(useri[i].get())) {
+            json += ",\"program\":\"" + jsonEscape(ang->getProgramLucru()) +
+                    "\"";
+            json += ",\"sala\":\"" +
+                    jsonEscape(ang->getSalaResponsabil()
+                                   ? ang->getSalaResponsabil()->getNume()
+                                   : "-") +
+                    "\"";
+          }
           json += "}";
           if (i < useri.size() - 1)
             json += ",";
@@ -381,6 +401,8 @@ void CrowServer::ruleaza() {
           auto proj = r.getProiectie();
           json += "{";
           json += "\"id\":\"" + r.getId() + "\",";
+          json += "\"proiectieId\":" +
+                  std::to_string(proj ? proj->getId() : 0) + ",";
           json += "\"usernameClient\":\"" + r.getUsernameClient() + "\",";
           json += "\"titluFilm\":\"" +
                   (proj ? proj->getFilm()->getTitlu() : "") + "\",";
@@ -404,6 +426,7 @@ void CrowServer::ruleaza() {
   // POST /api/admin/anuleaza
   CROW_ROUTE(app, "/api/admin/anuleaza")
       .methods(crow::HTTPMethod::POST)([&cinema](const crow::request &req) {
+        std::lock_guard<std::mutex> lk(g_cinemaMutex);
         crow::response res;
         res.add_header("Content-Type", "application/json");
         try {
@@ -469,9 +492,45 @@ void CrowServer::ruleaza() {
         return res;
       });
 
+  // GET /api/rezervare/<id> — verificare bilet (pentru rolul Angajat)
+  CROW_ROUTE(app, "/api/rezervare/<string>")
+      .methods(crow::HTTPMethod::GET)([&cinema](const std::string &idRez) {
+        crow::response res;
+        res.add_header("Content-Type", "application/json");
+        for (const auto &r : cinema.getRezervari()) {
+          if (r.getId() != idRez)
+            continue;
+          auto proj = r.getProiectie();
+          std::string json = "{";
+          json += "\"found\":true,";
+          json += "\"id\":\"" + r.getId() + "\",";
+          json += "\"titluFilm\":\"" +
+                  jsonEscape(proj ? proj->getFilm()->getTitlu() : "") + "\",";
+          json +=
+              "\"dataOra\":\"" + (proj ? proj->getDataOraString() : "") + "\",";
+          json += "\"salaNume\":\"" +
+                  jsonEscape(proj ? proj->getSala()->getNume() : "") + "\",";
+          json += "\"rand\":" + std::to_string(r.getRand()) + ",";
+          json += "\"loc\":" + std::to_string(r.getLoc()) + ",";
+          json += "\"tipBilet\":\"" + jsonEscape(r.getTipBilet()) + "\",";
+          json += "\"pretFinal\":" + std::to_string(r.getPretFinal()) + ",";
+          json += "\"client\":\"" + jsonEscape(r.getUsernameClient()) + "\",";
+          json += "\"anulata\":" +
+                  std::string(r.esteAnulata() ? "true" : "false");
+          json += "}";
+          res.code = 200;
+          res.write(json);
+          return res;
+        }
+        res.code = 200;
+        res.write("{\"found\":false}");
+        return res;
+      });
+
   // POST /api/anuleaza  (client – cancel own reservation)
   CROW_ROUTE(app, "/api/anuleaza")
       .methods(crow::HTTPMethod::POST)([&cinema](const crow::request &req) {
+        std::lock_guard<std::mutex> lk(g_cinemaMutex);
         crow::response res;
         res.add_header("Content-Type", "application/json");
         try {
@@ -515,6 +574,7 @@ void CrowServer::ruleaza() {
   // POST /api/admin/card-fidelitate
   CROW_ROUTE(app, "/api/admin/card-fidelitate")
       .methods(crow::HTTPMethod::POST)([&cinema](const crow::request &req) {
+        std::lock_guard<std::mutex> lk(g_cinemaMutex);
         crow::response res;
         res.add_header("Content-Type", "application/json");
         try {
@@ -546,6 +606,7 @@ void CrowServer::ruleaza() {
   // POST /api/admin/filme
   CROW_ROUTE(app, "/api/admin/filme")
       .methods(crow::HTTPMethod::POST)([&cinema](const crow::request &req) {
+        std::lock_guard<std::mutex> lk(g_cinemaMutex);
         crow::response res;
         res.add_header("Content-Type", "application/json");
         try {
@@ -582,6 +643,7 @@ void CrowServer::ruleaza() {
   // POST /api/admin/proiectii
   CROW_ROUTE(app, "/api/admin/proiectii")
       .methods(crow::HTTPMethod::POST)([&cinema](const crow::request &req) {
+        std::lock_guard<std::mutex> lk(g_cinemaMutex);
         crow::response res;
         res.add_header("Content-Type", "application/json");
         try {
@@ -633,6 +695,116 @@ void CrowServer::ruleaza() {
         return res;
       });
 
+  // DELETE /api/admin/proiectii/<int> — sterge o proiectie (blocata daca are
+  // rezervari active)
+  CROW_ROUTE(app, "/api/admin/proiectii/<int>")
+      .methods(crow::HTTPMethod::DELETE)([&cinema](int id) {
+        std::lock_guard<std::mutex> lk(g_cinemaMutex);
+        crow::response res;
+        res.add_header("Content-Type", "application/json");
+        bool exista = false;
+        for (const auto &p : cinema.getProiectii())
+          if (p->getId() == id) {
+            exista = true;
+            break;
+          }
+        if (!exista) {
+          res.code = 404;
+          res.write(ApiSerializer::eroare("Proiectia nu exista."));
+          return res;
+        }
+        int active = cinema.numarRezervariActive(id);
+        if (active > 0) {
+          res.code = 409;
+          res.write(ApiSerializer::eroare(
+              "Nu poti sterge: proiectia are " + std::to_string(active) +
+              " rezervari active."));
+          return res;
+        }
+        cinema.stergeProiectie(id);
+        StorageService::salveazaProiectii(cinema.getProiectii());
+        res.code = 200;
+        res.write(ApiSerializer::ok("Proiectie stearsa!"));
+        return res;
+      });
+
+  // POST /api/admin/proiectii/edit — editeaza o proiectie (blocata daca are
+  // rezervari active; pastreaza acelasi ID)
+  CROW_ROUTE(app, "/api/admin/proiectii/edit")
+      .methods(crow::HTTPMethod::POST)([&cinema](const crow::request &req) {
+        std::lock_guard<std::mutex> lk(g_cinemaMutex);
+        crow::response res;
+        res.add_header("Content-Type", "application/json");
+        try {
+          auto body = crow::json::load(req.body);
+          if (!body) {
+            res.code = 400;
+            res.write(ApiSerializer::eroare("JSON invalid"));
+            return res;
+          }
+          int id = body["id"].i();
+          std::string titluFilm = body["titluFilm"].s();
+          std::string numeSala = body["numeSala"].s();
+          std::string dataOraStr = body["dataOra"].s();
+          std::string formatStr = body["formatAudio"].s();
+
+          std::shared_ptr<Proiectie> existenta = nullptr;
+          for (const auto &p : cinema.getProiectii())
+            if (p->getId() == id) {
+              existenta = p;
+              break;
+            }
+          if (!existenta) {
+            res.code = 404;
+            res.write(ApiSerializer::eroare("Proiectia nu exista."));
+            return res;
+          }
+          int active = cinema.numarRezervariActive(id);
+          if (active > 0) {
+            res.code = 409;
+            res.write(ApiSerializer::eroare(
+                "Nu poti edita: proiectia are " + std::to_string(active) +
+                " rezervari active."));
+            return res;
+          }
+          auto film = cinema.gasesteFilm(titluFilm);
+          if (!film) {
+            res.code = 404;
+            res.write(ApiSerializer::eroare("Film negasit"));
+            return res;
+          }
+          auto sala = cinema.gasesteSala(numeSala);
+          if (!sala) {
+            res.code = 404;
+            res.write(ApiSerializer::eroare("Sala negasita"));
+            return res;
+          }
+          auto dt = Proiectie::parseDataOra(dataOraStr);
+          FormatAudio format = (formatStr == "Dublat") ? FormatAudio::Dublat
+                                                       : FormatAudio::Subtitrat;
+          // Conflict cu ALTA proiectie (alt id) in aceeasi sala la aceeasi ora
+          for (const auto &p : cinema.getProiectii()) {
+            if (p->getId() != id && p->getSala()->getNume() == numeSala &&
+                p->getDataOraString() == dataOraStr) {
+              res.code = 409;
+              res.write(ApiSerializer::eroare(
+                  "Sala este deja ocupata la aceasta data si ora."));
+              return res;
+            }
+          }
+          cinema.stergeProiectie(id);
+          cinema.addProiectieDirect(
+              std::make_shared<Proiectie>(id, film, sala, dt, format));
+          StorageService::salveazaProiectii(cinema.getProiectii());
+          res.code = 200;
+          res.write(ApiSerializer::ok("Proiectie actualizata!"));
+        } catch (const std::exception &e) {
+          res.code = 400;
+          res.write(ApiSerializer::eroare(e.what()));
+        }
+        return res;
+      });
+
   // GET /api/admin/vouchere — lista tuturor voucherelor
   CROW_ROUTE(app, "/api/admin/vouchere")
       .methods(crow::HTTPMethod::GET)([&cinema](const crow::request &) {
@@ -669,6 +841,7 @@ void CrowServer::ruleaza() {
   // DELETE /api/admin/filme/<string> — sterge un film din catalog
   CROW_ROUTE(app, "/api/admin/filme/<string>")
       .methods(crow::HTTPMethod::DELETE)([&cinema](const std::string &titlu) {
+        std::lock_guard<std::mutex> lk(g_cinemaMutex);
         crow::response res;
         res.add_header("Content-Type", "application/json");
         res.add_header("Access-Control-Allow-Methods",
@@ -688,6 +861,7 @@ void CrowServer::ruleaza() {
   // POST /api/admin/vouchere/add — adauga un voucher nou
   CROW_ROUTE(app, "/api/admin/vouchere/add")
       .methods(crow::HTTPMethod::POST)([&cinema](const crow::request &req) {
+        std::lock_guard<std::mutex> lk(g_cinemaMutex);
         crow::response res;
         res.add_header("Content-Type", "application/json");
         try {
@@ -733,6 +907,7 @@ void CrowServer::ruleaza() {
   // POST /api/admin/vouchere/toggle — activeaza/dezactiveaza un voucher
   CROW_ROUTE(app, "/api/admin/vouchere/toggle")
       .methods(crow::HTTPMethod::POST)([&cinema](const crow::request &req) {
+        std::lock_guard<std::mutex> lk(g_cinemaMutex);
         crow::response res;
         res.add_header("Content-Type", "application/json");
         try {
@@ -765,6 +940,7 @@ void CrowServer::ruleaza() {
   // DELETE /api/admin/vouchere/<cod> — sterge un voucher
   CROW_ROUTE(app, "/api/admin/vouchere/<string>")
       .methods(crow::HTTPMethod::DELETE)([&cinema](const std::string &cod) {
+        std::lock_guard<std::mutex> lk(g_cinemaMutex);
         crow::response res;
         res.add_header("Content-Type", "application/json");
         res.add_header("Access-Control-Allow-Methods",
@@ -784,6 +960,7 @@ void CrowServer::ruleaza() {
   // POST /api/admin/snacks/refill — adauga stoc la un produs
   CROW_ROUTE(app, "/api/admin/snacks/refill")
       .methods(crow::HTTPMethod::POST)([&cinema](const crow::request &req) {
+        std::lock_guard<std::mutex> lk(g_cinemaMutex);
         crow::response res;
         res.add_header("Content-Type", "application/json");
         try {
@@ -824,6 +1001,7 @@ void CrowServer::ruleaza() {
   // ================================================================
   CROW_ROUTE(app, "/api/comanda-snacks")
       .methods(crow::HTTPMethod::POST)([&cinema](const crow::request &req) {
+        std::lock_guard<std::mutex> lk(g_cinemaMutex);
         crow::response res;
         res.add_header("Content-Type", "application/json");
         try {
@@ -897,6 +1075,7 @@ void CrowServer::ruleaza() {
   // POST /api/vip-extras — inregistreaza comenzile premium VIP
   CROW_ROUTE(app, "/api/vip-extras")
       .methods(crow::HTTPMethod::POST)([&cinema](const crow::request &req) {
+        std::lock_guard<std::mutex> lk(g_cinemaMutex);
         crow::response res;
         res.add_header("Content-Type", "application/json");
         try {
@@ -990,6 +1169,51 @@ void CrowServer::ruleaza() {
         res.write(json);
         return res;
       });
+
+  // ── Servire frontend static din web/ (o singură aplicație pe :8080) ────────
+  // Astfel nu mai e nevoie de un server static separat: deschizi direct
+  // http://localhost:8080 și primești și paginile, și API-ul.
+  auto serveStatic = [](const std::string &relPath) -> crow::response {
+    // securitate: blochează path traversal
+    if (relPath.find("..") != std::string::npos)
+      return crow::response(403);
+    std::string fisier = "web/" + (relPath.empty() ? "index.html" : relPath);
+    std::ifstream f(fisier, std::ios::binary);
+    if (!f.is_open())
+      return crow::response(404);
+    std::ostringstream ss;
+    ss << f.rdbuf();
+    crow::response res(ss.str());
+    // Content-Type după extensie
+    std::string ext;
+    auto dot = fisier.find_last_of('.');
+    if (dot != std::string::npos)
+      ext = fisier.substr(dot + 1);
+    std::string ct = "text/plain; charset=utf-8";
+    if (ext == "html")
+      ct = "text/html; charset=utf-8";
+    else if (ext == "css")
+      ct = "text/css; charset=utf-8";
+    else if (ext == "js")
+      ct = "application/javascript; charset=utf-8";
+    else if (ext == "json")
+      ct = "application/json; charset=utf-8";
+    else if (ext == "svg")
+      ct = "image/svg+xml";
+    else if (ext == "png")
+      ct = "image/png";
+    else if (ext == "jpg" || ext == "jpeg")
+      ct = "image/jpeg";
+    else if (ext == "ico")
+      ct = "image/x-icon";
+    else if (ext == "mp4")
+      ct = "video/mp4";
+    res.set_header("Content-Type", ct);
+    return res;
+  };
+  CROW_ROUTE(app, "/")([serveStatic]() { return serveStatic("index.html"); });
+  CROW_ROUTE(app, "/<string>")
+  ([serveStatic](const std::string &fisier) { return serveStatic(fisier); });
 
   app.port(8080).multithreaded().run();
 }

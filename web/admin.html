@@ -1473,33 +1473,13 @@
         </div>
       </div>
       <div class="nav-section">
-        <div class="nav-section-label">Vânzări &amp; Bar</div>
-        <div class="nav-item" onclick="switchView('rezervari',this)">
+        <div class="nav-section-label">Rapoarte &amp; Vouchere</div>
+        <div class="nav-item" onclick="switchView('statistici',this)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M20 12V22H4V12" />
-            <path d="M22 7H2v5h20V7z" />
-            <path d="M12 22V7" />
-            <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
-            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
+            <path d="M3 3v18h18" />
+            <path d="M7 14l4-4 3 3 5-5" />
           </svg>
-          Rezervări <span class="nav-count" id="cnt-rez">0</span>
-        </div>
-        <div class="nav-item" onclick="switchView('snacks',this)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
-            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
-            <line x1="6" y1="1" x2="6" y2="4" />
-            <line x1="10" y1="1" x2="10" y2="4" />
-            <line x1="14" y1="1" x2="14" y2="4" />
-          </svg>
-          Snacks
-        </div>
-        <div class="nav-item" onclick="switchView('pos',this)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="1" y="4" width="22" height="16" rx="2" />
-            <line x1="1" y1="10" x2="23" y2="10" />
-          </svg>
-          POS Bar
+          Statistici <span class="nav-count" id="cnt-rez">0</span>
         </div>
         <div class="nav-item" onclick="switchView('vouchere',this)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1547,7 +1527,7 @@
         <div class="footer-name">admin</div>
         <div class="footer-role">Administrator</div>
       </div>
-      <button class="logout-btn" title="Deconectare" onclick="window.location.href='index.html'">
+      <button class="logout-btn" title="Deconectare" onclick="localStorage.removeItem('cinema_user'); window.location.href='index.html'">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
           <polyline points="16 17 21 12 16 7" />
@@ -1743,8 +1723,8 @@
                   <th>Sală</th>
                   <th>Data &amp; Ora</th>
                   <th>Format Audio</th>
-                  <th>Status</th>
-                  <th></th>
+                  <th>Ocupare</th>
+                  <th>Acțiuni</th>
                 </tr>
               </thead>
               <tbody id="proiectii-tbody">
@@ -1762,7 +1742,7 @@
       </div>
 
       <!-- REZERVARI -->
-      <div class="view" id="view-rezervari">
+      <div class="view" id="view-statistici">
         <div class="stats-row">
           <div class="stat-card" style="--ac:var(--red)">
             <div class="stat-label">Total</div>
@@ -1782,60 +1762,6 @@
           </div>
         </div>
         <div class="card">
-          <div class="card-header">
-            <div class="card-title-group">
-              <div class="card-title">Toate Rezervările</div>
-              <div class="card-sub" id="rez-sub">Se încarcă...</div>
-            </div>
-            <div class="card-actions">
-              <button class="btn btn-ghost btn-sm" onclick="exportRezervariCSV()">⬇ Export CSV</button>
-            </div>
-          </div>
-          <div style="padding:10px 20px 0;display:flex;gap:10px;flex-wrap:wrap">
-            <input id="rez-search" type="text" placeholder="Caută film / client..." oninput="filterRezervari()"
-              style="flex:1;min-width:180px;padding:7px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-family:var(--fb);font-size:13px;outline:none">
-            <select id="rez-status" onchange="filterRezervari()"
-              style="padding:7px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-family:var(--fb);font-size:13px;outline:none">
-              <option value="toate">Toate statusurile</option>
-              <option value="active">Doar active</option>
-              <option value="anulate">Doar anulate</option>
-            </select>
-            <select id="rez-sort" onchange="filterRezervari()"
-              style="padding:7px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-family:var(--fb);font-size:13px;outline:none">
-              <option value="newest">Cele mai noi</option>
-              <option value="oldest">Cele mai vechi</option>
-              <option value="price-desc">Preț ↓</option>
-              <option value="price-asc">Preț ↑</option>
-            </select>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Client</th>
-                  <th>Film</th>
-                  <th>Proiecție</th>
-                  <th>Loc</th>
-                  <th>Bilet</th>
-                  <th>Preț</th>
-                  <th>Status</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="rezervari-tbody">
-                <tr>
-                  <td colspan="9">
-                    <div class="loading-row">
-                      <div class="spinner"></div>Se încarcă...
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="card" style="margin-top:18px">
           <div class="card-header">
             <div class="card-title">Venituri pe Film</div>
           </div>
@@ -1860,210 +1786,6 @@
           </div>
         </div>
 
-        <div class="card" style="margin-top:18px">
-          <div class="card-header">
-            <div class="card-title-group">
-              <div class="card-title">Comenzi VIP Premium</div>
-              <div class="card-sub">Extras comandate în Sala VIP</div>
-            </div>
-            <div class="card-actions"><button class="btn btn-ghost btn-sm" onclick="loadVIPExtras()">⟳
-                Actualizează</button></div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>ID Rezervare</th>
-                  <th>Produs</th>
-                  <th>Preț</th>
-                </tr>
-              </thead>
-              <tbody id="vip-extras-tbody">
-                <tr>
-                  <td colspan="3">
-                    <div class="loading-row">
-                      <div class="spinner"></div>Apasă Actualizează
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- SNACKS -->
-      <div class="view" id="view-snacks">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title-group">
-              <div class="card-title">Produse Bar</div>
-              <div class="card-sub">Stoc live din backend</div>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Produs</th>
-                  <th>Descriere</th>
-                  <th>Preț</th>
-                  <th>Stoc</th>
-                  <th>Disponibil</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="snacks-tbody">
-                <tr>
-                  <td colspan="6">
-                    <div class="loading-row">
-                      <div class="spinner"></div>Se încarcă...
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- VIP Menu -->
-        <div class="card" style="margin-top:18px">
-          <div class="card-header">
-            <div class="card-title-group">
-              <div class="card-title">Meniu Sala VIP</div>
-              <div class="card-sub">Inclus în bilet + opțiuni premium cu cost suplimentar</div>
-            </div>
-            <span class="badge bgold" style="align-self:center">Sala VIP</span>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--border)">
-
-            <!-- Inclus -->
-            <div style="padding:16px 20px;border-right:1px solid var(--border)">
-              <div
-                style="font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--green);text-transform:uppercase;margin-bottom:12px">
-                Inclus în bilet — Nelimitat</div>
-              <table style="width:100%;font-size:13px">
-                <tbody>
-                  <tr>
-                    <td style="padding:7px 0;width:32px;font-size:1.2rem">🥤</td>
-                    <td style="font-weight:500">Pepsi</td>
-                    <td style="color:var(--green);text-align:right;font-weight:600">Gratuit ∞</td>
-                  </tr>
-                  <tr style="border-top:1px solid var(--border)">
-                    <td style="padding:7px 0;font-size:1.2rem">🍿</td>
-                    <td style="font-weight:500">Popcorn</td>
-                    <td style="color:var(--green);text-align:right;font-weight:600">Gratuit ∞</td>
-                  </tr>
-                  <tr style="border-top:1px solid var(--border)">
-                    <td style="padding:7px 0;font-size:1.2rem">🧀</td>
-                    <td style="font-weight:500">Nachos</td>
-                    <td style="color:var(--green);text-align:right;font-weight:600">Gratuit ∞</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <!-- Premium -->
-            <div style="padding:16px 20px">
-              <div
-                style="font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--gold);text-transform:uppercase;margin-bottom:12px">
-                Premium — cu cost suplimentar</div>
-              <table style="width:100%;font-size:13px">
-                <thead>
-                  <tr>
-                    <th style="text-align:left;font-weight:500;color:var(--text3);padding-bottom:6px">Produs</th>
-                    <th style="text-align:right;font-weight:500;color:var(--text3);padding-bottom:6px">Preț</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td style="padding:6px 0;border-top:1px solid var(--border)">🍷 Vin roșu <span
-                        style="color:var(--text3);font-size:11px">— Pahar 150 ml</span></td>
-                    <td style="text-align:right;font-weight:600">35 RON</td>
-                  </tr>
-                  <tr>
-                    <td style="padding:6px 0;border-top:1px solid var(--border)">🍾 Șampanie <span
-                        style="color:var(--text3);font-size:11px">— Prosecco DOC</span></td>
-                    <td style="text-align:right;font-weight:600">45 RON</td>
-                  </tr>
-                  <tr>
-                    <td style="padding:6px 0;border-top:1px solid var(--border)">🧀 Platou brânzeturi <span
-                        style="color:var(--text3);font-size:11px">— + crackers</span></td>
-                    <td style="text-align:right;font-weight:600">65 RON</td>
-                  </tr>
-                  <tr>
-                    <td style="padding:6px 0;border-top:1px solid var(--border)">🐟 Somon afumat <span
-                        style="color:var(--text3);font-size:11px">— 150 g</span></td>
-                    <td style="text-align:right;font-weight:600">75 RON</td>
-                  </tr>
-                  <tr>
-                    <td style="padding:6px 0;border-top:1px solid var(--border)">🍽️ Meniu șnițel <span
-                        style="color:var(--text3);font-size:11px">— + garnitură</span></td>
-                    <td style="text-align:right;font-weight:600">55 RON</td>
-                  </tr>
-                  <tr>
-                    <td style="padding:6px 0;border-top:1px solid var(--border)">🍰 Tort de ciocolată <span
-                        style="color:var(--text3);font-size:11px">— felie 150 g</span></td>
-                    <td style="text-align:right;font-weight:600">40 RON</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      <!-- POS BAR -->
-      <div class="view" id="view-pos">
-        <div class="pos-layout">
-          <div class="pos-products">
-            <div class="pos-hdr">
-              <div class="pos-tabs">
-                <button class="pos-tab active" onclick="filterPOS('toate',this)">Toate</button>
-                <button class="pos-tab" onclick="filterPOS('snacks',this)">Snacks</button>
-                <button class="pos-tab" onclick="filterPOS('bauturi',this)">Băuturi</button>
-                <button class="pos-tab" onclick="filterPOS('dulciuri',this)">Dulciuri</button>
-              </div>
-              <span style="margin-left:auto;font-size:11.5px;color:var(--text3)">Click = adaugă în bon</span>
-            </div>
-            <div class="pos-grid" id="pos-grid">
-              <div class="loading-row" style="grid-column:1/-1">
-                <div class="spinner"></div>Se încarcă...
-              </div>
-            </div>
-          </div>
-          <div class="pos-receipt">
-            <div class="r-hdr">
-              <div class="r-title">BON CURENT</div>
-              <button class="btn btn-ghost btn-sm" id="clear-btn" onclick="clearCart()" disabled>Șterge tot</button>
-            </div>
-            <div class="r-items" id="r-items">
-              <div class="r-empty" id="r-empty">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                  <line x1="3" y1="6" x2="21" y2="6" />
-                  <path d="M16 10a4 4 0 0 1-8 0" />
-                </svg>
-                <p>Bonul este gol</p>
-              </div>
-            </div>
-            <div class="r-foot">
-              <div class="r-totals">
-                <div class="r-row"><span>Subtotal</span><span id="r-sub">0.00 RON</span></div>
-                <div class="r-row"><span>TVA (19%)</span><span id="r-tva">0.00 RON</span></div>
-                <div class="r-row tot"><span>TOTAL</span><span class="rv" id="r-tot">0.00 RON</span></div>
-              </div>
-              <button class="checkout-btn" id="checkout-btn" onclick="finalizeBon()" disabled>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                  style="width:16px;height:16px">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-                Finalizare Bon
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- CLIENTI -->
@@ -2072,7 +1794,7 @@
           <div class="card-header">
             <div class="card-title-group">
               <div class="card-title">Clienți &amp; Fidelitate</div>
-              <div class="card-sub">Toggle = activează/dezactivează card fidelitate (reducere −10%)</div>
+              <div class="card-sub" id="clienti-sub">Toggle = activează/dezactivează card fidelitate (reducere −10%)</div>
             </div>
           </div>
           <div class="table-wrap">
@@ -2080,7 +1802,6 @@
               <thead>
                 <tr>
                   <th>Utilizator</th>
-                  <th>Rol</th>
                   <th>Activitate</th>
                   <th>Card Fidelitate</th>
                   <th>Reducere Activă</th>
@@ -2089,12 +1810,36 @@
               </thead>
               <tbody id="users-tbody">
                 <tr>
-                  <td colspan="6">
+                  <td colspan="5">
                     <div class="loading-row">
                       <div class="spinner"></div>Se încarcă...
                     </div>
                   </td>
                 </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:18px">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-title">Angajați</div>
+              <div class="card-sub" id="angajati-sub">Personalul cinematografului</div>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Utilizator</th>
+                  <th>Rol</th>
+                  <th>Program</th>
+                  <th>Sală responsabil</th>
+                </tr>
+              </thead>
+              <tbody id="angajati-tbody">
+                <tr><td colspan="4"><div class="loading-row"><div class="spinner"></div>Se încarcă...</div></td></tr>
               </tbody>
             </table>
           </div>
@@ -2197,7 +1942,7 @@
       <div class="view" id="view-add-proiectie">
         <div class="card" style="max-width:640px">
           <div class="card-header">
-            <div class="card-title">Proiecție Nouă</div>
+            <div class="card-title" id="proj-form-title">Proiecție Nouă</div>
           </div>
           <div class="card-body">
             <div id="ferr-proj" class="ferr"></div>
@@ -2414,9 +2159,7 @@
     'use strict';
     const API = 'http://localhost:8080/api';
 
-    let FILME = [], SNACKS = [], USERS = [], PROIECTII = [], REZERVARI = [], VOUCHERE = [], SALI = [];
-    const cart = {};
-    let posFilter = 'toate';
+    let FILME = [], USERS = [], PROIECTII = [], REZERVARI = [], VOUCHERE = [], SALI = [];
     let currentView = 'filme';
     let confirmCb = null;
 
@@ -2464,24 +2207,20 @@
         el('proj-sub').textContent = PROIECTII.length + ' proiecții viitoare';
       }
 
-      // Snacks
-      if (loads[2].status === 'fulfilled' && loads[2].value.ok) {
-        const raw = await loads[2].value.json();
-        SNACKS = raw.map((s, i) => ({ id: i + 1, emoji: snackEmoji(s.nume), name: s.nume, desc: s.descriere, price: s.pret, stock: s.stoc, cat: snackCat(s.nume) }));
-        renderSnacks(); renderPOSGrid();
-      }
+      // Snacks/POS s-au mutat în pagina Angajat — adminul nu le mai gestionează.
 
       // Useri
       if (loads[3].status === 'fulfilled' && loads[3].value.ok) {
         USERS = await loads[3].value.json();
-        renderUsers(); cnt('cnt-users', USERS.filter(u => u.rol === 'Client').length);
+        renderUsers(); renderAngajati(); cnt('cnt-users', USERS.filter(u => u.rol === 'Client').length);
       }
 
-      // Rezervări
+      // Rezervări — folosite doar pentru statistici (lista s-a mutat la Angajat)
       if (loads[4].status === 'fulfilled' && loads[4].value.ok) {
         REZERVARI = await loads[4].value.json();
-        renderRezervari(); cnt('cnt-rez', REZERVARI.length);
+        cnt('cnt-rez', REZERVARI.length);
         updateRezStats();
+        renderUsers(); // re-render cu nr. corect de rezervări per client
       }
 
       // Vouchere
@@ -2537,22 +2276,6 @@
     }
 
     // ─── HELPERS ───
-    function snackEmoji(n) {
-      n = (n || '').toLowerCase();
-      if (n.includes('popcorn')) return '🍿';
-      if (n.includes('cola') || n.includes('apa') || n.includes('suc') || n.includes('juice')) return '🥤';
-      if (n.includes('ciocolata') || n.includes('ciocolată')) return '🍫';
-      if (n.includes('bomboana') || n.includes('bomboane')) return '🍬';
-      if (n.includes('hot dog') || n.includes('hotdog')) return '🌭';
-      if (n.includes('inghetata') || n.includes('înghețată')) return '🍦';
-      return '🎭';
-    }
-    function snackCat(n) {
-      n = (n || '').toLowerCase();
-      if (n.includes('cola') || n.includes('apa') || n.includes('suc') || n.includes('juice')) return 'bauturi';
-      if (n.includes('ciocolata') || n.includes('bomboane') || n.includes('inghetata')) return 'dulciuri';
-      return 'snacks';
-    }
     function el(id) { return document.getElementById(id); }
     function cnt(id, v) { const e = el(id); if (e) e.textContent = v; }
     function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
@@ -2581,12 +2304,18 @@
         const t = p.sala?.tip || '';
         const bc = t === 'VIP' ? 'bgold' : t === 'IMAX' ? 'bb' : 'bgray';
         const cap = p.sala?.capacitate || (p.sala?.randuri || 10) * (p.sala?.locuriPeRand || 15);
-        const ocupate = REZERVARI.filter(r => !r.anulata && r.titluFilm === p.film?.titlu && r.dataOra === p.dataOra).length;
+        // Ocupare EXACTA per proiectie (dupa proiectieId, nu film+data)
+        const ocupate = REZERVARI.filter(r => !r.anulata && r.proiectieId === p.id).length;
         const pct = cap > 0 ? Math.round((ocupate / cap) * 100) : 0;
-        let ocupBadge = '';
-        if (ocupate >= cap) ocupBadge = '<span class="badge br" style="font-size:10px;margin-left:5px">Sold Out</span>';
-        else if (pct >= 80) ocupBadge = `<span class="badge ba" style="font-size:10px;margin-left:5px">⚠ ${pct}%</span>`;
-        else ocupBadge = `<span style="font-size:11px;color:var(--text3);margin-left:5px">${ocupate}/${cap}</span>`;
+        const barColor = ocupate >= cap ? 'var(--red)' : pct >= 80 ? 'var(--amber)' : 'var(--green)';
+        const soldOut = ocupate >= cap
+          ? '<span class="badge br" style="font-size:9px;margin-left:6px">SOLD OUT</span>' : '';
+        const ocupCell = `<div style="display:flex;align-items:center;gap:8px;min-width:130px">
+          <div style="flex:1;background:var(--bg4);border-radius:3px;height:8px;overflow:hidden">
+            <div style="width:${Math.max(pct, 2)}%;height:100%;background:${barColor};transition:width .3s"></div>
+          </div>
+          <span style="font-size:11px;color:var(--text2);white-space:nowrap">${ocupate}/${cap}<span style="color:var(--text4)"> (${pct}%)</span></span>${soldOut}
+        </div>`;
         const layoutBadge = t === 'VIP'
           ? '<span class="badge bgold" style="font-size:10px;margin-left:4px">⊞ Perechi</span>'
           : '<span class="badge bgray" style="font-size:10px;margin-left:4px">⊟ Culoar</span>';
@@ -2596,112 +2325,16 @@
       <td><span class="badge ${bc}">${esc(p.sala?.nume || '-')}</span>${layoutBadge}</td>
       <td>${esc(p.dataOra || '-')}</td>
       <td><span class="badge bgray">${esc(p.formatAudio || '-')}</span></td>
-      <td><span class="badge bg">Viitoare</span>${ocupBadge}</td>
-      <td><button class="btn btn-ghost btn-sm" onclick="showSeatMap(${p.id},'${esc(p.film?.titlu || '')}','${esc(p.sala?.nume || '')}',${p.sala?.randuri || 10},${p.sala?.locuriPeRand || 15})">🗺 Hartă</button></td>
+      <td>${ocupCell}</td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-ghost btn-sm" title="Hartă locuri" onclick="showSeatMap(${p.id},'${esc(p.film?.titlu || '')}','${esc(p.sala?.nume || '')}',${p.sala?.randuri || 10},${p.sala?.locuriPeRand || 15})">🗺</button>
+        <button class="btn btn-ghost btn-sm" title="Editează" onclick="openEditProiectie(${p.id})">✏️</button>
+        <button class="btn btn-danger btn-sm" title="Șterge" onclick="deleteProiectie(${p.id},${ocupate})">🗑</button>
+      </td>
     </tr>`;
       }).join('');
     }
 
-    // ─── RENDER REZERVARI ───
-    // ─── FILTER REZERVARI ───
-    function filterRezervari() {
-      const search = (el('rez-search')?.value || '').toLowerCase();
-      const status = el('rez-status')?.value || 'toate';
-      const sort = el('rez-sort')?.value || 'newest';
-
-      let data = [...REZERVARI];
-      if (search) data = data.filter(r =>
-        (r.titluFilm || '').toLowerCase().includes(search) ||
-        (r.usernameClient || '').toLowerCase().includes(search) ||
-        (r.id || '').toLowerCase().includes(search)
-      );
-      if (status === 'active') data = data.filter(r => !r.anulata);
-      if (status === 'anulate') data = data.filter(r => r.anulata);
-      if (sort === 'oldest') data.reverse();
-      if (sort === 'price-desc') data.sort((a, b) => (b.pretFinal || 0) - (a.pretFinal || 0));
-      if (sort === 'price-asc') data.sort((a, b) => (a.pretFinal || 0) - (b.pretFinal || 0));
-      renderRezervari(data);
-    }
-
-    // ─── EXPORT CSV ───
-    function exportRezervariCSV() {
-      const rows = [['ID', 'Client', 'Film', 'Data', 'Rand', 'Loc', 'Bilet', 'Pret', 'Status']];
-      REZERVARI.forEach(r => rows.push([
-        r.id || '', r.usernameClient || '', r.titluFilm || '', r.dataOra || '',
-        r.rand || '', r.loc || '', r.tipBilet || '',
-        (r.pretFinal || 0).toFixed(2), r.anulata ? 'Anulata' : 'Activa'
-      ]));
-      const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
-      const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url;
-      a.download = `rezervari_${new Date().toISOString().slice(0, 10)}.csv`;
-      a.click(); URL.revokeObjectURL(url);
-    }
-
-    // ─── VIP EXTRAS ───
-    async function loadVIPExtras() {
-      el('vip-extras-tbody').innerHTML = '<tr><td colspan="3"><div class="loading-row"><div class="spinner"></div>Se încarcă...</div></td></tr>';
-      try {
-        const res = await fetch(`${API}/admin/vip-extras`);
-        const data = await res.json();
-        if (!data.length) {
-          el('vip-extras-tbody').innerHTML = '<tr><td colspan="3"><div class="empty-state"><p>Nicio comandă VIP premium.</p></div></td></tr>';
-          return;
-        }
-        let rows = '';
-        data.forEach(order => {
-          const extras = typeof order.extras === 'string' ? JSON.parse(order.extras) : order.extras;
-          extras.forEach((e, i) => {
-            rows += `<tr>
-              ${i === 0 ? `<td class="tdm" rowspan="${extras.length}">${esc(order.idRezervare)}</td>` : ''}
-              <td>${esc(e.name)}</td>
-              <td style="font-weight:500">${(e.pret || 0).toFixed(2)} RON</td>
-            </tr>`;
-          });
-        });
-        el('vip-extras-tbody').innerHTML = rows;
-      } catch {
-        el('vip-extras-tbody').innerHTML = '<tr><td colspan="3" style="color:var(--text3);padding:12px">Eroare la încărcare.</td></tr>';
-      }
-    }
-
-    function getAdminRowTier(rand, totalRanduri) {
-      const pct = rand / totalRanduri;
-      if (pct <= 0.30) return { label: 'Față', cls: 'color:var(--green)' };
-      if (pct <= 0.70) return { label: 'Mijloc', cls: 'color:var(--text3)' };
-      return { label: 'Spate', cls: 'color:var(--amber)' };
-    }
-
-    function renderRezervari(data) {
-      data = data || REZERVARI;
-      const tbody = el('rezervari-tbody');
-      if (!data.length) { tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><p>Nicio rezervare</p></div></td></tr>'; return; }
-      tbody.innerHTML = data.map(r => {
-        const id = r.id || r.idRezervare || '-';
-        const user = r.usernameClient || '-';
-        // Find sala rows for tier calculation
-        const proj = PROIECTII.find(p => p.film?.titlu === r.titluFilm && p.dataOra === r.dataOra);
-        const totalRanduri = proj?.sala?.randuri || 10;
-        const isVip = (proj?.sala?.tip || '').toUpperCase() === 'VIP';
-        const tier = isVip ? null : getAdminRowTier(r.rand, totalRanduri);
-        const tierBadge = isVip
-          ? '<span class="badge bgold" style="font-size:10px;margin-left:4px">VIP</span>'
-          : tier ? `<span style="font-size:10px;margin-left:4px;${tier.cls}">${tier.label}</span>` : '';
-        const ticketCls = (r.tipBilet || '').toLowerCase() === 'vip' ? 'bgold' : 'bb';
-        return `<tr>
-      <td class="tdm">${esc(id)}</td>
-      <td><div style="display:flex;align-items:center;gap:7px"><div class="uavatar">${user.substring(0, 2)}</div>${esc(user)}</div></td>
-      <td>${esc(r.titluFilm || '-')}</td>
-      <td>${esc(r.dataOra || '-')}</td>
-      <td>R${r.rand || '-'} / L${r.loc || '-'}${tierBadge}</td>
-      <td><span class="badge ${ticketCls}">${esc(r.tipBilet || '-')}</span></td>
-      <td style="font-weight:500;color:var(--text)">${(r.pretFinal || 0).toFixed(2)} RON</td>
-      <td><span class="badge ${r.anulata ? 'br' : 'bg'}">${r.anulata ? 'Anulată' : 'Activă'}</span></td>
-      <td>${!r.anulata ? `<button class="btn btn-danger btn-sm" onclick="confirmAnulare('${esc(id)}','${esc(user)}')">Anulează</button>` : ''}</td>
-    </tr>`;
-      }).join('');
-    }
 
     function updateRezStats() {
       const act = REZERVARI.filter(r => !r.anulata).length;
@@ -2711,7 +2344,6 @@
       el('s-rez-act').textContent = act;
       el('s-rez-an').textContent = an;
       el('s-venituri').innerHTML = ven.toFixed(0) + ' <small style="font-size:1rem;opacity:.5">RON</small>';
-      el('rez-sub').textContent = REZERVARI.length + ' rezervări totale';
       renderRevenueChart();
       renderRevenuePeriod();
     }
@@ -2832,95 +2464,42 @@
     function closeClientHistory() { el('modal-client-history').style.display = 'none'; }
     el('modal-client-history').addEventListener('click', e => { if (e.target === e.currentTarget) closeClientHistory(); });
 
-    function confirmAnulare(idRez, username) {
-      showConfirm('Anulare Rezervare',
-        `Anulezi rezervarea <strong>${idRez}</strong> a clientului <strong>${username}</strong>?`,
-        async () => {
-          try {
-            const res = await fetch(`${API}/admin/anuleaza`, {
-              method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ idRezervare: idRez, username: 'admin', rol: 'Admin' })
-            });
-            if (res.ok) { showToast(`Rezervare ${idRez} anulată!`, 'success'); await loadAll(); return; }
-            const d = await res.json(); showToast(d.mesaj || 'Eroare', 'error');
-          } catch {
-            // local fallback
-            const idx = REZERVARI.findIndex(r => (r.id || r.idRezervare) === idRez);
-            if (idx !== -1) REZERVARI[idx].anulata = true;
-            renderRezervari(); updateRezStats();
-            showToast(`${idRez} anulată local (endpoint absent)`, 'info');
-          }
-        }
-      );
-    }
 
-    // ─── RENDER SNACKS ───
-    function renderSnacks() {
-      el('snacks-tbody').innerHTML = SNACKS.map(s => `<tr>
-    <td class="tdp">${s.emoji} ${esc(s.name)}</td>
-    <td style="color:var(--text3)">${esc(s.desc)}</td>
-    <td style="font-weight:500;color:var(--text)">${s.price.toFixed(2)} RON</td>
-    <td><span style="font-weight:500;color:${s.stock === 0 ? 'var(--red)' : s.stock <= 5 ? 'var(--amber)' : 'var(--text)'}">${s.stock}</span>${s.stock <= 5 && s.stock > 0 ? ' <span class="badge ba" style="font-size:9px">Stoc mic</span>' : ''}${s.stock === 0 ? ' <span class="badge br" style="font-size:9px">Epuizat</span>' : ''}</td>
-    <td><span class="badge ${s.stock > 0 ? 'bg' : 'bgray'}">${s.stock > 0 ? 'Da' : 'Nu'}</span></td>
-    <td><button class="btn btn-ghost btn-sm" onclick="refillSnack(${s.id},'${esc(s.name)}',${s.stock})">+ Stoc</button></td>
-  </tr>`).join('');
-    }
-
-    function refillSnack(id, name, currentStock) {
-      el('c-title').textContent = `Reîncarcă stoc — ${name}`;
-      el('c-body').innerHTML = `
-    Stoc curent: <strong style="color:var(--text)">${currentStock}</strong><br><br>
-    <label style="font-size:12px;color:var(--text3);font-weight:600;letter-spacing:.06em;text-transform:uppercase">Cantitate de adăugat</label>
-    <input type="number" id="refill-qty" min="1" max="9999" value="50"
-      style="width:100%;margin-top:8px;padding:9px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-size:14px;font-family:var(--fb);outline:none">
-  `;
-      confirmCb = async () => {
-        const qty = parseInt(el('refill-qty')?.value || 0);
-        if (!qty || qty < 1) { showToast('Introdu o cantitate validă.', 'error'); return; }
-        try {
-          const res = await fetch(`${API}/admin/snacks/refill`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id, cantitate: qty })
-          });
-          if (res.ok) {
-            const d = await res.json();
-            showToast(`Stoc actualizat: ${d.stocNou} buc.`, 'success');
-            await loadAll();
-          } else {
-            showToast('Eroare la actualizare stoc.', 'error');
-          }
-        } catch {
-          const s = SNACKS.find(s => s.id === id);
-          if (s) s.stock += qty;
-          renderSnacks(); renderPOSGrid();
-          showToast(`Stoc actualizat local: ${SNACKS.find(s => s.id === id)?.stock} buc.`, 'info');
-        }
-      };
-      el('modal-confirm').classList.add('open');
-      el('c-ok').onclick = () => { closeConfirm(); if (confirmCb) confirmCb(); };
-      setTimeout(() => el('refill-qty')?.select(), 50);
-    }
 
     // ─── RENDER USERS ───
     function renderUsers() {
       const tbody = el('users-tbody');
-      if (!USERS.length) { tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><p>Niciun utilizator</p></div></td></tr>'; return; }
-      tbody.innerHTML = USERS.map(u => {
+      const clients = USERS.filter(u => (u.rol || '').toLowerCase() === 'client');
+      const sub = el('clienti-sub'); if (sub && clients.length) sub.textContent = clients.length + ' clienți · toggle = card fidelitate −10%';
+      if (!clients.length) { tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><p>Niciun client</p></div></td></tr>'; return; }
+      tbody.innerHTML = clients.map(u => {
         const init = (u.username || '?').substring(0, 2).toLowerCase();
         const hasCard = u.cardFidelitate || u.areCardFidelitate || u.card || false;
         const username = u.username || u.user;
-        const isAdmin = (u.rol || '').toLowerCase() === 'admin';
         const nrRez = REZERVARI.filter(r => r.usernameClient === username).length;
-        return `<tr style="${isAdmin ? 'opacity:.55' : ''}">
+        return `<tr>
       <td><div style="display:flex;align-items:center;gap:9px"><div class="uavatar">${init}</div><span class="tdp">${esc(username)}</span></div></td>
-      <td><span class="badge ${isAdmin ? 'br' : 'bgray'}">${esc(u.rol)}</span></td>
-      <td style="color:var(--text2)">${isAdmin ? '—' : nrRez + ' rezervări'}</td>
-      <td>${isAdmin
-            ? '<span style="color:var(--text4);font-size:12px">N/A</span>'
-            : `<div class="toggle ${hasCard ? 'on' : ''}" onclick="toggleCard(this,'${esc(username)}',${hasCard})" title="Togglează card fidelitate"></div>`
-          }</td>
-      <td>${isAdmin ? '<span style="color:var(--text4)">—</span>' : hasCard ? '<span class="badge bg">−10%</span>' : '<span style="color:var(--text4)">—</span>'}</td>
-      <td>${isAdmin ? '' : `<button class="btn btn-ghost btn-sm" onclick="showClientHistory('${esc(username)}')">Istoric</button>`}</td>
+      <td style="color:var(--text2)">${nrRez} rezervări</td>
+      <td><div class="toggle ${hasCard ? 'on' : ''}" onclick="toggleCard(this,'${esc(username)}',${hasCard})" title="Togglează card fidelitate"></div></td>
+      <td>${hasCard ? '<span class="badge bg">−10%</span>' : '<span style="color:var(--text4)">—</span>'}</td>
+      <td><button class="btn btn-ghost btn-sm" onclick="showClientHistory('${esc(username)}')">Istoric</button></td>
+    </tr>`;
+      }).join('');
+    }
+
+    function renderAngajati() {
+      const tbody = el('angajati-tbody');
+      if (!tbody) return;
+      const ang = USERS.filter(u => (u.rol || '').toLowerCase() === 'angajat');
+      const sub = el('angajati-sub'); if (sub) sub.textContent = ang.length + ' angajați';
+      if (!ang.length) { tbody.innerHTML = '<tr><td colspan="4"><div class="empty-state"><p>Niciun angajat</p></div></td></tr>'; return; }
+      tbody.innerHTML = ang.map(u => {
+        const init = (u.username || '?').substring(0, 2).toLowerCase();
+        return `<tr>
+      <td><div style="display:flex;align-items:center;gap:9px"><div class="uavatar">${init}</div><span class="tdp">${esc(u.username)}</span></div></td>
+      <td><span class="badge bb">Angajat</span></td>
+      <td style="color:var(--text2)">${esc(u.program || '—')}</td>
+      <td>${u.sala && u.sala !== '-' ? `<span class="badge bgray">${esc(u.sala)}</span>` : '<span style="color:var(--text4)">—</span>'}</td>
     </tr>`;
       }).join('');
     }
@@ -2929,7 +2508,7 @@
       const newVal = !curVal;
       toggleEl.classList.toggle('on');
       const row = toggleEl.closest('tr');
-      row.cells[4].innerHTML = newVal ? '<span class="badge bg">−10%</span>' : '<span style="color:var(--text4)">—</span>';
+      row.cells[3].innerHTML = newVal ? '<span class="badge bg">−10%</span>' : '<span style="color:var(--text4)">—</span>';
       const u = USERS.find(u => (u.username || u.user) === username);
       if (u) { u.cardFidelitate = newVal; u.areCardFidelitate = newVal; u.card = newVal; }
       toggleEl.setAttribute('onclick', `toggleCard(this,'${username}',${newVal})`);
@@ -2945,79 +2524,6 @@
       }
     }
 
-    // ─── POS BAR ───
-    function renderPOSGrid() {
-      const grid = el('pos-grid');
-      const items = posFilter === 'toate' ? SNACKS : SNACKS.filter(s => s.cat === posFilter);
-      if (!items.length) { grid.innerHTML = '<div style="grid-column:1/-1;color:var(--text4);font-size:13px;padding:20px">Niciun produs.</div>'; return; }
-      grid.innerHTML = items.map(s => `
-    <div class="snack-card ${s.stock === 0 ? 'oos' : ''}" onclick="addToCart(${s.id})">
-      <div class="s-stoc ${s.stock < 5 && s.stock > 0 ? 'low' : ''}">${s.stock > 0 ? s.stock : '✕'}</div>
-      <div class="s-emoji">${s.emoji}</div>
-      <div class="s-name">${esc(s.name)}</div>
-      <div class="s-price">${s.price.toFixed(2)} RON</div>
-    </div>`).join('');
-    }
-
-    function filterPOS(cat, btn) {
-      posFilter = cat;
-      document.querySelectorAll('.pos-tab').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active'); renderPOSGrid();
-    }
-
-    function addToCart(id) {
-      const item = SNACKS.find(s => s.id === id);
-      if (!item || item.stock === 0) return;
-      if (!cart[id]) cart[id] = { item, qty: 0 };
-      cart[id].qty++; item.stock--;
-      updateReceipt(); renderPOSGrid();
-    }
-    function removeFromCart(id) {
-      if (!cart[id]) return;
-      const item = SNACKS.find(s => s.id === parseInt(id));
-      if (item) item.stock += cart[id].qty;
-      delete cart[id]; updateReceipt(); renderPOSGrid();
-    }
-    function updateReceipt() {
-      const keys = Object.keys(cart);
-      const emptyEl = el('r-empty'), itemsEl = el('r-items'), cbtn = el('checkout-btn'), clrbtn = el('clear-btn');
-      itemsEl.querySelectorAll('.r-item').forEach(e => e.remove());
-      if (!keys.length) {
-        emptyEl.style.display = ''; cbtn.disabled = true; clrbtn.disabled = true;
-        el('r-sub').textContent = '0.00 RON'; el('r-tva').textContent = '0.00 RON'; el('r-tot').textContent = '0.00 RON';
-        return;
-      }
-      emptyEl.style.display = 'none'; cbtn.disabled = false; clrbtn.disabled = false;
-      keys.forEach(id => {
-        const { item, qty } = cart[id];
-        const div = document.createElement('div'); div.className = 'r-item';
-        div.innerHTML = `<div class="rqty">${qty}</div><div class="rname">${esc(item.name)}</div><div class="rprice">${(item.price * qty).toFixed(2)} RON</div><button class="rrem" onclick="removeFromCart(${id})" title="Elimină">✕</button>`;
-        itemsEl.appendChild(div);
-      });
-      const sub = keys.reduce((a, id) => a + cart[id].item.price * cart[id].qty, 0);
-      const tva = sub * 0.19;
-      el('r-sub').textContent = sub.toFixed(2) + ' RON';
-      el('r-tva').textContent = tva.toFixed(2) + ' RON';
-      el('r-tot').textContent = (sub + tva).toFixed(2) + ' RON';
-    }
-    function clearCart() {
-      Object.keys(cart).forEach(id => { const item = SNACKS.find(s => s.id === parseInt(id)); if (item) item.stock += cart[id].qty; delete cart[id]; });
-      updateReceipt(); renderPOSGrid();
-    }
-    async function finalizeBon() {
-      const keys = Object.keys(cart);
-      if (!keys.length) return;
-      const sub = keys.reduce((a, id) => a + cart[id].item.price * cart[id].qty, 0);
-      const snacksPayload = keys.map(id => ({ id: parseInt(id), qty: cart[id].qty }));
-      keys.forEach(id => delete cart[id]); updateReceipt(); renderPOSGrid();
-      try {
-        await fetch(`${API}/comanda-snacks`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ idRezervare: `POS-${Date.now()}`, snacks: snacksPayload })
-        });
-      } catch { }
-      showToast(`Bon finalizat! Total: ${(sub * 1.19).toFixed(2)} RON`, 'success');
-    }
 
     // ─── ADD FILM ───
     function updatePrev() {
@@ -3082,6 +2588,8 @@
     // Set min date
     (function () { const e = el('p-data'); if (e) e.min = new Date().toISOString().split('T')[0]; })();
 
+    let editProiectieId = null;
+
     async function submitProiectie() {
       const showErr = (m) => { const e = el('ferr-proj'); e.textContent = m; e.className = 'ferr show' };
       const showOk = (m) => { const e = el('fok-proj'); e.textContent = m; e.className = 'fok show' };
@@ -3098,27 +2606,74 @@
       if (!ora) return showErr('Selectează ora.');
       if (new Date(`${data}T${ora}`) <= new Date()) return showErr('Data și ora trebuie să fie în viitor.');
 
+      const editing = editProiectieId !== null;
       const btn = el('btn-add-proj'); btn.disabled = true;
-      btn.innerHTML = '<div class="spinner"></div> Se adaugă...';
+      btn.innerHTML = '<div class="spinner"></div> ' + (editing ? 'Se salvează...' : 'Se adaugă...');
+
+      const url = editing ? `${API}/admin/proiectii/edit` : `${API}/admin/proiectii`;
+      const payload = { titluFilm: film, numeSala: sala, dataOra: `${data} ${ora}`, formatAudio: audio };
+      if (editing) payload.id = editProiectieId;
 
       try {
-        const res = await fetch(`${API}/admin/proiectii`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ titluFilm: film, numeSala: sala, dataOra: `${data} ${ora}`, formatAudio: audio }) });
-        if (res.ok) { showOk('Proiecție adăugată și salvată!'); clearProiectieForm(); await loadAll(); showToast('Proiecție adăugată!', 'success'); }
-        else { const d = await res.json(); showErr(d.mesaj || 'Eroare server.'); showToast(d.mesaj || 'Eroare la adăugare.', 'error'); }
+        const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        if (res.ok) {
+          showToast(editing ? 'Proiecție actualizată!' : 'Proiecție adăugată!', 'success');
+          clearProiectieForm();
+          await loadAll();
+          switchView('proiectii', null);
+        } else { const d = await res.json(); showErr(d.mesaj || 'Eroare server.'); showToast(d.mesaj || 'Eroare.', 'error'); }
       } catch {
         showErr('Serverul nu răspunde — proiecția NU a fost salvată. Pornește CinemaServer.');
         showToast('Server offline — proiecția nu a fost salvată.', 'error');
-      } finally { btn.disabled = false; btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:13px;height:13px"><polyline points="20 6 9 17 4 12"/></svg> Adaugă Proiecție'; }
+      } finally {
+        btn.disabled = false;
+        const lbl = (editProiectieId !== null) ? 'Salvează modificările' : 'Adaugă Proiecție';
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:13px;height:13px"><polyline points="20 6 9 17 4 12"/></svg> ' + lbl;
+      }
     }
 
     function clearProiectieForm() {
       ['p-film', 'p-sala', 'p-data', 'p-ora'].forEach(id => el(id).value = '');
+      editProiectieId = null;
+      const title = el('proj-form-title'); if (title) title.textContent = 'Proiecție Nouă';
+      // reset audio pill la Subtitrat
+      document.querySelectorAll('#p-audio-g .opill').forEach((op, i) => op.classList.toggle('sel', i === 0));
+    }
+
+    function openEditProiectie(id) {
+      const p = PROIECTII.find(x => x.id === id);
+      if (!p) { showToast('Proiecția nu a fost găsită — reîncarcă.', 'error'); return; }
+      switchView('add-proiectie', null);
+      populateFilmSelect(); populateSalaSelect();
+      editProiectieId = id;
+      el('p-film').value = p.film?.titlu || '';
+      el('p-sala').value = p.sala?.nume || '';
+      const parts = (p.dataOra || ' ').split(' ');
+      el('p-data').value = parts[0] || '';
+      el('p-ora').value = (parts[1] || '').slice(0, 5);
+      document.querySelectorAll('#p-audio-g .opill').forEach(op => {
+        const inp = op.querySelector('input');
+        op.classList.toggle('sel', !!inp && inp.value === (p.formatAudio || 'Subtitrat'));
+      });
+      el('ferr-proj').className = 'ferr'; el('fok-proj').className = 'fok';
+      const title = el('proj-form-title'); if (title) title.textContent = 'Editează Proiecția P-' + id;
+      el('btn-add-proj').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:13px;height:13px"><polyline points="20 6 9 17 4 12"/></svg> Salvează modificările';
+    }
+
+    async function deleteProiectie(id, ocupate) {
+      if (ocupate > 0) { showToast(`Nu poți șterge: are ${ocupate} rezervări active.`, 'error'); return; }
+      if (!confirm(`Ștergi proiecția P-${id}? Acțiunea nu poate fi anulată.`)) return;
+      try {
+        const res = await fetch(`${API}/admin/proiectii/${id}`, { method: 'DELETE' });
+        const d = await res.json().catch(() => ({}));
+        if (res.ok) { showToast('Proiecție ștearsă.', 'success'); await loadAll(); }
+        else { showToast(d.mesaj || 'Eroare la ștergere.', 'error'); }
+      } catch { showToast('Server offline — nu s-a putut șterge.', 'error'); }
     }
 
     // ─── SEARCH ───
     function handleSearch(q) {
       if (currentView === 'filme') renderFilme(q ? FILME.filter(f => f.titlu.toLowerCase().includes(q.toLowerCase()) || f.gen.toLowerCase().includes(q.toLowerCase())) : null);
-      else if (currentView === 'rezervari') renderRezervari(q ? REZERVARI.filter(r => (r.id || r.idRezervare || '').includes(q) || (r.usernameClient || '').includes(q) || (r.titluFilm || '').toLowerCase().includes(q.toLowerCase())) : null);
       else if (currentView === 'proiectii') renderProiectii(q ? PROIECTII.filter(p => (p.film?.titlu || '').toLowerCase().includes(q.toLowerCase()) || (p.sala?.nume || '').toLowerCase().includes(q.toLowerCase())) : null);
     }
 
@@ -3348,9 +2903,7 @@
       filme: { title: 'FILME', sub: 'Gestionează catalogul de filme', search: true },
       sali: { title: 'SĂLI', sub: 'Configurație și multiplicatori de preț', search: false },
       proiectii: { title: 'PROIECȚII', sub: 'Proiecții viitoare din backend', search: true },
-      rezervari: { title: 'REZERVĂRI', sub: 'Toate rezervările clienților', search: true },
-      snacks: { title: 'SNACKS', sub: 'Stoc produse bar (date live)', search: false },
-      pos: { title: 'POS BAR', sub: 'Vânzare rapidă — click pe produs pentru bon', search: false },
+      statistici: { title: 'STATISTICI', sub: 'Venituri pe film și încasări pe perioadă', search: false },
       clienti: { title: 'CLIENȚI', sub: 'Card fidelitate → reducere automată −10%', search: false },
       vouchere: { title: 'VOUCHERE', sub: 'Coduri de reducere și condiții de validitate', search: false },
       'add-film': { title: 'FILM NOU', sub: 'Adaugă un titlu nou în catalog', search: false },
